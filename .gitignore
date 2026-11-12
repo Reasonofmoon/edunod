@@ -1,0 +1,17 @@
+# Dependencies & build output
+node_modules/
+dist/
+.astro/
+
+# Reference / scratch artifacts
+_ref/
+*.log
+.DS_Store
+Thumbs.db
+
+# Environment secrets (NEVER commit real keys)
+.env
+.env.*
+!.env.example
+*.pem
+*.key

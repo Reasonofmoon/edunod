@@ -1,0 +1,14 @@
+{
+  "name": "edunod-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "start": "node server.mjs",
+    "verify": "node tools/verify.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  }
+}
