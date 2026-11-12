@@ -1,0 +1,198 @@
+---
+import Docs from '../../layouts/Docs.astro';
+import H from '../../components/docs/H.astro';
+import Related from '../../components/docs/Related.astro';
+import { link } from '../../data/sidebar.js';
+
+const headings = [
+  { id: 'why-edunod', text: '왜 교육 현장에 에듀노드인가요?', depth: 2 },
+  { id: 'difference-from-chatbots', text: '범용 AI 챗봇과의 결정적 차이', depth: 2 },
+  { id: 'core-workflows', text: '교사·교수자를 위한 4대 핵심 워크플로우', depth: 2 },
+  { id: 'first-5-minutes', text: '설치 후 첫 5분 실습 시나리오', depth: 2 },
+  { id: 'glossary', text: '핵심 용어 정리', depth: 2 },
+  { id: 'related-resources', text: '관련 가이드', depth: 2 },
+];
+
+const related = [
+  link('get-started/install-desktop/'),
+  link('connect/apps/'),
+  link('trust/privacy/'),
+  link('studio/'),
+];
+---
+<Docs
+  title="에듀노드 소개 및 첫걸음"
+  description="교사와 교수자의 컴퓨터 안에서 학생 개인정보를 안전하게 보호하며 수업 브리핑, 상담 준비, LMS 행정을 돕는 오픈소스 교육용 AI 조교 가이드."
+  current="overview/"
+  editPath="overview.mdx"
+  headings={headings}
+  prev={null}
+  next={link('get-started/install-desktop/')}
+>
+  <p class="doc-kicker">
+    에듀노드(EduNod)는 수업과 학생 지도에 집중하고 싶은 교사·교수자를 위해 설계된 <strong>로컬 우선(Local-First) 오픈소스 교육 AI 조교</strong>입니다.
+  </p>
+  <p>
+    원본 오픈소스 에이전트 아키텍처(Apache 2.0)를 교육 기관의 보안·행정 요구사항에 맞춰 전면 재설계했습니다. 학생 상담 기록, 수행평가 루브릭, 학사 일정은 선생님의 PC 또는 학교 내부 서버에만 머물며, 학부모 메시지 발송이나 LMS 공지 등록 같은 외부 행동은 <strong>반드시 선생님의 최종 승인(Trust Check)</strong>을 거친 뒤에만 실행됩니다.
+  </p>
+
+  <div class="doc-buttons">
+    <a class="doc-btn doc-btn--primary" href="/studio/">브라우저에서 스튜디오 바로 체험하기 →</a>
+    <a class="doc-btn" href="/docs/get-started/install-desktop/">데스크톱 및 교무실 서버 설치</a>
+  </div>
+
+  <H id="why-edunod">왜 교육 현장에 에듀노드인가요?</H>
+  <p>
+    학교와 대학 현장에서 범용 클라우드 AI 도구를 그대로 도입하기 어려운 가장 큰 이유는 <strong>학생 개인정보 유출 우려</strong>와 <strong>할루시네이션으로 인한 오발송 사고 위험</strong>입니다. 에듀노드는 두 가지 문제를 구조적으로 해결합니다.
+  </p>
+
+  <div class="doc-cards">
+    <div class="doc-card">
+      <h4>1. 교무실·연구실 안의 전용 컴퓨터</h4>
+      <p>학생 명렬표, 상담 일지, 과제 채점 기준표가 외부 SaaS DB에 쌓이지 않고 내 기기의 격리된 워크스페이스에 암호화 저장됩니다.</p>
+    </div>
+    <div class="doc-card">
+      <h4>2. 발송 전 100% 교사 승인 게이트</h4>
+      <p>읽기와 요약은 자율 수행하지만, 알림장 발송·성적 입력·일정 변경은 초안 카드를 먼저 제시하고 선생님의 승인 클릭을 기다립니다.</p>
+    </div>
+    <div class="doc-card">
+      <h4>3. 상시 캠퍼스 노드 &amp; 공동 조교</h4>
+      <p>노트북을 덮고 퇴근해도 교무실 미니PC나 학과 서버에서 마감 점검이 이어지며, 부담임·조교(TA)와 권한을 나누어 협업할 수 있습니다.</p>
+    </div>
+  </div>
+
+  <H id="difference-from-chatbots">범용 AI 챗봇과의 결정적 차이</H>
+  <div class="doc-table">
+    <table>
+      <thead>
+        <tr>
+          <th>비교 항목</th>
+          <th>일반 웹 AI 챗봇</th>
+          <th>에듀노드 (EduNod)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>데이터 보관 위치</strong></td>
+          <td>외부 벤더 클라우드 서버에 대화 이력 저장</td>
+          <td>교사 PC 또는 학교 자체 서버에 로컬 격리 저장</td>
+        </tr>
+        <tr>
+          <td><strong>학교 앱·LMS 연동</strong></td>
+          <td>매번 텍스트를 복사·붙여넣기 해야 함</td>
+          <td>Google Classroom, Canvas, 캘린더, 이메일 직접 연결</td>
+        </tr>
+        <tr>
+          <td><strong>외부 발송 통제</strong></td>
+          <td>자동화 연결 시 오발송 제어 장치가 약함</td>
+          <td>독립된 승인 검증기(Trust Check)가 모든 쓰기 작업 사전 차단</td>
+        </tr>
+        <tr>
+          <td><strong>학기 단위 기억</strong></td>
+          <td>대화가 길어지면 이전 상담 맥락을 잊음</td>
+          <td>출처와 날짜가 명시된 ‘학급 기억장’을 교사가 직접 열람·수정·삭제</td>
+        </tr>
+        <tr>
+          <td><strong>모델 및 예산 통제</strong></td>
+          <td>특정 유료 구독에 종속됨</td>
+          <td>상용 API, 교육청 게이트웨이, 폐쇄망 로컬 LLM 자유 선택 + 예산 한도 설정</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <H id="core-workflows">교사·교수자를 위한 4대 핵심 워크플로우</H>
+  <div
+    class="doc-flow"
+    role="img"
+    aria-label="매일 아침 LMS·캘린더·알림장을 읽어 수업·상담 브리핑을 생성하고, 미답변 문의 초안을 작성하여 교사 승인 후 발송하는 흐름도"
+  >
+    <div class="doc-flow-row">
+      <div class="doc-flow-node">LMS 과제·출결</div>
+      <div class="doc-flow-node">학사 일정·캘린더</div>
+      <div class="doc-flow-node">학부모·학생 문의함</div>
+    </div>
+    <div class="doc-flow-arrow"></div>
+    <div class="doc-flow-node doc-flow-node--accent">에듀노드 로컬 에이전트 분석 및 초안 작성</div>
+    <div class="doc-flow-arrow"></div>
+    <div class="doc-flow-row">
+      <div class="doc-flow-node">아침 1페이지 수업·상담 브리핑</div>
+      <div class="doc-flow-node doc-flow-node--you">교사 검토 및 발송 승인 (Trust Check)</div>
+    </div>
+    <p class="doc-flow-caption">조회는 자동으로 빠르게, 외부 발송과 공지는 선생님의 승인 후 안전하게 실행됩니다.</p>
+  </div>
+
+  <ol>
+    <li><strong>아침 수업·상담 브리핑 자동화:</strong> 등교·출근 전 오늘 예정된 수업 진도, 수행평가 미제출 인원, 오후 학부모/학생 상담 전 지난 상담 핵심 기록을 한 장으로 정리합니다.</li>
+    <li><strong>누락 없는 학부모·학생 회신 초안:</strong> 바쁜 수업 중에 놓친 알림장·이메일·LMS 질문을 찾아내어 학칙과 강의계획서 기준에 맞는 정중한 답장 초안을 준비합니다.</li>
+    <li><strong>수행평가·과제 마감 상시 모니터링:</strong> 마감 24시간 전 미제출 학생을 파악하고 개별 독려 메시지 초안을 승인 대기함에 올려둡니다.</li>
+    <li><strong>투명한 학급·강의 기억장:</strong> “3반 모둠 활동 시 배려 사항”, “중간고사 서술형 부분점수 기준”처럼 한 번 알려준 원칙을 학기 내내 일관되게 적용합니다.</li>
+  </ol>
+
+  <H id="first-5-minutes">설치 후 첫 5분 실습 시나리오</H>
+  <div class="doc-tabs">
+    <div class="doc-tablist" role="tablist" aria-label="교육자 역할별 첫 대화 예시">
+      <button type="button" role="tab" id="tab-academy" aria-controls="panel-academy" aria-selected="true">학원 원장·강사</button>
+      <button type="button" role="tab" id="tab-k12" aria-controls="panel-k12" aria-selected="false" tabindex="-1">초·중·고 교사</button>
+      <button type="button" role="tab" id="tab-univ" aria-controls="panel-univ" aria-selected="false" tabindex="-1">대학 교수·조교</button>
+      <button type="button" role="tab" id="tab-admin" aria-controls="panel-admin" aria-selected="false" tabindex="-1">교무·학과 행정</button>
+    </div>
+    <div role="tabpanel" id="panel-academy" aria-labelledby="tab-academy">
+      <p><strong>원장·강사 추천 첫 지시어:</strong> “미등원 원생 학부모 안심 확인 알림톡 초안이랑, 오늘 중3 심화반 주간평가 70점 미만 원생용 이차함수 오답 클리닉 3문항을 생성해줘.”</p>
+      <div class="doc-buttons">
+        <button type="button" class="doc-btn" data-copy="미등원 원생 학부모 안심 확인 알림톡 초안과 중3 심화반 커트라인 미달 원생용 이차함수 오답 클리닉 3문항을 생성해줘.">지시어 예시 복사</button>
+      </div>
+    </div>
+    <div role="tabpanel" id="panel-k12" aria-labelledby="tab-k12" hidden>
+      <p><strong>추천 첫 지시어:</strong> “오늘 오후 4시 학부모 상담 전에 지난 상담 메모랑 최근 국어 수행평가 제출 현황을 1페이지 브리핑으로 묶어줘.”</p>
+      <div class="doc-buttons">
+        <button type="button" class="doc-btn" data-copy="오늘 오후 4시 학부모 상담 전에 지난 상담 메모와 최근 수행평가 제출 현황을 1페이지 브리핑으로 정리해줘.">지시어 예시 복사</button>
+      </div>
+    </div>
+    <div role="tabpanel" id="panel-univ" aria-labelledby="tab-univ" hidden>
+      <p><strong>추천 첫 지시어:</strong> “이번 주 자료구조 강의 LMS 질문 게시판에서 아직 답변 안 달린 질문만 추려서 강의계획서 기준으로 답변 초안을 잡아줘.”</p>
+      <div class="doc-buttons">
+        <button type="button" class="doc-btn" data-copy="이번 주 LMS 질문 게시판에서 미답변 질문만 추려서 강의계획서 기준으로 답변 초안을 작성해줘.">지시어 예시 복사</button>
+      </div>
+    </div>
+    <div role="tabpanel" id="panel-admin" aria-labelledby="tab-admin" hidden>
+      <p><strong>추천 첫 지시어:</strong> “매주 월요일 오전 8시마다 교육청 공문 게시판에서 ‘디지털 선도학교’ 또는 ‘교원 연수’ 키워드가 올라오면 마감일과 함께 알려줘.”</p>
+      <div class="doc-buttons">
+        <button type="button" class="doc-btn" data-copy="매주 월요일 오전 8시마다 교육청 공지사항에서 교원 연수 관련 신규 공문을 확인해 마감일과 함께 요약해줘.">지시어 예시 복사</button>
+      </div>
+    </div>
+  </div>
+
+  <H id="glossary">핵심 용어 정리</H>
+  <div class="doc-table">
+    <table>
+      <thead>
+        <tr>
+          <th>용어</th>
+          <th>설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>전용 격리 워크스페이스</strong></td>
+          <td>에듀노드가 문서를 읽고 브라우저를 실행하는 독립된 샌드박스 환경으로, 개인 PC의 다른 개인 폴더와 분리됩니다.</td>
+        </tr>
+        <tr>
+          <td><strong>교사 승인 게이트 (Trust Check)</strong></td>
+          <td>메시지 발송, 파일 공유, 일정 변경 등 외부에 영향을 주는 모든 도구 호출을 실행 직전에 가로채 교사의 승인을 요청하는 안전 계층입니다.</td>
+        </tr>
+        <tr>
+          <td><strong>학급 기억장 (Memory Vault)</strong></td>
+          <td>대화 중 학습된 수업 규칙이나 상담 메모를 문장 단위로 투명하게 저장하며, 교사가 언제든 수정하거나 즉시 삭제할 수 있는 저장소입니다.</td>
+        </tr>
+        <tr>
+          <td><strong>캠퍼스 상시 노드 (Always-on Node)</strong></td>
+          <td>개인 노트북이 절전 상태일 때도 정기 모니터링과 아침 브리핑이 중단되지 않도록 교무실 미니PC나 학과 서버에 띄워 두는 에듀노드 런타임입니다.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <H id="related-resources">관련 가이드</H>
+  <Related items={related} />
+</Docs>

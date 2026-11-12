@@ -1,0 +1,211 @@
+---
+import Docs from '../../../../layouts/Docs.astro';
+import H from '../../../../components/docs/H.astro';
+import Related from '../../../../components/docs/Related.astro';
+import { link } from '../../../../data/sidebar.js';
+
+const headings = [
+  { id: 'supported-connections', text: '지원되는 AI 모델 및 교육 기관 서버', depth: 2 },
+  { id: 'connect-a-service', text: '모델 서비스 연결 방법', depth: 2 },
+  { id: 'budget-guardrails', text: '학교·학과 월간 예산 가드레일 (비용 통제)', depth: 2 },
+  { id: 'pick-a-provider', text: '교육 업무별 추천 모델 선택 기준', depth: 2 },
+  { id: 'local-and-gateway-servers', text: '폐쇄망 로컬 모델 및 교육청·대학 게이트웨이', depth: 2 },
+  { id: 'decision-checks', text: '독립된 승인 검증 모델 (NOD_TRUST_MODEL)', depth: 2 },
+  { id: 'images-with-a-text-model', text: '스캔 학습지·손글씨 이미지 보조 판독', depth: 3 },
+  { id: 'where-your-keys-go', text: 'API 키 암호화 격리 구조', depth: 2 },
+  { id: 'related-resources', text: '관련 가이드', depth: 2 },
+];
+
+const connections = [
+  ['Anthropic Claude', '기관·개인 API 키', '긴 생활기록부 참고자료·루브릭 문서 요약 및 정교한 승인 준수에 강점'],
+  ['OpenAI / ChatGPT', 'API 키 또는 기존 Plus·Edu 로그인', '다단계 LMS 브라우저 작업 및 학부모 안내문 초안 작성에 균형 잡힌 성능'],
+  ['Google Gemini (AI Studio / Vertex)', 'API 키 또는 학교 Vertex 프로젝트', '방대한 강의록·PDF 교재 전체 분석에 유리 (기관 약관 확인 권장)'],
+  ['교육청·대학 공용 AI 게이트웨이', '기관 발급 엔드포인트 및 부서 토큰', '학교 단위로 계약된 엔터프라이즈 데이터 보호 약관(무학습 보장) 적용'],
+  ['OpenRouter / Azure OpenAI', 'API 키 및 리전·배포명', '다양한 오픈모델 가격 비교 및 Microsoft 교육용 테넌트 연동'],
+  ['폐쇄망 로컬 서버 (Ollama · vLLM)', '교내 서버 주소 (예: localhost:11434)', '인터넷 연결 없이 100% 교내 하드웨어에서만 동작 (추가 API 비용 0원)'],
+];
+
+const tabs = [
+  ['edu-gw', '학교·교육청 게이트웨이', '설정 > 모델에서 "기관 호환 서버"를 고르고 정보화 부서에서 안내받은 게이트웨이 주소와 교원 토큰을 입력합니다.'],
+  ['anthropic', 'Anthropic Claude', 'Anthropic 콘솔에서 발급한 API 키를 붙여넣고 월간 사용 한도를 함께 지정합니다.'],
+  ['openai', 'OpenAI · ChatGPT', 'API 키를 등록하거나 기존 ChatGPT 계정으로 브라우저 인증을 완료합니다.'],
+  ['gemini', 'Google Gemini', 'Google AI Studio 또는 학교용 Google Cloud Vertex AI 키를 입력해 연결합니다.'],
+  ['local', '교내 로컬 LLM (Ollama)', 'Ollama 또는 vLLM 서버 주소(http://localhost:11434/v1)를 입력하면 외부 전송 없이 즉시 연결됩니다.'],
+];
+
+const related = [
+  link('connect/apps/'),
+  link('trust/privacy/'),
+  link('how-it-works/benchmarks/'),
+  link('studio/'),
+];
+---
+<Docs
+  title="AI 모델 및 로컬·교육청 서버 연결"
+  description="상용 AI 모델부터 교육청·대학 공용 게이트웨이, 폐쇄망 로컬 LLM까지 자유롭게 연결하고 학급·연구실 월간 예산 한도를 안전하게 통제하는 방법."
+  current="connect/models/"
+  editPath="connect/models.mdx"
+  headings={headings}
+  prev={link('connect/apps/')}
+  next={link('trust/privacy/')}
+>
+  <p>
+    에듀노드는 특정 AI 기업에 종속되지 않습니다. <strong>설정 &gt; AI 모델</strong>에서 학교 보안 지침과 예산 상황에 맞는 모델을 하나 이상 연결해 사용할 수 있으며, 작업 도중 임의로 다른 유료 서비스로 몰래 전환하지 않습니다.
+  </p>
+
+  <H id="supported-connections">지원되는 AI 모델 및 교육 기관 서버</H>
+  <div class="doc-table">
+    <table>
+      <thead>
+        <tr>
+          <th>연결 유형</th>
+          <th>인증 방식</th>
+          <th>교육 현장 활용 특징</th>
+        </tr>
+      </thead>
+      <tbody>
+        {connections.map(([c, s, i]) => (
+          <tr>
+            <td><strong>{c}</strong></td>
+            <td>{s}</td>
+            <td>{i}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <aside class="doc-note doc-note--caution" aria-label="무료 API 약관 유의">
+    <p class="doc-note-title">무료 체험 티어 사용 시 데이터 약관 확인</p>
+    <p>일부 제공사의 개인용 무료 티어는 입력 데이터를 모델 개선에 활용할 수 있습니다. 학생 관련 자료를 다룰 때는 반드시 <strong>기관용 무학습 보장(Zero Data Retention) API</strong> 또는 <strong>교내 로컬 모델</strong>을 선택하세요.</p>
+  </aside>
+
+  <H id="connect-a-service">모델 서비스 연결 방법</H>
+  <p>
+    사이드바 하단 <strong>설정 → AI 모델 → 연결 추가</strong>에서 원하는 제공사를 고릅니다. 다른 제공사의 키 형식을 잘못 붙여넣으면 저장 전에 즉시 안내 경고를 띄웁니다.
+  </p>
+  <div class="doc-tabs">
+    <div class="doc-tablist" role="tablist" aria-label="모델 연결 방식 선택">
+      {tabs.map(([id, label], i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${id}`}
+          aria-controls={`panel-${id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? undefined : -1}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+    {tabs.map(([id, , text], i) => (
+      <div role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} hidden={i !== 0}>
+        <p>{text}</p>
+      </div>
+    ))}
+  </div>
+
+  <H id="budget-guardrails">학교·학과 월간 예산 가드레일 (비용 통제)</H>
+  <p>
+    기존 종량제 에이전트의 단점이었던 <strong>예측하기 어려운 API 과금 문제</strong>를 해결하기 위해, 에듀노드는 자체 예산 가드레일을 내장하고 있습니다.
+  </p>
+  <ul>
+    <li><strong>월간·주간 상한선 설정:</strong> 예를 들어 학급 운영비 기준 <code>월 30,000원</code>을 한도로 지정하면 80% 도달 시 상단 배너로 알리고, 100% 도달 시 유료 호출을 자동 일시정지하거나 무료 교내 로컬 모델로 우회하도록 안내합니다.</li>
+    <li><strong>배경 정리 작업 경량화:</strong> 학급 기억장 정리나 단순 일정 분류는 동일 연결 내 가장 가벼운 경량 모델을 자동 선택해 토큰 소모를 최대 70% 절감합니다.</li>
+  </ul>
+
+  <H id="pick-a-provider">교육 업무별 추천 모델 선택 기준</H>
+  <div class="doc-cards">
+    <div class="doc-card">
+      <h4>학부모 상담·안내문 작성</h4>
+      <p>문맥 파악과 어조 조절이 뛰어난 상위 추론 모델(Claude Sonnet/Opus, GPT 상위 모델)을 권장합니다.</p>
+    </div>
+    <div class="doc-card">
+      <h4>강의록·논문 대량 요약</h4>
+      <p>긴 컨텍스트 창(128K~1M 토큰)을 지원하는 모델이 여러 주차 PDF 교안을 한 번에 비교하기 좋습니다.</p>
+    </div>
+    <div class="doc-card">
+      <h4>민감 상담 일지·내부 평가</h4>
+      <p>속도가 조금 느리더라도 외부 네트워크 전송이 전혀 없는 교내 로컬 LLM(70B급 권장)이 가장 안전합니다.</p>
+    </div>
+  </div>
+
+  <H id="local-and-gateway-servers">폐쇄망 로컬 모델 및 교육청·대학 게이트웨이</H>
+  <p>
+    교내 워크스테이션이나 학과 GPU 서버에서 구동 중인 로컬 모델 서버를 연결하면 모든 텍스트가 학교 건물 밖으로 한 글자도 나가지 않습니다. 실제 교육 업무 테스트에서 확인한 모델 규모별 적합도는 아래와 같습니다.
+  </p>
+  <div class="doc-table">
+    <table>
+      <thead>
+        <tr>
+          <th>구성 환경</th>
+          <th>원활히 수행하는 업무</th>
+          <th>유의할 점</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>학교·교육청 공용 게이트웨이</strong></td>
+          <td>모든 다단계 LMS 점검, 브리핑, 초안 작성</td>
+          <td>부서별 월간 할당 토큰 확인</td>
+        </tr>
+        <tr>
+          <td><strong>대형 로컬 모델 (70B 이상)</strong></td>
+          <td>상담 기록 요약, 일정 조율, 루브릭 초안</td>
+          <td>연구실·전산실 GPU 서버 필요</td>
+        </tr>
+        <tr>
+          <td><strong>중형 로컬 모델 (14B~32B)</strong></td>
+          <td>단일 문서 요약, 알림장 문구 다듬기</td>
+          <td>복잡한 다단계 웹 브라우저 조작 시 지연 발생 가능</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure class="doc-code">
+    <figcaption class="doc-code-title"><i></i><i></i><i></i><span>.env (학급·학과 상시 서버 설정 예시)</span></figcaption>
+    <pre><code>LLM_PROVIDER=openai-compatible
+OPENAI_COMPATIBLE_BASE_URL=http://10.20.0.15:8000/v1
+EDUNOD_MONTHLY_BUDGET_KRW=30000
+NOD_TRUST_MODEL=decision</code></pre>
+  </figure>
+  <div class="doc-buttons">
+    <button type="button" class="doc-btn" data-copy="NOD_TRUST_MODEL=decision">승인 검증 설정 복사</button>
+  </div>
+
+  <H id="decision-checks">독립된 승인 검증 모델 (NOD_TRUST_MODEL)</H>
+  <p>
+    에듀노드는 답변을 작성하는 대화 모델과 별도로, <strong>이 행동이 선생님의 지시와 승인 규칙 안에 있는지 판별하는 독립 검증기(Action Checker)</strong>를 분리해 운영할 수 있습니다. 검증기는 오직 실행하려는 동작·선생님의 원래 지시·허용 규칙만 보며, 외부 웹페이지나 학생 제출물 안의 악성 문구에는 노출되지 않아 프롬프트 인젝션을 차단합니다.
+  </p>
+
+  <H id="images-with-a-text-model" depth={3}>스캔 학습지·손글씨 이미지 보조 판독</H>
+  <p>
+    텍스트 전용 로컬 모델을 기본으로 쓰더라도, 시각 인식(Vision)을 지원하는 보조 모델이나 로컬 OCR 모델을 함께 등록해 두면 스캔된 가정통신문이나 칠판 판서 사진을 설명 텍스트로 변환해 본 모델에 안전하게 전달합니다.
+  </p>
+
+  <H id="where-your-keys-go">API 키 암호화 격리 구조</H>
+  <div
+    class="doc-flow"
+    role="img"
+    aria-label="암호화 키 보관소에서 에듀노드 코어가 API 키를 읽어 모델 서버와 통신하며, 채팅창과 격리 브라우저에는 키가 절대 노출되지 않는 구조도"
+  >
+    <div class="doc-flow-node doc-flow-node--you">교사 지시 입력</div>
+    <div class="doc-flow-arrow"></div>
+    <div class="doc-flow-row">
+      <div class="doc-flow-node">OS 암호화 키 보관소</div>
+      <div class="doc-flow-node doc-flow-node--accent">에듀노드 로컬 코어</div>
+      <div class="doc-flow-node">지정한 AI 모델 서버</div>
+    </div>
+    <div class="doc-flow-arrow"></div>
+    <div class="doc-flow-row">
+      <div class="doc-flow-node">스튜디오 대화창 (키 미노출)</div>
+      <div class="doc-flow-node">격리 브라우저·문서함 (키 미노출)</div>
+    </div>
+    <p class="doc-flow-caption">웹사이트 스크립트나 첨부 문서가 실행되더라도 API 키 보관소에는 접근할 수 없습니다.</p>
+  </div>
+
+  <H id="related-resources">관련 가이드</H>
+  <Related items={related} />
+</Docs>

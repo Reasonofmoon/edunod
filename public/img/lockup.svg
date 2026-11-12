@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="36" viewBox="0 0 210 36" fill="none">
+  <rect x="2" y="2" width="32" height="32" rx="8" fill="#1F6F54"/>
+  <path d="M9 12.5C9 11.67 9.67 11 10.5 11H16.2C18.02 11 19.5 12.48 19.5 14.3V23C19.5 22.17 18.83 21.5 18 21.5H10.5C9.67 21.5 9 20.83 9 20V12.5Z" fill="#FAF8F4"/>
+  <path d="M16 14.3C16 12.48 17.48 11 19.3 11H21.5C22.33 11 23 11.67 23 12.5V20C23 20.83 22.33 21.5 21.5 21.5H18" stroke="#FAF8F4" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="24.5" cy="9.5" r="3.5" fill="#D96B43" stroke="#FAF8F4" stroke-width="1.5"/>
+  <text x="44" y="24" font-family="'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="800" letter-spacing="-0.4" fill="#18201D">EduNod</text>
+  <rect x="123" y="9" width="76" height="19" rx="9.5" fill="#E6F3EE"/>
+  <text x="161" y="22" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600" fill="#1F6F54">EDU LABS</text>
+</svg>

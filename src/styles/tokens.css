@@ -1,0 +1,214 @@
+/* EduNod Design System Tokens — Warm Academic Editorial Palette with Full Dark Mode */
+:root {
+  color-scheme: light;
+
+  /* Core Surfaces & Ink */
+  --bg-canvas: #faf8f4;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f2efe8;
+  --bg-raised: #f6f4ee;
+  --bg-code: #f3f1eb;
+  --bg-banner: #16211d;
+  --banner-ink: #faf8f4;
+
+  --ink: #18201d;
+  --ink-body: #2a3530;
+  --ink-muted: #4a5751;
+  --ink-subtle: #66756e;
+
+  /* Brand: Chalkboard Forest Emerald & Warm Terracotta */
+  --brand: #1f6f54;
+  --brand-hover: #175842;
+  --brand-ink: #ffffff;
+  --brand-soft: #e6f3ee;
+  --brand-border: #badbce;
+
+  --accent: #c4552d;
+  --accent-hover: #a84420;
+  --accent-soft: #fdf0ea;
+  --accent-border: #f2cab8;
+
+  /* Semantic Status Colors */
+  --tip-bg: #eaf6f0;
+  --tip-border: #bfe2d0;
+  --tip-ink: #155c42;
+
+  --warn-bg: #fef6e6;
+  --warn-border: #f0d8a8;
+  --warn-ink: #7a4b00;
+
+  --danger-bg: #fdf0ef;
+  --danger-border: #f2c6c2;
+  --danger-ink: #a6261d;
+
+  /* Borders & Shadows */
+  --border: #e2ddd2;
+  --border-strong: #cbc4b4;
+  --dot-grid: #d4cec0;
+  --overlay-bg: rgba(20, 30, 26, 0.48);
+  --shadow-sm: 0 1px 2px rgba(24, 32, 29, 0.06);
+  --shadow-md: 0 12px 32px -12px rgba(24, 32, 29, 0.14);
+  --shadow-lg: 0 24px 60px -20px rgba(24, 32, 29, 0.24);
+
+  /* Editorial Card Tints */
+  --card-sage: #e6f3ee;
+  --card-sand: #efeadd;
+  --card-terracotta: #fcece4;
+  --card-sky: #e9f1f7;
+  --card-lavender: #f0eef8;
+  --card-amber: #fbf3df;
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Layout & Spacing */
+  --gutter: clamp(16px, 4.5vw, 56px);
+  --section-gap: clamp(72px, 10vw, 112px);
+  --w-content: 1280px;
+  --w-hero-copy: 660px;
+  --w-pillar-media: 740px;
+  --w-claim: 400px;
+
+  /* Typography */
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-xs: 12px;
+  --fs-sm: 13.5px;
+  --fs-14: 14px;
+  --fs-15: 15px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-24: 24px;
+  --fs-32: 32px;
+  --fs-40: 40px;
+  --fs-48: 48px;
+
+  /* Docs Layout Dimensions */
+  --doc-nav-height: 4rem;
+  --doc-nav-height-mobile: 3.5rem;
+  --doc-sidebar-width: 18.5rem;
+  --doc-toc-width: 256px;
+  --doc-toc-bar-height: 46px;
+  --doc-content-width: 48rem;
+  --doc-wide-width: 58rem;
+}
+
+/* Explicit Dark Theme */
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-canvas: #111815;
+  --bg-surface: #18221e;
+  --bg-subtle: #202d28;
+  --bg-raised: #151e1a;
+  --bg-code: #1d2924;
+  --bg-banner: #0c120f;
+  --banner-ink: #eef3f0;
+
+  --ink: #eef3f0;
+  --ink-body: #d5e0da;
+  --ink-muted: #9eb2a8;
+  --ink-subtle: #7f948a;
+
+  --brand: #3db88f;
+  --brand-hover: #52c9a1;
+  --brand-ink: #0c1713;
+  --brand-soft: #19352b;
+  --brand-border: #285646;
+
+  --accent: #f08c67;
+  --accent-hover: #f5a182;
+  --accent-soft: #36221b;
+  --accent-border: #5c372a;
+
+  --tip-bg: #163026;
+  --tip-border: #265442;
+  --tip-ink: #7be0bc;
+
+  --warn-bg: #332814;
+  --warn-border: #5c4722;
+  --warn-ink: #f6cc7a;
+
+  --danger-bg: #361b19;
+  --danger-border: #612e2a;
+  --danger-ink: #f89890;
+
+  --border: #293832;
+  --border-strong: #3a4f46;
+  --dot-grid: #2a3a33;
+  --overlay-bg: rgba(5, 10, 8, 0.72);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+
+  --card-sage: #183229;
+  --card-sand: #292720;
+  --card-terracotta: #33211b;
+  --card-sky: #192933;
+  --card-lavender: #242133;
+  --card-amber: #302919;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg-canvas: #111815;
+    --bg-surface: #18221e;
+    --bg-subtle: #202d28;
+    --bg-raised: #151e1a;
+    --bg-code: #1d2924;
+    --bg-banner: #0c120f;
+    --banner-ink: #eef3f0;
+
+    --ink: #eef3f0;
+    --ink-body: #d5e0da;
+    --ink-muted: #9eb2a8;
+    --ink-subtle: #7f948a;
+
+    --brand: #3db88f;
+    --brand-hover: #52c9a1;
+    --brand-ink: #0c1713;
+    --brand-soft: #19352b;
+    --brand-border: #285646;
+
+    --accent: #f08c67;
+    --accent-hover: #f5a182;
+    --accent-soft: #36221b;
+    --accent-border: #5c372a;
+
+    --tip-bg: #163026;
+    --tip-border: #265442;
+    --tip-ink: #7be0bc;
+
+    --warn-bg: #332814;
+    --warn-border: #5c4722;
+    --warn-ink: #f6cc7a;
+
+    --danger-bg: #361b19;
+    --danger-border: #612e2a;
+    --danger-ink: #f89890;
+
+    --border: #293832;
+    --border-strong: #3a4f46;
+    --dot-grid: #2a3a33;
+    --overlay-bg: rgba(5, 10, 8, 0.72);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+
+    --card-sage: #183229;
+    --card-sand: #292720;
+    --card-terracotta: #33211b;
+    --card-sky: #192933;
+    --card-lavender: #242133;
+    --card-amber: #302919;
+  }
+}

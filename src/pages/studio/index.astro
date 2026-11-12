@@ -1,0 +1,1909 @@
+---
+import '../../styles/global.css';
+import '../../styles/studio.css';
+import ThemeHead from '../../components/ThemeHead.astro';
+import Icon from '../../components/Icon.astro';
+import SearchModal from '../../components/SearchModal.astro';
+import CookieBanner from '../../components/CookieBanner.astro';
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>에듀노드 스튜디오 (EduNod Studio) · 학원 원장·강사·교사용 실시간 AI 에이전트 워크스페이스</title>
+    <meta
+      name="description"
+      content="학원 운영자(원장), 학원 강사, 초·중·고 교사, 대학 교수를 위한 에듀노드 라이브 워크스페이스. 실제 AI 에이전트 도구 호출로 출결·수납 알림톡 초안, 오답 클리닉 문항, 수업 브리핑을 생성하고 최종 승인 게이트(Trust Check)로 통제합니다."
+    />
+    <meta name="theme-color" content="#1f6f54" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <ThemeHead />
+  </head>
+  <body class="st-body">
+    <a class="st-skip" href="#studio-main">스튜디오 본문으로 바로가기</a>
+
+    <header class="st-topbar">
+      <div class="st-brand-group">
+        <a class="st-brand" href="/">
+          <img src="/favicon.svg" alt="" width="28" height="28" />
+          <span>EduNod 스튜디오</span>
+        </a>
+        <span class="st-badge-live" id="node-status-badge">실제 AI 에이전트 연결 확인 중…</span>
+      </div>
+
+      <div class="st-controls">
+        <label class="sr-only" for="preset-select">교육 기관 시나리오 선택</label>
+        <select id="preset-select" class="st-select" aria-label="교육 기관 시나리오 선택">
+          <option value="academy_director">학원 운영자(원장) 모드: 에듀노드 수학·영어 학원</option>
+          <option value="academy_instructor">학원 강사(클리닉) 모드: 중3 심화A · 고1 내신반</option>
+          <option value="k12">초·중·고 담임 모드: 2학년 3반 국어·담임</option>
+          <option value="univ">대학·연구실 모드: 자료구조 강의·TA 협업</option>
+        </select>
+
+        <label class="sr-only" for="role-select">접속 권한 역할 선택</label>
+        <select id="role-select" class="st-select" aria-label="접속 권한 역할 선택">
+          <option value="owner">권한: 원장 · 담임 · 교수 (최종 승인 · 수납 열람)</option>
+          <option value="ta">권한: 강사 · 조교 TA (수납 비공개 · 초안 상신)</option>
+        </select>
+
+        <label class="sr-only" for="model-select">실행 AI 에이전트 엔진 선택</label>
+        <select id="model-select" class="st-select" aria-label="실행 AI 에이전트 엔진 선택">
+          <option value="auto">실제 AI 자동 선택 (Gemini / Claude)</option>
+          <option value="gemini">Google Gemini 2.5 Flash (실시간 도구 호출)</option>
+          <option value="anthropic">Anthropic Claude Sonnet (실시간 도구 호출)</option>
+          <option value="local">폐쇄망 로컬 Ollama (₩0 무과금)</option>
+        </select>
+
+        <button type="button" class="st-pill-btn" id="open-agent-settings" aria-label="실제 AI 에이전트 연결 설정 열기">
+          <Icon name="sparkles" />
+          <span>에이전트 설정</span>
+        </button>
+        <button type="button" class="st-pill-btn" data-search aria-label="문서 및 기능 검색 열기">
+          <Icon name="search" />
+          <span>검색</span>
+        </button>
+        <button type="button" class="st-pill-btn" data-theme-cycle aria-label="테마 전환">
+          <Icon name="sun" />
+          <span>테마</span>
+        </button>
+        <a class="st-pill-btn" href="/docs/">문서 가이드</a>
+      </div>
+    </header>
+
+    <div class="st-shell">
+      <aside class="st-sidebar" aria-label="워크스페이스 메뉴 및 상태">
+        <nav class="st-nav" role="tablist" aria-label="스튜디오 기능 탭">
+          <button type="button" class="st-nav-btn" role="tab" aria-selected="true" data-view="briefings">
+            <span>1. 오늘의 운영·수업 브리핑</span>
+          </button>
+          <button type="button" class="st-nav-btn" role="tab" aria-selected="false" data-view="approvals">
+            <span>2. 최종 승인 대기함</span>
+            <span class="st-count" id="approval-badge">3</span>
+          </button>
+          <button type="button" class="st-nav-btn" role="tab" aria-selected="false" data-view="roster">
+            <span>3. 원생·학생 현황 &amp; 클리닉</span>
+            <span class="st-count" id="worksheet-badge" style="background:var(--brand);">1</span>
+          </button>
+          <button type="button" class="st-nav-btn" role="tab" aria-selected="false" data-view="chat">
+            <span>4. 실제 AI 에이전트 지시</span>
+          </button>
+          <button type="button" class="st-nav-btn" role="tab" aria-selected="false" data-view="memory">
+            <span>5. 기억장 · 상시 스케줄</span>
+          </button>
+        </nav>
+
+        <div class="st-role-Banner" id="ta-notice" hidden>
+          <strong>강사 · 수업조교(TA) 제한 권한 활성:</strong> 원장 전용 수납·미납 금액과 민감 퇴원/상담 메모가 자동 마스킹되며, 모든 외부 알림톡·공지는 원장/담임 결재함으로 상신됩니다.
+        </div>
+
+        <div class="st-box">
+          <div class="st-box-title">
+            <span>이번 달 AI 예산 가드레일</span>
+            <strong id="budget-label">₩5,120 / ₩50,000</strong>
+          </div>
+          <div class="st-meter" aria-label="월간 AI 예산 사용률">
+            <div class="st-meter-fill" id="budget-bar" style="width: 10.2%"></div>
+          </div>
+          <span id="budget-note" style="color:var(--ink-muted);">한도의 10% 사용 중 · 100% 도달 시 자동 차단</span>
+        </div>
+
+        <div class="st-box" id="connected-apps-box">
+          <div class="st-box-title">
+            <span>연결된 교육·학원 채널</span>
+            <span style="color:var(--brand);font-weight:700;">실시간 보호</span>
+          </div>
+          <div id="connected-apps-list" style="display:flex;flex-direction:column;gap:5px;color:var(--ink-muted);"></div>
+        </div>
+
+        <button type="button" class="st-btn" id="reset-demo-btn">실습 데이터 초기 상태로 복원</button>
+      </aside>
+
+      <main id="studio-main" class="st-main" tabindex="-1">
+        <!-- 패널 1: 브리핑 -->
+        <section class="st-panel" id="panel-briefings" aria-labelledby="h-briefings">
+          <div class="st-panel-head">
+            <div>
+              <h1 id="h-briefings">오늘의 운영 · 수업 브리핑</h1>
+              <p id="sub-briefings">출근·등교 전 로컬 원생 출결, 수납/재등록 일정, 성적 추이를 분석해 준비된 브리핑입니다.</p>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <label class="sr-only" for="new-brief-topic">AI 브리핑 생성 주제 선택</label>
+              <select id="new-brief-topic" class="st-select" aria-label="AI 브리핑 생성 주제 선택">
+                <option value="attendance_billing">원생 등·하원 출결 &amp; 미납/재등록 케어 브리핑</option>
+                <option value="clinic_exam">주간 테스트 취약 단원 &amp; 오답 클리닉 브리핑</option>
+                <option value="counsel_churn">신규 입학 상담 &amp; 휴·퇴원 위험군 점검 브리핑</option>
+              </select>
+              <button type="button" class="st-btn st-btn-primary" id="gen-brief-btn">✦ AI 실시간 브리핑 생성</button>
+            </div>
+          </div>
+
+          <div class="st-kpi-grid" id="kpi-strip" aria-label="핵심 운영 지표 요약"></div>
+
+          <div class="st-card-list" id="briefing-list"></div>
+        </section>
+
+        <!-- 패널 2: 승인 대기함 -->
+        <section class="st-panel" id="panel-approvals" aria-labelledby="h-approvals" hidden>
+          <div class="st-panel-head">
+            <div>
+              <h2 id="h-approvals">최종 승인 대기함 (Trust Check Gate)</h2>
+              <p>학부모 알림톡, 수강료 청구 안내, 보강 공지, LMS 답변 등 모든 대외 메시지는 여기서 원장·교사의 최종 승인을 거칩니다.</p>
+            </div>
+          </div>
+          <div class="st-card-list" id="approval-list"></div>
+        </section>
+
+        <!-- 패널 3: 원생·학생 현황 & 오답 클리닉 -->
+        <section class="st-panel" id="panel-roster" aria-labelledby="h-roster" hidden>
+          <div class="st-panel-head">
+            <div>
+              <h2 id="h-roster">원생 · 학생 실시간 현황 &amp; 오답 클리닉 생성기</h2>
+              <p>등·하원 출결, 최근 성적, 수납 상태(원장 전용 RBAC 보호)를 한눈에 확인하고 클릭 한 번으로 실제 AI 에이전트에게 알림톡 초안이나 보강 클리닉 문항을 지시하세요.</p>
+            </div>
+          </div>
+
+          <div class="st-table-wrap">
+            <table class="st-table" aria-label="원생 및 학생 출결·성적·수납 현황표">
+              <thead>
+                <tr>
+                  <th>이름 / 소속 반</th>
+                  <th>출결 · 등하원</th>
+                  <th>최근 성적 · 취약 단원</th>
+                  <th>수납 · 원장 민감 메모 (RBAC)</th>
+                  <th>실제 AI 에이전트 즉시 실행</th>
+                </tr>
+              </thead>
+              <tbody id="roster-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="st-panel-head" style="margin-top:28px;">
+            <div>
+              <h2>AI 맞춤 오답 클리닉 · 보강 · 형성평가 자료실</h2>
+              <p>강사와 교사가 취약 개념만 입력하면 실제 AI 에이전트가 맞춤형 변형 문항과 지도 해설 포인트를 즉시 제작합니다.</p>
+            </div>
+          </div>
+
+          <form class="st-chat-form" id="clinic-form">
+            <label class="sr-only" for="clinic-target">클리닉 대상 반 또는 학생명</label>
+            <input
+              id="clinic-target"
+              class="st-input"
+              style="flex:0.8;"
+              type="text"
+              placeholder="대상 (예: 중3 심화A반 오답자 2명)"
+              required
+            />
+            <label class="sr-only" for="clinic-topic">출제할 취약 단원 및 난이도</label>
+            <input
+              id="clinic-topic"
+              class="st-input"
+              style="flex:1.4;"
+              type="text"
+              placeholder="단원·주제 (예: 이차함수 축의 방정식 미지수 포함 최대·최소 변형 3문항)"
+              required
+            />
+            <button type="submit" class="st-btn st-btn-primary" id="clinic-submit-btn">✦ AI 클리닉 문항 생성</button>
+          </form>
+
+          <div class="st-card-list" id="worksheet-list"></div>
+        </section>
+
+        <!-- 패널 4: 실제 AI 에이전트 지시 -->
+        <section class="st-panel" id="panel-chat" aria-labelledby="h-chat" hidden>
+          <div class="st-panel-head">
+            <div>
+              <h2 id="h-chat">실제 AI 에이전트 업무 지시</h2>
+              <p>실제 LLM 에이전트가 로컬 원생/학생 데이터를 직접 조회(`query_workspace_records`)하고, 브리핑·클리닉 학습지·학부모 알림톡 초안(`propose_external_message`) 도구를 자율 실행합니다.</p>
+            </div>
+          </div>
+
+          <div class="st-agent-banner" id="chat-agent-banner">
+            <span id="chat-agent-desc"><strong>실시간 에이전트 준비됨:</strong> 지시어를 보내면 실제 AI 모델이 워크스페이스 도구를 호출해 결과를 반영합니다.</span>
+            <button type="button" class="st-btn st-btn-sm" id="chat-open-settings-btn">엔진/API 설정</button>
+          </div>
+
+          <div class="st-prompts" id="quick-prompts" aria-label="원클릭 추천 지시어"></div>
+
+          <div class="st-chat-log" id="chat-log" aria-live="polite"></div>
+
+          <form class="st-chat-form" id="chat-form">
+            <label class="sr-only" for="chat-input">에듀노드 AI 에이전트에게 지시할 내용 입력</label>
+            <input
+              id="chat-input"
+              class="st-input"
+              type="text"
+              placeholder="예: 미등원 원생 학부모님께 보낼 안심 확인 알림톡 초안 만들고, 이차함수 보강 2문항도 생성해줘"
+              required
+            />
+            <button type="submit" class="st-btn st-btn-primary" id="chat-send-btn">실제 AI 실행</button>
+          </form>
+        </section>
+
+        <!-- 패널 5: 기억장 & 스케줄 -->
+        <section class="st-panel" id="panel-memory" aria-labelledby="h-memory" hidden>
+          <div class="st-panel-head">
+            <div>
+              <h2 id="h-memory">투명한 운영·수업 기억장 &amp; 24시간 상시 스케줄</h2>
+              <p>학원 수납 안내 원칙, 강사 피드백 스타일, 학교별 내신 시험범위, 원생 배려 메모를 직접 확인·추가하거나 즉시 영구 파기합니다.</p>
+            </div>
+          </div>
+
+          <form class="st-chat-form" id="memory-form">
+            <label class="sr-only" for="memory-cat">기억 분류 선택</label>
+            <select id="memory-cat" class="st-select" aria-label="기억 분류 선택">
+              <option value="수납·운영 원칙">수납·운영 원칙</option>
+              <option value="평가·수업 원칙">평가·수업 원칙</option>
+              <option value="학사·학원 일정">학사·학원 일정</option>
+              <option value="상담·배려 메모">상담·배려 메모 (민감 보호)</option>
+            </select>
+            <label class="sr-only" for="memory-input">새로 기억시킬 규칙 또는 메모 입력</label>
+            <input
+              id="memory-input"
+              class="st-input"
+              type="text"
+              placeholder="예: 푸른중학교 3학년 2학기 기말 수학 시험범위는 이차함수 활용부터 삼각비 활용까지임"
+              required
+            />
+            <button type="submit" class="st-btn st-btn-primary">+ 기억 추가</button>
+          </form>
+
+          <div class="st-card-list" id="memory-list"></div>
+
+          <div class="st-panel-head" style="margin-top:24px;">
+            <div>
+              <h2>24시간 원장실 · 교무실 상시 스케줄 모니터</h2>
+              <p>원장님·선생님이 퇴근한 뒤에도 상시 노드에서 정해진 시각에 자동 점검하는 작업입니다.</p>
+            </div>
+          </div>
+          <div class="st-card-list" id="schedule-list"></div>
+        </section>
+      </main>
+
+      <aside class="st-rail" aria-label="실시간 보안 감사 로그">
+        <h2>실시간 에이전트 도구 · 감사 로그</h2>
+        <p style="margin:0;font-size:var(--fs-xs);color:var(--ink-muted);">
+          AI 에이전트의 모든 로컬 DB 조회, 클리닉 생성, Trust Check 발송 차단 이력이 시간순으로 기록됩니다.
+        </p>
+        <ul class="st-audit-list" id="audit-list"></ul>
+      </aside>
+    </div>
+
+    <!-- 실제 AI 에이전트 연결 설정 모달 -->
+    <div class="en-modal-backdrop" id="agent-settings-modal" hidden>
+      <div class="st-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="agent-modal-title">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <h2 id="agent-modal-title" style="margin:0;font-size:19px;">실제 AI 에이전트 연결 설정</h2>
+          <button type="button" class="en-search-esc" id="close-agent-settings" aria-label="에이전트 설정 닫기">닫기 (ESC)</button>
+        </div>
+        <p style="margin:0;font-size:13.5px;color:var(--ink-muted);" id="agent-modal-status-text">
+          서버 환경변수에 연결된 AI 프로바이더 상태를 확인하는 중입니다…
+        </p>
+
+        <div class="st-field">
+          <label for="cfg-gemini-key">선택 입력: Google Gemini API 키 (비워두면 서버 기본 키 사용)</label>
+          <input id="cfg-gemini-key" class="st-input" type="password" placeholder="AIza... (브라우저 세션 메모리에만 임시 보관)" autocomplete="off" />
+          <small>서버에 이미 키가 구성된 경우 입력하지 않아도 즉시 실제 Gemini 에이전트가 작동합니다.</small>
+        </div>
+
+        <div class="st-field">
+          <label for="cfg-anthropic-key">선택 입력: Anthropic Claude API 키 (비워두면 서버 기본 키 사용)</label>
+          <input id="cfg-anthropic-key" class="st-input" type="password" placeholder="sk-ant-... (브라우저 세션 메모리에만 임시 보관)" autocomplete="off" />
+        </div>
+
+        <div class="st-field">
+          <label for="cfg-local-url">폐쇄망 로컬 LLM 주소 (Ollama / vLLM OpenAI 호환 엔드포인트)</label>
+          <input id="cfg-local-url" class="st-input" type="url" placeholder="예: http://localhost:11434/v1" />
+          <small>학원·학교 내부망 PC에 Ollama를 띄운 경우 주소를 입력하면 API 비용 ₩0으로 동작합니다.</small>
+        </div>
+
+        <div class="st-field">
+          <label for="cfg-local-model">로컬 LLM 모델명</label>
+          <input id="cfg-local-model" class="st-input" type="text" placeholder="예: qwen2.5:14b 또는 llama3.1" />
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px;">
+          <button type="button" class="st-btn" id="clear-agent-cfg">세션 입력값 초기화</button>
+          <button type="button" class="st-btn st-btn-primary" id="save-agent-cfg">연결 설정 적용</button>
+        </div>
+      </div>
+    </div>
+
+    <SearchModal />
+    <CookieBanner />
+
+    <script is:inline>
+      (function () {
+        var PRESETS = {
+          academy_director: {
+            budgetUsed: 5120,
+            budgetMax: 50000,
+            channels: [
+              '• 등·하원 키오스크: 실시간 미등원 감지',
+              '• 결제선생 · 수납원장: 원장 단독 열람(RBAC)',
+              '• 학원 카카오 알림톡: 원장 승인 후 발송',
+              '• 상담실 레벨테스트 폴더: 로컬 암호화 보관',
+            ],
+            kpis: [
+              { label: '오늘 등원 출결률', val: '91.7% (44/48명)', sub: '미등원·지연 1명 즉시 확인 필요' },
+              { label: '이번 달 원비 수납률', val: '94.2%', sub: '미납 D+5 안내 대상 1건 대기' },
+              { label: '신규 입학 레벨테스트', val: '오늘 2건', sub: '19:30 중2 한유진 학부모 상담' },
+              { label: '휴·퇴원 조기 주의군', val: '1명 감지', sub: '연속 지각·과제 저하 정서윤 케어' },
+            ],
+            prompts: [
+              '미등원 중인 정서윤 학생 학부모님께 보낼 정중한 등원 확인 알림톡 초안 만들어줘',
+              '수납 미납 D+5인 박시우 학부모님께 부담스럽지 않은 11월 수강료 안내 알림톡 초안 작성해줘',
+              '오늘 신규 레벨테스트 본 한유진 학생 학부모 상담용 1페이지 등록 권유 브리핑 생성해줘',
+              '휴·퇴원 위험 징후가 있는 원생을 조회해서 원장 케어 점검 브리핑 카드로 만들어줘',
+            ],
+            roster: [
+              {
+                id: 'st1',
+                name: '박시우',
+                grade: '중3 수학 심화A반',
+                attendance: '출석 완료 (17:54 등원)',
+                recentScore: '주간평가 88점 (+6점 상승)',
+                weakTopic: '이차함수 활용 서술형 풀이 단계 생략',
+                tuitionStatus: '미납 D+5',
+                tuitionAmount: '380,000원',
+                sensitiveMemo: '11월 재등록 대상 · 학부모님 저녁 20시 이후 문자/통화 선호',
+              },
+              {
+                id: 'st2',
+                name: '정서윤',
+                grade: '고1 내신대비 집중반',
+                attendance: '미등원 지연 (18:15 기준)',
+                recentScore: '주간평가 72점 (-12점 하락)',
+                weakTopic: '나머지정리와 인수정리 고난도 변형',
+                tuitionStatus: '완납',
+                tuitionAmount: '420,000원',
+                sensitiveMemo: '[퇴원 위험 주의] 최근 2주 연속 지각 및 과제 이행률 50% 미만 — 원장님 직접 격려 면담 권장',
+              },
+              {
+                id: 'st3',
+                name: '한유진',
+                grade: '신규 입학 상담 (중2)',
+                attendance: '레벨테스트 응시 완료',
+                recentScore: '진단평가 78점 (연산 우수·함수 취약)',
+                weakTopic: '일차함수 그래프 기울기와 절편 응용',
+                tuitionStatus: '신규 등록 대기',
+                tuitionAmount: '350,000원 (예정)',
+                sensitiveMemo: '19:30 학부모 대면 상담 예정 · 정규반 + 토요 오답 클리닉 결합 과정 추천 적합',
+              },
+              {
+                id: 'st4',
+                name: '최지호',
+                grade: '중2 영어 정규B반',
+                attendance: '출석 완료 (17:48 등원)',
+                recentScore: '단어·구문 테스트 96점 (상위 5%)',
+                weakTopic: '관계대명사 계속적 용법 영작 심화',
+                tuitionStatus: '완납',
+                tuitionAmount: '350,000원',
+                sensitiveMemo: '겨울방학 특목·자사고 대비 심화반 승급 상담 희망',
+              },
+            ],
+            worksheets: [
+              {
+                id: 'w_dir_1',
+                createdAt: '신규 상담 진단용 샘플',
+                targetGroup: '신규 레벨테스트 후속 (중2 한유진 맞춤)',
+                topic: '일차함수 그래프 기울기·절편 핵심 보완 2문항',
+                questions: [
+                  {
+                    q: '1. 일차함수 y = ax + b의 그래프가 점 (2, 5)를 지나고 직선 y = -2x + 1과 평행할 때, 상수 a, b에 대하여 a + b의 값을 구하시오.',
+                    answerAndTip: '정답: 7 (평행 조건으로 a = -2 도출 후 (2, 5) 대입해 b = 9 산출 · 상담 시 연산 정확도는 높으나 조건 해석 밑줄 긋기 습관 코칭 안내)',
+                  },
+                  {
+                    q: '2. 일차함수 y = (3/2)x - 6의 그래프와 x축, y축으로 둘러싸인 삼각형의 넓이를 구하시오.',
+                    answerAndTip: '정답: 12 (x절편 4, y절편 -6 확인 · 절편 부호 실수 방지 지도)',
+                  },
+                ],
+              },
+            ],
+            briefings: [
+              {
+                id: 'ab1',
+                tag: '16:30 자동 준비됨 · 학원 원장 일일 운영 브리핑',
+                title: '수요일 저녁 등원 출결 · 수납 미납 · 신규 입학 상담 통합 브리핑',
+                sensitive: true,
+                summary:
+                  '18시 타임 대상 원생 48명 중 44명 등원 완료(고1 정서윤 미등원 확인 필요). 오늘 19:30 중2 한유진 학생 신규 입학 레벨테스트 결과 브리핑이 준비되었습니다.',
+                sensitiveNote:
+                  '원장 전용 수납·퇴원 관리 메모: 중3 박시우 원비 미납 D+5(380,000원, 결제선생 재발송 대기) / 고1 정서윤 최근 2주 성적·출결 저하로 휴·퇴원 조기 케어 상담 권장.',
+                checks: [
+                  { text: '고1 정서윤 미등원 확인 알림톡 초안 검토 후 발송 승인', done: false },
+                  { text: '19:30 한유진 학부모 신규 입학 상담용 진단표 & 추천 반 안내지 출력', done: true },
+                  { text: '박시우 학부모님 20시 이후 정중한 수강료 납부 링크 알림톡 승인', done: false },
+                ],
+              },
+            ],
+            approvals: [
+              {
+                id: 'aa1',
+                app: '학원 카카오 알림톡 · 등하원 케어',
+                scope: '개별 발송 (정서윤 학부모님)',
+                title: '[미등원 안심 확인] 고1 내신대비반 정서윤 학생 등원 확인 안내',
+                draft:
+                  '안녕하세요 정서윤 학생 학부모님, 에듀노드 학원 원장실입니다. 오늘 18:00 고1 내신대비반 수업 시작 후 아직 서윤이의 등원 체크가 확인되지 않아 연락드렸습니다. 이동 중이거나 일정 변동이 있는지 회신 주시면 감사하겠습니다.',
+              },
+              {
+                id: 'aa2',
+                app: '결제선생 · 원비 청구 알림톡',
+                scope: '개별 발송 (박시우 학부모님 · 20:00 예약 권장)',
+                title: '[11월 수강료 안내] 중3 심화A반 박시우 학생 비대면 납부 링크 안내',
+                draft:
+                  '안녕하세요 박시우 학생 학부모님, 에듀노드 학원입니다. 시우가 최근 주간평가에서 88점으로 꾸준히 실력을 올리고 있어 기쁜 마음으로 지도하고 있습니다. 다름이 아니라 11월분 정규 수강료(380,000원) 납부 기한이 지나 모바일 결제 링크를 함께 안내드립니다. 감사합니다.',
+              },
+              {
+                id: 'aa3',
+                app: '학원 알림톡 · 신규 상담 안내',
+                scope: '개별 발송 (한유진 학부모님)',
+                title: '오늘 19:30 신규 레벨테스트 결과 상담 및 주차 안내',
+                draft:
+                  '안녕하세요 한유진 학생 학부모님, 에듀노드 학원입니다. 유진이의 진단평가 채점 및 단원별 분석 리포트가 준비되었습니다. 오늘 저녁 7시 30분 3층 상담실에서 뵙겠습니다.',
+              },
+            ],
+            memories: [
+              {
+                id: 'am1',
+                cat: '수납·운영 원칙',
+                date: '2026-09-01 원장 등록',
+                sensitive: true,
+                text: '수강료 미납 안내 문자는 반드시 학생의 최근 긍정적인 학습 태도 한 줄을 먼저 전한 뒤, 부담 없는 정중한 어조로 비대면 결제 링크를 안내한다.',
+              },
+              {
+                id: 'am2',
+                cat: '학사·학원 일정',
+                date: '2026-11-05 등록',
+                sensitive: false,
+                text: '11월 23일(월)부터 인근 중·고등학교 기말고사 3주 직전 대비 시간표로 전환되며, 일요일 13:00~17:00 무료 질의응답 자습실을 개방한다.',
+              },
+              {
+                id: 'am3',
+                cat: '상담·배려 메모',
+                date: '2026-11-09 원장 면담',
+                sensitive: true,
+                text: '정서윤 원생: 내신 성적 압박감이 크므로 점수 지적을 피하고, 토요일 1:1 클리닉 보강으로 작은 단원 성취감을 먼저 회복시킨다.',
+              },
+            ],
+            schedules: [
+              {
+                id: 'as1',
+                name: '수업 시작 15분 경과 미등원 원생 자동 감지 & 안심 알림톡 초안 생성',
+                cadence: '평일 매교시 +15분 (16:15 · 18:15 · 20:15)',
+                active: true,
+                last: '오늘 18:15 미등원 1명(정서윤) 초안 승인함 등록 완료',
+              },
+              {
+                id: 'as2',
+                name: '원비 미납 D+5 및 재등록 대상자 정중 안내 초안 준비',
+                cadence: '매주 화·금 15:00',
+                active: true,
+                last: '오늘 15:00 대상 1건(박시우) 원장 결재함 대기 중',
+              },
+            ],
+            chat: [
+              {
+                who: 'agent',
+                text: '원장님 안녕하세요! 에듀노드 실제 AI 운영 에이전트가 연결되었습니다. 오늘 등원 지연 1건, 수납 안내 초안 1건, 19:30 신규 입학 상담 브리핑을 준비해 두었습니다. 무엇을 실행할까요?',
+              },
+            ],
+            audits: [
+              { time: '18:15:02', msg: '[키오스크 로컬 연동] 18시 반 등원 현황 스캔 완료 (미등원 1명 감지)' },
+              { time: '18:15:09', msg: '[Trust Check 발송 보류] 정서윤 미등원 알림톡 & 박시우 수납 안내 초안 원장 승인함 격리' },
+            ],
+          },
+
+          academy_instructor: {
+            budgetUsed: 3890,
+            budgetMax: 40000,
+            channels: [
+              '• 일일 수업·과제 리포트: 강사 작성 → 발송 승인',
+              '• 오답 클리닉 생성기: 단원별 맞춤 변형 문항 제작',
+              '• 인근 학교 기출·시험범위 DB: 로컬 즉시 검색',
+              '• 보강 스케줄러: 결석·미통과자 토요 클리닉 배정',
+            ],
+            kpis: [
+              { label: '오늘 담당 수업', val: '3개 반 (총 34명)', sub: '중3 심화A · 고1 내신 · 클리닉' },
+              { label: '주간 테스트 평균', val: '81.3점', sub: '커트라인(70점) 미달 클리닉 대상 2명' },
+              { label: '과제 수행 완료율', val: '91.2%', sub: '우수 원생 8명 · 미흡 보완 3명' },
+              { label: '일일 피드백 알림톡', val: '2건 승인 대기', sub: '수업 종료 직후 3분 내 검토 완료' },
+            ],
+            prompts: [
+              '중3 심화A반 커트라인 미달인 이준혁, 강민서 학생용 이차함수 최대·최소 오답 클리닉 3문항 생성해줘',
+              '오늘 중3 심화A반 수업 진도·과제 안내 학부모 단체 피드백 알림톡 초안 만들어줘',
+              '토요일 14시 보강 예정인 송현우 학생 학부모님께 보강 시간 및 준비물 안내 알림톡 초안 작성해줘',
+              '푸른중·한빛고 기말고사 시험범위 차이를 비교해서 내신 대비 수업 브리핑 카드로 만들어줘',
+            ],
+            roster: [
+              {
+                id: 'ist1',
+                name: '이준혁',
+                grade: '중3 수학 심화A반',
+                attendance: '출석 완료',
+                recentScore: '주간평가 64점 (커트라인 70점 미달)',
+                weakTopic: '제한된 범위에서 이차함수 최대·최소 (축 미지수)',
+                tuitionStatus: '원장실 관리 항목',
+                tuitionAmount: '원장 전용',
+                sensitiveMemo: '계산 속도는 빠르나 그래프 개형을 그리지 않고 암산하다 부호 실수 빈번',
+              },
+              {
+                id: 'ist2',
+                name: '강민서',
+                grade: '중3 수학 심화A반',
+                attendance: '출석 완료',
+                recentScore: '주간평가 68점 (커트라인 70점 미달)',
+                weakTopic: '이차함수 그래프와 직선의 위치 관계·판별식',
+                tuitionStatus: '원장실 관리 항목',
+                tuitionAmount: '원장 전용',
+                sensitiveMemo: '오답 노트 성실도는 최상위권 — 유사 쌍둥이 3문항 반복 시 즉시 85점대 회복 가능',
+              },
+              {
+                id: 'ist3',
+                name: '윤채원',
+                grade: '중3 수학 심화A반',
+                attendance: '출석 완료',
+                recentScore: '주간평가 96점 (반 1위)',
+                weakTopic: '최상위 일품 심화 서술형 도전 중',
+                tuitionStatus: '원장실 관리 항목',
+                tuitionAmount: '원장 전용',
+                sensitiveMemo: '푸른중 전교권 목표 · 내신 고난도 킬러 변형 문항 추가 제공 중',
+              },
+              {
+                id: 'ist4',
+                name: '송현우',
+                grade: '고1 내신대비반',
+                attendance: '결석 (학교 동아리 대회 · 토 14시 보강)',
+                recentScore: '직전 평가 76점',
+                weakTopic: '삼차다항식 나머지정리 미정계수 결정',
+                tuitionStatus: '원장실 관리 항목',
+                tuitionAmount: '원장 전용',
+                sensitiveMemo: '오늘 수업 녹화 강의 링크 + 토요일 14:00 대면 보강 클리닉 확정',
+              },
+            ],
+            worksheets: [
+              {
+                id: 'w_ins_1',
+                createdAt: '오늘 17:20 자동 준비됨',
+                targetGroup: '중3 심화A반 클리닉 대상 (이준혁 · 강민서)',
+                topic: '제한된 변역에서 이차함수의 최대·최소 & 판별식 쌍둥이 클리닉',
+                questions: [
+                  {
+                    q: '1. -1 ≤ x ≤ 3에서 이차함수 y = x² - 2ax + a² + 2 (단, 0 ≤ a ≤ 2)의 최댓값과 최솟값의 차를 a에 대한 식으로 나타내시오.',
+                    answerAndTip: '정답: a = 1을 기준으로 구간 양 끝점(-1 또는 3)과 꼭짓점(x = a) 거리 비교 · 지도 팁: 반드시 대칭축 x = a를 수직선 위에 먼저 표시하게 지도하세요.',
+                  },
+                  {
+                    q: '2. 이차함수 y = x² - 4x + k의 그래프와 직선 y = 2x - 1이 서로 다른 두 점에서 만나도록 하는 정수 k의 최댓값을 구하시오.',
+                    answerAndTip: '정답: 7 (연립방정식 x² - 6x + k + 1 = 0의 판별식 D/4 = 9 - (k + 1) > 0 → k < 8)',
+                  },
+                ],
+              },
+            ],
+            briefings: [
+              {
+                id: 'ib1',
+                tag: '17:30 자동 준비됨 · 학원 강사 수업·클리닉 브리핑',
+                title: '중3 심화A반 주간평가 오답 분석 & 오늘 수업 후 학부모 피드백 준비',
+                sensitive: false,
+                summary:
+                  '주간평가 채점 결과 반 평균 81.3점이며, 커트라인(70점) 미달 원생 2명(이준혁 64점, 강민서 68점)을 위한 쌍둥이 오답 클리닉 문항지가 생성되었습니다. 고1 송현우 학생은 토요일 14시 보강 대상입니다.',
+                sensitiveNote: '',
+                checks: [
+                  { text: '수업 종료 15분 전 이준혁·강민서 맞춤 클리닉 문항지 배부', done: true },
+                  { text: '중3 심화A반 일일 진도·과제 학부모 알림톡 초안 승인하기', done: false },
+                  { text: '고1 송현우 녹화 강의 링크 및 토요 보강 안내 발송 승인', done: false },
+                ],
+              },
+            ],
+            approvals: [
+              {
+                id: 'ia1',
+                app: '학원 알림톡 · 반별 일일 수업 리포트',
+                scope: '중3 심화A반 학부모 전체 (12명)',
+                title: '[11/12 수업 리포트] 중3 수학 심화A반 진도 · 주간평가 · 과제 안내',
+                draft:
+                  '학부모님 안녕하세요, 에듀노드 수학 담당 강사입니다. 오늘 중3 심화A반에서는 [이차함수의 최대·최소 심화 활용] 단원을 학습했습니다.\n• 주간평가 평균: 81.3점 (오답 문항 개별 첨삭 완료)\n• 다음 시간 과제: 워크북 64~69쪽 (오답 노트 3문항 포함)\n커트라인 미달 문항이 있는 학생들은 금주 금요일/토요일 클리닉 시간에 1:1 완전학습 보강을 진행합니다.',
+              },
+              {
+                id: 'ia2',
+                app: '학원 알림톡 · 개별 클리닉 보강 안내',
+                scope: '개별 발송 (이준혁 학부모님)',
+                title: '준혁 학생 주간평가 오답 보완 금요일 1:1 클리닉 안내',
+                draft:
+                  '안녕하세요 이준혁 학생 학부모님, 수학 담당 강사입니다. 오늘 주간평가에서 준혁이가 기본 연산 문항은 모두 맞혔으나, 그래프 대칭축 추론 서술형에서 아쉬운 실수가 있었습니다. 금요일 정규 수업 후 40분간 맞춤 변형 문항으로 1:1 오답 클리닉을 진행하여 완벽히 다지고 귀가시키겠습니다.',
+              },
+            ],
+            memories: [
+              {
+                id: 'im1',
+                cat: '평가·수업 원칙',
+                date: '2026-09-10 강사 등록',
+                sensitive: false,
+                text: '학부모 일일 수업 피드백 알림톡에는 항상 [오늘 학습 단원 → 반 평균 및 성취도 → 다음 과제 범위 → 후속 클리닉 계획] 4가지 항목을 명확히 포함한다.',
+              },
+              {
+                id: 'im2',
+                cat: '학사·학원 일정',
+                date: '2026-11-08 내신 요강 반영',
+                sensitive: false,
+                text: '학교별 기말 범위: 푸른중3(이차함수 활용~원주각), 은빛중3(삼각비 전체~원의 성질), 한빛고1(함수 합성/역함수~순열과 조합).',
+              },
+            ],
+            schedules: [
+              {
+                id: 'is1',
+                name: '주간 테스트 채점 직후 70점 미만 원생 오답 클리닉 문항 자동 생성',
+                cadence: '매주 수·금 17:20',
+                active: true,
+                last: '오늘 17:20 클리닉 대상 2명 맞춤 문항지 생성 완료',
+              },
+              {
+                id: 'is2',
+                name: '수업 종료 직후 미작성 반별 일일 수업 리포트 초안 알림',
+                cadence: '평일 21:50',
+                active: true,
+                last: '정상 대기 중',
+              },
+            ],
+            chat: [
+              {
+                who: 'agent',
+                text: '선생님 안녕하세요! 학원 강사·클리닉 모드가 활성화되었습니다. 반별 학부모 피드백 알림톡 초안 작성부터 원생별 취약 단원 오답 클리닉 문항 생성까지 실제 AI 에이전트에게 바로 지시해 보세요.',
+              },
+            ],
+            audits: [
+              { time: '17:20:11', msg: '[로컬 성적 분석] 중3 심화A반 주간평가 커트라인 미달 2명 추출 완료' },
+              { time: '17:20:28', msg: '[클리닉 자료 생성] 이차함수 최대·최소 쌍둥이 보강 문항 2제 로컬 저장' },
+            ],
+          },
+
+          k12: {
+            budgetUsed: 4280,
+            budgetMax: 30000,
+            channels: [
+              '• Google Classroom: 과제 미제출 읽기 허용',
+              '• 하이클래스 학부모 알림: 교사 승인 후 발송',
+              '• 학사 캘린더: 상담 가능 시간 탐색',
+              '• 로컬 세특·상담폴더: 기기 내부 격리',
+            ],
+            kpis: [
+              { label: '수행평가 제출률', val: '89.3% (25/28명)', sub: '마감 D-1 미제출 3명 독려 대기' },
+              { label: '오늘 학부모 상담', val: '16:00 (1건)', sub: '김하늘 학생 진로·세특 연계 상담' },
+              { label: '승인 대기 초안', val: '3건', sub: '가정통신 회신 · 과제 독려 · 연수 공문' },
+              { label: '개인정보 외부 유출', val: '0건', sub: '로컬 격리 저장소 보호 중' },
+            ],
+            prompts: [
+              '미제출 3명 학생에게 보낼 수행평가 독려 알림 초안 만들어줘',
+              '내일 3교시 현대시 수업 도입 5분 형성평가 3문항 생성해줘',
+              '김하늘 학생 오후 4시 학부모 상담 핵심 질문 브리핑 카드로 정리해줘',
+            ],
+            roster: [
+              {
+                id: 'kst1',
+                name: '김하늘',
+                grade: '2학년 3반 7번',
+                attendance: '출석',
+                recentScore: '문학 비평 초고 제출 완료 (A)',
+                weakTopic: '구두 발표 시 시선 처리 및 요약 도입문',
+                tuitionStatus: '공교육 학급 (해당 없음)',
+                tuitionAmount: '-',
+                sensitiveMemo: '오늘 16:00 학부모 진로·세특 상담 · 미디어커뮤니케이션 희망 진로 연계',
+              },
+              {
+                id: 'kst2',
+                name: '박준서',
+                grade: '2학년 3반 14번',
+                attendance: '출석',
+                recentScore: '문학 비평 초고 미제출 (개요 작성 중)',
+                weakTopic: '참고문헌 표기 양식 및 근거 문장 인용',
+                tuitionStatus: '공교육 학급 (해당 없음)',
+                tuitionAmount: '-',
+                sensitiveMemo: '어제 저녁 Classroom에 참고문헌 양식 질문 남김 — 친절한 답변 및 독려 필요',
+              },
+            ],
+            worksheets: [
+              {
+                id: 'w_k12_1',
+                createdAt: '수업 도입 자료 샘플',
+                targetGroup: '2학년 3반 국어 전체',
+                topic: '문학 비평문 근거 인용 및 출처 표기 5분 형성평가',
+                questions: [
+                  {
+                    q: '1. 비평문에서 작품 속 시어나 구절을 직접 인용할 때 사용해야 하는 문장 부호와 올바른 근거 연결 방법을 한 문장으로 서술하시오.',
+                    answerAndTip: '정답: 큰따옴표(" ")로 원문을 정확히 인용한 뒤, 해당 표현이 주제 의식 형성에 기여하는 바를 자신의 해석으로 연결한다.',
+                  },
+                ],
+              },
+            ],
+            briefings: [
+              {
+                id: 'b1',
+                tag: '08:10 자동 준비됨 · 담임 브리핑',
+                title: '화요일 아침 2학년 3반 수업 & 학부모 상담 브리핑',
+                sensitive: true,
+                summary:
+                  '3교시 문학 비평문 수행평가 제출률 89%(25/28명) 달성. 오후 16:00 김하늘 학생 학부모 진로·세특 상담이 예정되어 있습니다.',
+                sensitiveNote:
+                  '상담 핵심 메모: 김하늘 학생은 1학기 대비 모둠 발언 빈도가 2배 향상됨. 학부모님께서 미디어학부 연계 국어 세특 방향을 사전 문의하심.',
+                checks: [
+                  { text: '3교시 수업 전 미제출 3명 개별 독려 초안 승인하기', done: false },
+                  { text: '김하늘 학생 미디어 비평 칼럼 활동지 파일 상담실 태블릿에 열기', done: true },
+                  { text: '금요일 17시 마감 디지털 선도학교 교원 연수 공문 신청 여부 결정', done: false },
+                ],
+              },
+            ],
+            approvals: [
+              {
+                id: 'a1',
+                app: '하이클래스 학부모 알림',
+                scope: '개별 발송 (1명: 김하늘 학부모님)',
+                title: '오늘 16:00 진로·학습 상담 안내 및 사전 질문 회신',
+                draft:
+                  '안녕하세요 김하늘 학생 학부모님, 2학년 3반 담임입니다. 오늘 오후 4시 본관 2층 상담실에서 하늘이의 2학기 문학 비평 포트폴리오와 진로 연계 기록을 바탕으로 말씀 나누겠습니다. 조심히 오세요.',
+              },
+              {
+                id: 'a2',
+                app: 'Google Classroom · 2-3 국어',
+                scope: '개별 비공개 댓글 (미제출 3명)',
+                title: '문학 비평문 수행평가 마감 D-1 친절한 제출 독려',
+                draft:
+                  '안녕하세요! 내일(수요일) 오후 5시는 문학 비평문 초고 제출 마감입니다. 분량이 완벽하지 않아도 괜찮으니 작성한 개요라도 먼저 제출함에 올려 주면 피드백을 도와줄게요.',
+              },
+            ],
+            memories: [
+              {
+                id: 'm1',
+                cat: '평가·수업 원칙',
+                date: '2026-09-04 등록',
+                sensitive: false,
+                text: '모든 서술형 수행평가 피드백 초안은 "구체적 강점 1가지 → 보완 제안 1가지 → 수정 예시 문장" 3단 구성을 유지한다.',
+              },
+              {
+                id: 'm2',
+                cat: '상담·배려 메모',
+                date: '2026-10-12 상담 출처',
+                sensitive: true,
+                text: '김하늘 학생: 즉석 구두 발표 시 긴장도가 높으므로 모둠 활동에서 서기·자료 구조화 역할을 우선 배정하고 사전 대본 준비 시간을 부여한다.',
+              },
+            ],
+            schedules: [
+              {
+                id: 's1',
+                name: 'Google Classroom 수행평가 미제출 점검',
+                cadence: '평일 매일 08:00 · 16:30',
+                active: true,
+                last: '오늘 08:00 정상 완료 (미제출 3명 감지)',
+              },
+            ],
+            chat: [
+              {
+                who: 'agent',
+                text: '선생님 안녕하세요! 2학년 3반 수업 브리핑과 검토 대기 발송 초안이 준비되어 있습니다. 실제 AI 에이전트에게 필요한 수업 자료나 상담 요약을 말씀해 주세요.',
+              },
+            ],
+            audits: [
+              { time: '08:10:04', msg: '[로컬 읽기] Google Classroom 2-3 국어 과제 제출 현황 집계 완료' },
+            ],
+          },
+
+          univ: {
+            budgetUsed: 6850,
+            budgetMax: 50000,
+            channels: [
+              '• Canvas LMS: 수강생 Q&A 미답변 스캔',
+              '• 수업조교(TA) 워크플로우: 교수 최종 결재 상신',
+              '• 강의계획서 & 루브릭 폴더: 로컬 인용',
+              '• 연구실 세미나 캘린더: 일정 조율',
+            ],
+            kpis: [
+              { label: '과제 #3 제출률', val: '91.9% (68/74명)', sub: '마감 임박 6명 미제출' },
+              { label: 'Canvas 미답변 질문', val: '2건', sub: '시간복잡도 감점 기준 질의' },
+              { label: '오피스아워 면담', val: '오늘 15:00', sub: '이도윤 학생 대체 구술평가 협의' },
+              { label: '조교(TA) 상신 안건', val: '1건 대기', sub: '목요일 보충 실습 세션 공지' },
+            ],
+            prompts: [
+              '이번 주 Canvas 질문방 미답변 질문에 강의계획서 기준 답변 초안 써줘',
+              '균형 이진 탐색 트리(AVL) 핵심 개념 확인용 복습 퀴즈 2문항 생성해줘',
+              '연구실 주간 세미나 발표 순서 변경 공지 초안 만들어줘',
+            ],
+            roster: [
+              {
+                id: 'ust1',
+                name: '이도윤 (20231048)',
+                grade: 'CSE204 자료구조 수강생',
+                attendance: '출석 (중간고사 공결 처리 대기)',
+                recentScore: '과제 #1~#2 만점 (100/100)',
+                weakTopic: 'AVL 회전 연산 경계 조건 구현',
+                tuitionStatus: '대학 정규 강의',
+                tuitionAmount: '-',
+                sensitiveMemo: '담당교수 전용: 공식 입원 확인서 제출 완료 — 오늘 15:00 오피스아워에서 대체 구술평가 일시 확정',
+              },
+            ],
+            worksheets: [
+              {
+                id: 'w_univ_1',
+                createdAt: '실습 조교 공유 샘플',
+                targetGroup: 'CSE204 11주차 랩 세션',
+                topic: 'AVL 트리 불균형 인수(Balance Factor) 및 단일/이중 회전 확인 문항',
+                questions: [
+                  {
+                    q: '1. 빈 AVL 트리에 키 [30, 20, 10, 25, 28]을 순서대로 삽입할 때 발생하는 회전 유형(LL, RR, LR, RL)을 순서대로 기술하시오.',
+                    answerAndTip: '정답: 10 삽입 시 LL 회전(루트 20) → 28 삽입 시 노드 30 기준 LR 이중 회전 발생.',
+                  },
+                ],
+              },
+            ],
+            briefings: [
+              {
+                id: 'ub1',
+                tag: '08:30 자동 준비됨 · 강의·연구실 브리핑',
+                title: '학부 자료구조(CSE204) 11주차 강의 & 오피스아워 브리핑',
+                sensitive: true,
+                summary:
+                  '프로그래밍 과제 #3 제출률 92%(68/74명). Canvas Q&A 게시판에 시간복잡도 채점 기준 관련 미답변 질문 2건이 있습니다.',
+                sensitiveNote:
+                  '담당교수 전용 면담 메모: 오후 15:00 오피스아워 신청 학생(이도윤) — 중간고사 결시 사유서 확인 완료, 대체 구술평가 일정 협의 예정.',
+                checks: [
+                  { text: 'Canvas Q&A 미답변 질문 답변 초안 승인하기', done: false },
+                  { text: '수업 조교(TA)가 상신한 보충 실습실 공지 검토하기', done: false },
+                ],
+              },
+            ],
+            approvals: [
+              {
+                id: 'ua1',
+                app: 'Canvas LMS · CSE204 질의응답',
+                scope: '강의실 공개 답변 등록',
+                title: '과제 #3 최악 시간복잡도 O(N log N) 감점 기준 질의 회신',
+                draft:
+                  '질문 감사합니다. 강의계획서 4쪽 평가 규정에 따라 기본 테스트케이스 통과 시 80점이 부여되며, 대용량 입력(N=100,000)에서 O(N log N) 제한 시간을 초과하면 효율성 배점 20점 중 일부가 차감됩니다.',
+              },
+              {
+                id: 'ua2',
+                app: 'Canvas 전체 공지 (TA 상신 건)',
+                scope: '수강생 전체 발송 (74명)',
+                title: '[수업조교 상신] 목요일 저녁 온라인 보충 실습 세션 링크 안내',
+                draft:
+                  '수강생 여러분 안녕하세요, 담당 조교입니다. 과제 #3 디버깅 질문을 위한 온라인 오피스아워가 목요일 19:00~20:30에 진행됩니다.',
+              },
+            ],
+            memories: [
+              {
+                id: 'um1',
+                cat: '평가·수업 원칙',
+                date: '2026-09-02 강의계획서 반영',
+                sensitive: false,
+                text: '지각 제출 규정은 마감 후 24시간 이내 10% 감점, 48시간 이내 20% 감점이며, 사전 승인된 공식 결석 사유서는 감점을 면제한다.',
+              },
+            ],
+            schedules: [
+              {
+                id: 'us1',
+                name: 'Canvas LMS 미답변 수강생 질문 자동 탐지',
+                cadence: '매일 09:00 · 14:00 · 18:00',
+                active: true,
+                last: '오늘 09:00 미답변 질문 초안 생성 완료',
+              },
+            ],
+            chat: [
+              {
+                who: 'agent',
+                text: '교수님 안녕하세요! CSE204 강의 브리핑과 조교 상신 공지가 준비되어 있습니다.',
+              },
+            ],
+            audits: [
+              { time: '08:30:02', msg: '[로컬 읽기] Canvas CSE204 과제 제출률 및 미답변 Q&A 스캔 완료' },
+            ],
+          },
+        };
+
+        var STORAGE_KEY = 'edunod-studio-state-v2';
+        var SESSION_CFG_KEY = 'edunod-agent-session-cfg';
+        var currentPreset = 'academy_director';
+        var currentRole = 'owner';
+        var currentModel = 'auto';
+        var isAgentBusy = false;
+        var serverAgentStatus = { live: false, defaultProvider: 'none', providers: {} };
+        var state = loadState();
+
+        function clone(obj) {
+          return JSON.parse(JSON.stringify(obj));
+        }
+
+        function loadState() {
+          try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+              var parsed = JSON.parse(raw);
+              if (parsed && parsed.academy_director && parsed.academy_instructor) return parsed;
+            }
+          } catch (e) {}
+          return clone(PRESETS);
+        }
+
+        function saveState() {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          } catch (e) {}
+        }
+
+        function getSessionCfg() {
+          try {
+            var raw = sessionStorage.getItem(SESSION_CFG_KEY);
+            if (raw) return JSON.parse(raw);
+          } catch (e) {}
+          return { geminiKey: '', anthropicKey: '', localUrl: '', localModel: '' };
+        }
+
+        function saveSessionCfg(cfg) {
+          try {
+            sessionStorage.setItem(SESSION_CFG_KEY, JSON.stringify(cfg));
+          } catch (e) {}
+        }
+
+        function buildAgentHeaders() {
+          var cfg = getSessionCfg();
+          var h = { 'Content-Type': 'application/json' };
+          if (cfg.geminiKey) h['x-edunod-gemini-key'] = cfg.geminiKey;
+          if (cfg.anthropicKey) h['x-edunod-anthropic-key'] = cfg.anthropicKey;
+          if (cfg.localUrl) h['x-edunod-local-url'] = cfg.localUrl;
+          if (cfg.localModel) h['x-edunod-local-model'] = cfg.localModel;
+          return h;
+        }
+
+        async function checkAgentStatus() {
+          var badge = document.getElementById('node-status-badge');
+          var modalTxt = document.getElementById('agent-modal-status-text');
+          var bannerDesc = document.getElementById('chat-agent-desc');
+          try {
+            var res = await fetch('/api/agent/status', { headers: buildAgentHeaders() });
+            if (!res.ok) throw new Error('status http ' + res.status);
+            var data = await res.json();
+            serverAgentStatus = data;
+            if (data.live) {
+              var activeList = [];
+              if (data.providers.gemini) activeList.push('Gemini');
+              if (data.providers.anthropic) activeList.push('Claude');
+              if (data.providers.openai) activeList.push('OpenAI');
+              if (data.providers.local) activeList.push('로컬 LLM');
+              badge.classList.remove('is-offline');
+              badge.textContent = '실제 AI 에이전트 가동 중 · ' + activeList.join(' / ');
+              modalTxt.innerHTML =
+                '<strong style="color:var(--brand);">✓ 실시간 AI 서버 연결됨:</strong> 현재 서버에서 <strong>' +
+                esc(activeList.join(', ')) +
+                '</strong> 도구 호출 엔진이 즉시 사용 가능합니다(API 키는 서버에서만 안전하게 처리됨).';
+              bannerDesc.innerHTML =
+                '<strong>실시간 AI 에이전트 활성 (' +
+                esc(activeList.join(' · ')) +
+                '):</strong> 지시를 보내면 실제 모델이 로컬 원생 DB 조회·브리핑·알림톡 초안·클리닉 문항 생성 도구를 직접 실행합니다.';
+            } else {
+              badge.classList.add('is-offline');
+              badge.textContent = '로컬 시뮬레이션 대기 (API 키 미설정)';
+              modalTxt.textContent =
+                '현재 연결된 모델 키가 없습니다. 아래에 Gemini/Claude API 키 또는 로컬 Ollama 주소를 입력하면 실제 AI 에이전트가 활성화됩니다.';
+            }
+          } catch (err) {
+            badge.classList.add('is-offline');
+            badge.textContent = '오프라인 데모 모드 (정적 호스팅)';
+            modalTxt.textContent =
+              '정적 미리보기 환경입니다. `npm run dev` 또는 `npm start` 서버로 실행하면 실시간 AI 에이전트 백엔드(/api/agent/run)가 활성화됩니다.';
+          }
+        }
+
+        function nowTime() {
+          var d = new Date();
+          return (
+            String(d.getHours()).padStart(2, '0') +
+            ':' +
+            String(d.getMinutes()).padStart(2, '0') +
+            ':' +
+            String(d.getSeconds()).padStart(2, '0')
+          );
+        }
+
+        function esc(s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+        }
+
+        function addAudit(msg) {
+          var cur = state[currentPreset];
+          cur.audits.unshift({ time: nowTime(), msg: msg });
+          if (cur.audits.length > 18) cur.audits.pop();
+          saveState();
+          renderAudits();
+        }
+
+        function chargeTokens(krw) {
+          var cur = state[currentPreset];
+          if (currentModel === 'local') {
+            renderBudget();
+            return;
+          }
+          cur.budgetUsed = Math.min(cur.budgetMax, cur.budgetUsed + krw);
+          saveState();
+          renderBudget();
+        }
+
+        function renderBudget() {
+          var cur = state[currentPreset];
+          var pct = Math.min(100, Math.round((cur.budgetUsed / cur.budgetMax) * 1000) / 10);
+          document.getElementById('budget-label').textContent =
+            '₩' + cur.budgetUsed.toLocaleString() + ' / ₩' + cur.budgetMax.toLocaleString();
+          document.getElementById('budget-bar').style.width = pct + '%';
+          document.getElementById('budget-note').textContent =
+            currentModel === 'local'
+              ? '폐쇄망 로컬 모델 활성 — 추가 API 과금 ₩0'
+              : '한도의 ' + Math.round(pct) + '% 사용 중 · 100% 도달 시 자동 차단';
+        }
+
+        function renderSidebarChannels() {
+          var cur = state[currentPreset];
+          var box = document.getElementById('connected-apps-list');
+          box.innerHTML = (cur.channels || [])
+            .map(function (c) {
+              return '<span>' + esc(c) + '</span>';
+            })
+            .join('');
+        }
+
+        function renderKpis() {
+          var cur = state[currentPreset];
+          var strip = document.getElementById('kpi-strip');
+          strip.innerHTML = (cur.kpis || [])
+            .map(function (k) {
+              var maskedVal =
+                currentRole === 'ta' && /수납|원비/.test(k.label) ? '🔒 원장 전용' : k.val;
+              var maskedSub =
+                currentRole === 'ta' && /수납|원비/.test(k.label) ? '강사·조교 권한 비공개' : k.sub;
+              return (
+                '<div class="st-kpi">' +
+                '<span class="st-kpi-label">' +
+                esc(k.label) +
+                '</span>' +
+                '<strong class="st-kpi-val">' +
+                esc(maskedVal) +
+                '</strong>' +
+                '<span class="st-kpi-sub">' +
+                esc(maskedSub) +
+                '</span>' +
+                '</div>'
+              );
+            })
+            .join('');
+        }
+
+        function renderPrompts() {
+          var cur = state[currentPreset];
+          var box = document.getElementById('quick-prompts');
+          box.innerHTML = cur.prompts
+            .map(function (p) {
+              return '<button type="button" class="st-chip" data-prompt="' + esc(p) + '">✦ ' + esc(p) + '</button>';
+            })
+            .join('');
+        }
+
+        function renderBriefings() {
+          var cur = state[currentPreset];
+          var list = document.getElementById('briefing-list');
+          list.innerHTML = cur.briefings
+            .map(function (b, bIdx) {
+              var noteHtml =
+                b.sensitive && currentRole === 'ta'
+                  ? '<p style="padding:10px 12px;border-radius:8px;background:var(--warn-bg);color:var(--warn-ink);font-size:13px;">🔒 [원장·담임·담당교수 전용 민감 수납·상담 메모 — 강사/조교 권한에서는 자동 비공개 처리됨]</p>'
+                  : b.sensitiveNote
+                    ? '<p style="padding:10px 12px;border-radius:8px;background:var(--brand-soft);font-size:14px;"><strong>핵심 관리 맥락:</strong> ' +
+                      esc(b.sensitiveNote) +
+                      '</p>'
+                    : '';
+              var checksHtml = (b.checks || [])
+                .map(function (c, cIdx) {
+                  return (
+                    '<li><label><input type="checkbox" data-bidx="' +
+                    bIdx +
+                    '" data-cidx="' +
+                    cIdx +
+                    '" ' +
+                    (c.done ? 'checked' : '') +
+                    ' /><span>' +
+                    esc(c.text) +
+                    '</span></label></li>'
+                  );
+                })
+                .join('');
+              return (
+                '<article class="st-card">' +
+                '<div class="st-card-top"><span class="st-tag">' +
+                esc(b.tag) +
+                '</span><button type="button" class="st-btn st-btn-sm" data-copy-brief="' +
+                bIdx +
+                '">브리핑 복사</button></div>' +
+                '<h3>' +
+                esc(b.title) +
+                '</h3>' +
+                '<p>' +
+                esc(b.summary) +
+                '</p>' +
+                noteHtml +
+                '<ul class="st-checklist">' +
+                checksHtml +
+                '</ul>' +
+                '</article>'
+              );
+            })
+            .join('');
+        }
+
+        function renderApprovals() {
+          var cur = state[currentPreset];
+          var badge = document.getElementById('approval-badge');
+          badge.textContent = String(cur.approvals.length);
+          var list = document.getElementById('approval-list');
+          if (!cur.approvals.length) {
+            list.innerHTML =
+              '<div class="st-card"><p style="text-align:center;color:var(--ink-muted);padding:16px 0;">현재 대기 중인 승인 요청이 모두 처리되었습니다. [3. 원생·학생 현황] 또는 [4. 실제 AI 에이전트 지시] 탭에서 새 알림톡·공지 초안을 생성해 보세요!</p></div>';
+            return;
+          }
+          var approveBtnLabel =
+            currentRole === 'ta' ? '문구 검토 완료 · 원장/담임 결재 상신' : '검토 완료 · 최종 발송 승인';
+          list.innerHTML = cur.approvals
+            .map(function (a, idx) {
+              return (
+                '<article class="st-card">' +
+                '<div class="st-card-top"><span class="st-tag st-tag-warn">승인 필요 · ' +
+                esc(a.app) +
+                '</span><span style="font-size:12.5px;color:var(--ink-muted);font-weight:600;">' +
+                esc(a.scope) +
+                '</span></div>' +
+                '<h3>' +
+                esc(a.title) +
+                '</h3>' +
+                '<label class="sr-only" for="draft-' +
+                esc(a.id) +
+                '">발송 전 초안 문구 직접 수정</label>' +
+                '<textarea id="draft-' +
+                esc(a.id) +
+                '" class="st-draft-box" data-draft-idx="' +
+                idx +
+                '">' +
+                esc(a.draft) +
+                '</textarea>' +
+                '<div class="st-card-actions">' +
+                '<button type="button" class="st-btn st-btn-primary" data-approve="' +
+                idx +
+                '">' +
+                approveBtnLabel +
+                '</button>' +
+                '<button type="button" class="st-btn st-btn-danger" data-reject="' +
+                idx +
+                '">보류 · 반려</button>' +
+                '</div>' +
+                '</article>'
+              );
+            })
+            .join('');
+        }
+
+        function renderRosterAndWorksheets() {
+          var cur = state[currentPreset];
+          var tbody = document.getElementById('roster-tbody');
+          var wsBadge = document.getElementById('worksheet-badge');
+          wsBadge.textContent = String((cur.worksheets || []).length);
+
+          tbody.innerHTML = (cur.roster || [])
+            .map(function (s, idx) {
+              var isAlertAtt = /미등원|지연|결석/.test(s.attendance);
+              var isOverdue = /미납/.test(s.tuitionStatus);
+              var billingCell =
+                currentRole === 'ta'
+                  ? '<span class="st-tag">🔒 수납·민감메모 원장 전용</span>'
+                  : '<div><span class="st-tag ' +
+                    (isOverdue ? 'st-tag-danger' : '') +
+                    '">' +
+                    esc(s.tuitionStatus) +
+                    (s.tuitionAmount && s.tuitionAmount !== '-' ? ' · ' + esc(s.tuitionAmount) : '') +
+                    '</span><span class="st-student-sub" style="margin-top:4px;">' +
+                    esc(s.sensitiveMemo) +
+                    '</span></div>';
+
+              return (
+                '<tr>' +
+                '<td><span class="st-student-name">' +
+                esc(s.name) +
+                '</span><span class="st-student-sub">' +
+                esc(s.grade) +
+                '</span></td>' +
+                '<td><button type="button" class="st-btn st-btn-sm" data-toggle-att="' +
+                idx +
+                '" aria-label="' +
+                esc(s.name) +
+                ' 출결 상태 전환"><span class="st-tag ' +
+                (isAlertAtt ? 'st-tag-danger' : '') +
+                '">' +
+                esc(s.attendance) +
+                '</span></button></td>' +
+                '<td><strong>' +
+                esc(s.recentScore) +
+                '</strong><span class="st-student-sub">취약: ' +
+                esc(s.weakTopic) +
+                '</span></td>' +
+                '<td>' +
+                billingCell +
+                '</td>' +
+                '<td><div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+                '<button type="button" class="st-btn st-btn-sm st-btn-primary" data-ai-msg="' +
+                idx +
+                '">✦ 알림톡 초안</button>' +
+                '<button type="button" class="st-btn st-btn-sm" data-ai-clinic="' +
+                idx +
+                '">✦ 오답 클리닉</button>' +
+                '</div></td>' +
+                '</tr>'
+              );
+            })
+            .join('');
+
+          var wList = document.getElementById('worksheet-list');
+          wList.innerHTML = (cur.worksheets || [])
+            .map(function (w, wIdx) {
+              var qHtml = (w.questions || [])
+                .map(function (qItem) {
+                  return (
+                    '<li class="st-q-item">' +
+                    '<strong>' +
+                    esc(qItem.q) +
+                    '</strong>' +
+                    '<div class="st-q-tip">💡 ' +
+                    esc(qItem.answerAndTip) +
+                    '</div>' +
+                    '</li>'
+                  );
+                })
+                .join('');
+              return (
+                '<article class="st-card">' +
+                '<div class="st-card-top"><span class="st-tag">' +
+                esc(w.createdAt) +
+                ' · ' +
+                esc(w.targetGroup) +
+                '</span><button type="button" class="st-btn st-btn-sm" data-copy-ws="' +
+                wIdx +
+                '">학습지 전체 복사</button></div>' +
+                '<h3>' +
+                esc(w.topic) +
+                '</h3>' +
+                '<ul class="st-q-list">' +
+                qHtml +
+                '</ul>' +
+                '</article>'
+              );
+            })
+            .join('');
+        }
+
+        function renderChat() {
+          var cur = state[currentPreset];
+          var log = document.getElementById('chat-log');
+          var html = cur.chat
+            .map(function (m) {
+              var metaHtml = '';
+              if (m.meta) {
+                var jumpBtns = '';
+                if (m.meta.approvals > 0) {
+                  jumpBtns +=
+                    ' <button type="button" class="st-btn st-btn-sm" data-jump-view="approvals">승인 대기함 보기 (' +
+                    m.meta.approvals +
+                    '건) →</button>';
+                }
+                if (m.meta.briefings > 0) {
+                  jumpBtns +=
+                    ' <button type="button" class="st-btn st-btn-sm" data-jump-view="briefings">새 브리핑 보기 →</button>';
+                }
+                if (m.meta.worksheets > 0) {
+                  jumpBtns +=
+                    ' <button type="button" class="st-btn st-btn-sm" data-jump-view="roster">생성된 클리닉 문항 보기 →</button>';
+                }
+                metaHtml =
+                  '<div class="st-msg-meta">' +
+                  '<span>실행 엔진: <strong>' +
+                  esc(m.meta.provider) +
+                  '</strong></span>' +
+                  (m.meta.tokens ? '<span>· 토큰: ' + m.meta.tokens.toLocaleString() + '</span>' : '') +
+                  (m.meta.costKrw != null ? '<span>· 비용: ₩' + m.meta.costKrw + '</span>' : '') +
+                  jumpBtns +
+                  '</div>';
+              }
+              return (
+                '<div class="st-msg ' +
+                (m.who === 'user' ? 'st-msg-user' : 'st-msg-agent') +
+                '">' +
+                esc(m.text) +
+                metaHtml +
+                '</div>'
+              );
+            })
+            .join('');
+
+          if (isAgentBusy) {
+            html +=
+              '<div class="st-msg-thinking">✦ 실제 AI 에이전트가 로컬 원생/학생 기록을 조회하고 도구를 실행 중입니다…</div>';
+          }
+          log.innerHTML = html;
+          log.scrollTop = log.scrollHeight;
+        }
+
+        function renderMemoryAndSchedules() {
+          var cur = state[currentPreset];
+          var mList = document.getElementById('memory-list');
+          mList.innerHTML = cur.memories
+            .map(function (m, idx) {
+              var hiddenForTa = m.sensitive && currentRole === 'ta';
+              return (
+                '<article class="st-card">' +
+                '<div class="st-card-top"><span class="st-tag">' +
+                esc(m.cat) +
+                '</span><span style="font-size:12px;color:var(--ink-muted);">' +
+                esc(m.date) +
+                '</span></div>' +
+                '<p>' +
+                (hiddenForTa
+                  ? '🔒 [원장·담임·담당교수 전용 민감 운영/상담 기억 항목 — 권한에 의해 마스킹됨]'
+                  : esc(m.text)) +
+                '</p>' +
+                (hiddenForTa
+                  ? ''
+                  : '<div class="st-card-actions"><button type="button" class="st-btn st-btn-sm st-btn-danger" data-forget="' +
+                    idx +
+                    '">즉시 영구 삭제 (잊기)</button></div>') +
+                '</article>'
+              );
+            })
+            .join('');
+
+          var sList = document.getElementById('schedule-list');
+          sList.innerHTML = cur.schedules
+            .map(function (s, idx) {
+              return (
+                '<article class="st-card">' +
+                '<div class="st-card-top"><strong>' +
+                esc(s.name) +
+                '</strong><span class="st-tag">' +
+                (s.active ? '상시 가동 중' : '일시정지됨') +
+                '</span></div>' +
+                '<p style="font-size:13.5px;color:var(--ink-muted);">실행 주기: ' +
+                esc(s.cadence) +
+                ' · 최근 상태: ' +
+                esc(s.last) +
+                '</p>' +
+                '<div class="st-card-actions">' +
+                '<button type="button" class="st-btn st-btn-sm st-btn-primary" data-run-sched="' +
+                idx +
+                '">✦ 지금 AI 점검 실행</button>' +
+                '<button type="button" class="st-btn st-btn-sm" data-toggle-sched="' +
+                idx +
+                '">' +
+                (s.active ? '일시정지' : '다시 켜기') +
+                '</button>' +
+                '</div>' +
+                '</article>'
+              );
+            })
+            .join('');
+        }
+
+        function renderAudits() {
+          var cur = state[currentPreset];
+          var aList = document.getElementById('audit-list');
+          aList.innerHTML = cur.audits
+            .map(function (a) {
+              return (
+                '<li><span class="st-audit-time">' +
+                esc(a.time) +
+                '</span><span>' +
+                esc(a.msg) +
+                '</span></li>'
+              );
+            })
+            .join('');
+        }
+
+        function renderAll() {
+          document.getElementById('ta-notice').hidden = currentRole !== 'ta';
+          renderBudget();
+          renderSidebarChannels();
+          renderKpis();
+          renderPrompts();
+          renderBriefings();
+          renderApprovals();
+          renderRosterAndWorksheets();
+          renderChat();
+          renderMemoryAndSchedules();
+          renderAudits();
+        }
+
+        // Tab Switching
+        var navBtns = document.querySelectorAll('.st-nav-btn[data-view]');
+        var panels = {
+          briefings: document.getElementById('panel-briefings'),
+          approvals: document.getElementById('panel-approvals'),
+          roster: document.getElementById('panel-roster'),
+          chat: document.getElementById('panel-chat'),
+          memory: document.getElementById('panel-memory'),
+        };
+        function switchView(view) {
+          navBtns.forEach(function (b) {
+            b.setAttribute('aria-selected', String(b.getAttribute('data-view') === view));
+          });
+          Object.keys(panels).forEach(function (k) {
+            panels[k].hidden = k !== view;
+          });
+        }
+        navBtns.forEach(function (b) {
+          b.addEventListener('click', function () {
+            switchView(b.getAttribute('data-view'));
+          });
+        });
+
+        // Core Live AI Agent Runner (/api/agent/run with graceful offline fallback)
+        async function executeRealAgentInstruction(promptText, opts) {
+          opts = opts || {};
+          if (isAgentBusy) {
+            window.showEduToast('현재 AI 에이전트가 이전 지시를 처리 중입니다.');
+            return;
+          }
+          var cur = state[currentPreset];
+          if (!opts.silentUserBubble) {
+            cur.chat.push({ who: 'user', text: promptText });
+          }
+          isAgentBusy = true;
+          setBusyButtons(true);
+          renderChat();
+
+          try {
+            var res = await fetch('/api/agent/run', {
+              method: 'POST',
+              headers: buildAgentHeaders(),
+              body: JSON.stringify({
+                preset: currentPreset,
+                role: currentRole,
+                preferredProvider: currentModel,
+                userMessage: promptText,
+                history: cur.chat.slice(-8),
+                workspace: {
+                  roster: cur.roster,
+                  memories: cur.memories,
+                  schedules: cur.schedules,
+                },
+              }),
+            });
+
+            var data = await res.json();
+            if (!res.ok || !data.ok) {
+              throw new Error(data.error || 'Agent HTTP ' + res.status);
+            }
+
+            var eff = data.effects || {};
+            (eff.briefings || []).forEach(function (b) {
+              cur.briefings.unshift(b);
+            });
+            (eff.approvals || []).forEach(function (a) {
+              cur.approvals.unshift(a);
+            });
+            (eff.worksheets || []).forEach(function (w) {
+              cur.worksheets.unshift(w);
+            });
+            (eff.memories || []).forEach(function (m) {
+              cur.memories.unshift(m);
+            });
+            (eff.audits || []).forEach(function (au) {
+              cur.audits.unshift({ time: nowTime(), msg: au });
+            });
+            if (cur.audits.length > 18) cur.audits = cur.audits.slice(0, 18);
+
+            chargeTokens(data.costKrw || 25);
+
+            cur.chat.push({
+              who: 'agent',
+              text: data.reply,
+              meta: {
+                provider: data.provider,
+                tokens: data.tokens || 0,
+                costKrw: data.costKrw || 0,
+                briefings: (eff.briefings || []).length,
+                approvals: (eff.approvals || []).length,
+                worksheets: (eff.worksheets || []).length,
+              },
+            });
+
+            saveState();
+            isAgentBusy = false;
+            setBusyButtons(false);
+            renderAll();
+
+            if (opts.onSuccessToast) {
+              window.showEduToast(opts.onSuccessToast);
+            } else if ((eff.approvals || []).length > 0) {
+              window.showEduToast('AI가 작성한 초안이 [2. 최종 승인 대기함]에 안전하게 격리 등록되었습니다.');
+            } else if ((eff.worksheets || []).length > 0) {
+              window.showEduToast('AI 맞춤 오답 클리닉 문항지가 생성되었습니다!');
+            } else if ((eff.briefings || []).length > 0) {
+              window.showEduToast('AI 실시간 브리핑 카드가 상단에 생성되었습니다!');
+            }
+          } catch (err) {
+            // Graceful local fallback if static build or local Ollama not started
+            var fallbackMsg =
+              '[로컬 폴백 안내: ' +
+              (err.message || '서버 미연결') +
+              '] 로컬 원생 데이터를 기반으로 초안을 승인 대기함에 임시 생성했습니다.';
+            if (/알림톡|초안|안내|발송|문자|공지|리포트/.test(promptText)) {
+              cur.approvals.unshift({
+                id: 'ap_fb_' + Date.now(),
+                app: currentPreset.indexOf('academy') === 0 ? '학원 알림톡 (로컬 폴백)' : '기관 소통 채널',
+                scope: '지시 기반 생성 초안',
+                title: '[초안] ' + promptText.slice(0, 34),
+                draft:
+                  '안녕하세요 학부모님, 에듀노드입니다. 요청하신 "' +
+                  promptText +
+                  '" 관련 안내 문구 초안입니다. 세부 일정을 확인 후 발송 승인해 주세요.',
+              });
+            }
+            cur.chat.push({
+              who: 'agent',
+              text: fallbackMsg,
+              meta: { provider: '로컬 오프라인 폴백', tokens: 0, costKrw: 0, approvals: 1, briefings: 0, worksheets: 0 },
+            });
+            addAudit('[폴백 전환] ' + (err.message || '오프라인 모드 응답'));
+            isAgentBusy = false;
+            setBusyButtons(false);
+            saveState();
+            renderAll();
+            window.showEduToast('에이전트 연결을 확인해 주세요: ' + (err.message || '오류'));
+          }
+        }
+
+        function setBusyButtons(busy) {
+          ['gen-brief-btn', 'clinic-submit-btn', 'chat-send-btn'].forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) el.disabled = busy;
+          });
+        }
+
+        // Top Selectors
+        document.getElementById('preset-select').addEventListener('change', function (e) {
+          currentPreset = e.target.value;
+          renderAll();
+          var names = {
+            academy_director: '학원 운영자(원장·실장) 모드로 전환되었습니다.',
+            academy_instructor: '학원 강사(수업·오답 클리닉) 모드로 전환되었습니다.',
+            k12: '초·중·고 담임·교과 모드로 전환되었습니다.',
+            univ: '대학 강의·연구실 모드로 전환되었습니다.',
+          };
+          window.showEduToast(names[currentPreset] || '모드가 전환되었습니다.');
+        });
+
+        document.getElementById('role-select').addEventListener('change', function (e) {
+          currentRole = e.target.value;
+          addAudit(
+            currentRole === 'ta'
+              ? '[권한 전환] 강사·조교(제한 권한) 적용 — 원장 수납 원장 및 민감 메모 마스킹'
+              : '[권한 전환] 원장·담임·담당교수(최종 승인권자) 뷰 적용'
+          );
+          renderAll();
+        });
+
+        document.getElementById('model-select').addEventListener('change', function (e) {
+          currentModel = e.target.value;
+          addAudit('[에이전트 엔진 선택] ' + e.target.options[e.target.selectedIndex].text);
+          renderBudget();
+        });
+
+        // Briefing interactions (Live AI Agent Briefing Generation!)
+        document.getElementById('briefing-list').addEventListener('change', function (e) {
+          var cb = e.target.closest('input[data-bidx]');
+          if (!cb) return;
+          var bIdx = Number(cb.getAttribute('data-bidx'));
+          var cIdx = Number(cb.getAttribute('data-cidx'));
+          state[currentPreset].briefings[bIdx].checks[cIdx].done = cb.checked;
+          saveState();
+        });
+
+        document.getElementById('briefing-list').addEventListener('click', function (e) {
+          var copyBtn = e.target.closest('button[data-copy-brief]');
+          if (!copyBtn) return;
+          var b = state[currentPreset].briefings[Number(copyBtn.getAttribute('data-copy-brief'))];
+          var txt = '# ' + b.title + '\n' + b.summary;
+          navigator.clipboard?.writeText(txt).catch(function () {});
+          window.showEduToast('브리핑 요약이 클립보드에 복사되었습니다.');
+        });
+
+        document.getElementById('gen-brief-btn').addEventListener('click', function () {
+          var topic = document.getElementById('new-brief-topic').value;
+          var promptMap = {
+            attendance_billing:
+              '현재 로컬 원생/학생 명단(query_workspace_records)을 조회해서 미등원/결석 현황과 수납/재등록 챙길 대상을 정리한 새 브리핑 카드를 create_briefing 도구로 생성해줘.',
+            clinic_exam:
+              '현재 로컬 원생/학생 성적과 취약 단원을 조회해서 다음 수업 오답 클리닉 및 평가 대비 실행 브리핑 카드를 create_briefing 도구로 생성해줘.',
+            counsel_churn:
+              '현재 로컬 원생/학생 기록과 기억장을 조회해서 신규 상담 대상자 및 성적/출결 저하 주의군 케어 전략 브리핑 카드를 create_briefing 도구로 생성해줘.',
+          };
+          window.showEduToast('실제 AI 에이전트가 로컬 원생 데이터를 분석해 브리핑을 생성 중입니다…');
+          executeRealAgentInstruction(promptMap[topic] || promptMap.attendance_billing, {
+            onSuccessToast: '실제 AI 에이전트가 새 맞춤 브리핑 카드를 생성했습니다!',
+          });
+        });
+
+        // Approvals interactions
+        document.getElementById('approval-list').addEventListener('input', function (e) {
+          var ta = e.target.closest('textarea[data-draft-idx]');
+          if (!ta) return;
+          var idx = Number(ta.getAttribute('data-draft-idx'));
+          state[currentPreset].approvals[idx].draft = ta.value;
+          saveState();
+        });
+
+        document.getElementById('approval-list').addEventListener('click', function (e) {
+          var apBtn = e.target.closest('button[data-approve]');
+          var rjBtn = e.target.closest('button[data-reject]');
+          if (!apBtn && !rjBtn) return;
+          var idx = Number((apBtn || rjBtn).getAttribute(apBtn ? 'data-approve' : 'data-reject'));
+          var item = state[currentPreset].approvals[idx];
+          if (!item) return;
+
+          if (apBtn && currentRole === 'ta') {
+            if (item.app.indexOf('결재 대기') === -1) {
+              item.app = item.app + ' (강사/TA 검토 완료 → 원장/담임 결재 대기)';
+            }
+            addAudit('[결재 상신] "' + item.title + '" 초안이 최종 승인권자(원장/담임)에게 상신됨');
+            saveState();
+            renderApprovals();
+            window.showEduToast('원장님·담임 선생님 최종 결재함으로 상신되었습니다.');
+            return;
+          }
+
+          state[currentPreset].approvals.splice(idx, 1);
+          if (apBtn) {
+            addAudit('[최종 승인 · 발송 완료] ' + item.app + ' — "' + item.title + '"');
+            window.showEduToast('최종 승인이 완료되어 안전하게 발송 처리되었습니다.');
+          } else {
+            addAudit('[반려 · 발송 차단] ' + item.app + ' — "' + item.title + '" 폐기됨');
+            window.showEduToast('초안이 반려되어 외부로 전송되지 않았습니다.');
+          }
+          saveState();
+          renderApprovals();
+        });
+
+        // Roster & Clinic Worksheet interactions
+        document.getElementById('roster-tbody').addEventListener('click', function (e) {
+          var attBtn = e.target.closest('button[data-toggle-att]');
+          var msgBtn = e.target.closest('button[data-ai-msg]');
+          var clBtn = e.target.closest('button[data-ai-clinic]');
+          var cur = state[currentPreset];
+
+          if (attBtn) {
+            var idx = Number(attBtn.getAttribute('data-toggle-att'));
+            var st = cur.roster[idx];
+            st.attendance = /미등원|지연|결석/.test(st.attendance) ? '출석 완료 (방금 체크)' : '미등원 지연 (확인 필요)';
+            addAudit('[출결 상태 업데이트] ' + st.name + ' → ' + st.attendance);
+            saveState();
+            renderRosterAndWorksheets();
+            return;
+          }
+
+          if (msgBtn) {
+            var s1 = cur.roster[Number(msgBtn.getAttribute('data-ai-msg'))];
+            var p1 =
+              s1.name +
+              '(' +
+              s1.grade +
+              ') 원생/학생의 현재 출결·성적·상담 맥락을 로컬에서 조회해서 학부모님께 보낼 맞춤형 알림톡/안내 초안을 propose_external_message 도구로 승인 대기함에 작성해줘.';
+            switchView('chat');
+            executeRealAgentInstruction(p1);
+            return;
+          }
+
+          if (clBtn) {
+            var s2 = cur.roster[Number(clBtn.getAttribute('data-ai-clinic'))];
+            var p2 =
+              s2.name +
+              '(' +
+              s2.grade +
+              ') 학생의 취약 단원("' +
+              s2.weakTopic +
+              '")을 보완할 맞춤형 오답 클리닉 3문항과 지도 해설 팁을 generate_clinic_worksheet 도구로 생성해줘.';
+            window.showEduToast(s2.name + ' 맞춤 오답 클리닉 문항을 실제 AI로 생성 중입니다…');
+            executeRealAgentInstruction(p2, {
+              onSuccessToast: s2.name + ' 맞춤 오답 클리닉 문항지가 아래 목록에 추가되었습니다!',
+            });
+          }
+        });
+
+        document.getElementById('clinic-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var target = document.getElementById('clinic-target').value.trim();
+          var topic = document.getElementById('clinic-topic').value.trim();
+          if (!target || !topic) return;
+          document.getElementById('clinic-target').value = '';
+          document.getElementById('clinic-topic').value = '';
+          window.showEduToast('실제 AI 에이전트가 클리닉 문항과 해설을 출제 중입니다…');
+          executeRealAgentInstruction(
+            '대상 "' +
+              target +
+              '", 단원/주제 "' +
+              topic +
+              '" 조건에 맞춰 실전 오답 클리닉 변형 문항 3개와 강사용 핵심 지도 포인트를 generate_clinic_worksheet 도구로 생성해줘.'
+          );
+        });
+
+        document.getElementById('worksheet-list').addEventListener('click', function (e) {
+          var copyBtn = e.target.closest('button[data-copy-ws]');
+          if (!copyBtn) return;
+          var ws = state[currentPreset].worksheets[Number(copyBtn.getAttribute('data-copy-ws'))];
+          var lines = ['[' + ws.targetGroup + '] ' + ws.topic, ''];
+          (ws.questions || []).forEach(function (q) {
+            lines.push(q.q);
+            lines.push('  → 해설/지도팁: ' + q.answerAndTip);
+            lines.push('');
+          });
+          navigator.clipboard?.writeText(lines.join('\n')).catch(function () {});
+          window.showEduToast('클리닉 문항지와 해설이 클립보드에 복사되었습니다.');
+        });
+
+        // Chat interactions
+        document.getElementById('quick-prompts').addEventListener('click', function (e) {
+          var chip = e.target.closest('button[data-prompt]');
+          if (!chip) return;
+          executeRealAgentInstruction(chip.getAttribute('data-prompt'));
+        });
+
+        document.getElementById('chat-log').addEventListener('click', function (e) {
+          var jump = e.target.closest('button[data-jump-view]');
+          if (!jump) return;
+          switchView(jump.getAttribute('data-jump-view'));
+        });
+
+        document.getElementById('chat-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var inp = document.getElementById('chat-input');
+          var val = inp.value.trim();
+          if (!val) return;
+          inp.value = '';
+          executeRealAgentInstruction(val);
+        });
+
+        // Memory & Schedule interactions
+        document.getElementById('memory-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var cat = document.getElementById('memory-cat').value;
+          var inp = document.getElementById('memory-input');
+          var val = inp.value.trim();
+          if (!val) return;
+          state[currentPreset].memories.unshift({
+            id: 'm_' + Date.now(),
+            cat: cat,
+            date: '방금 직접 등록됨',
+            sensitive: cat === '상담·배려 메모' || cat === '수납·운영 원칙',
+            text: val,
+          });
+          inp.value = '';
+          addAudit('[기억장 등록] (' + cat + ') 새 운영·수업 원칙이 로컬 DB에 저장됨');
+          saveState();
+          renderMemoryAndSchedules();
+          window.showEduToast('새 원칙이 로컬 기억장에 저장되었습니다.');
+        });
+
+        document.getElementById('memory-list').addEventListener('click', function (e) {
+          var btn = e.target.closest('button[data-forget]');
+          if (!btn) return;
+          var idx = Number(btn.getAttribute('data-forget'));
+          var removed = state[currentPreset].memories.splice(idx, 1)[0];
+          addAudit('[기억 영구 파기] "' + removed.text.slice(0, 22) + '…" 항목 삭제 완료');
+          saveState();
+          renderMemoryAndSchedules();
+          window.showEduToast('선택한 기억이 로컬 DB에서 영구 삭제되었습니다.');
+        });
+
+        document.getElementById('schedule-list').addEventListener('click', function (e) {
+          var runBtn = e.target.closest('button[data-run-sched]');
+          var togBtn = e.target.closest('button[data-toggle-sched]');
+          if (runBtn) {
+            var idx = Number(runBtn.getAttribute('data-run-sched'));
+            var s = state[currentPreset].schedules[idx];
+            s.last = '방금 실제 AI 점검 요청됨 (' + nowTime() + ')';
+            saveState();
+            renderMemoryAndSchedules();
+            window.showEduToast('실제 AI 에이전트가 "' + s.name + '" 정기 점검을 즉시 수행합니다…');
+            executeRealAgentInstruction(
+              '정기 스케줄 작업 "' +
+                s.name +
+                '"을 지금 즉시 실행해서 로컬 원생/학생 데이터를 점검하고, 필요한 알림톡/공지 초안이나 브리핑이 있으면 도구를 호출해 등록해줘.'
+            );
+          } else if (togBtn) {
+            var idx2 = Number(togBtn.getAttribute('data-toggle-sched'));
+            var s2 = state[currentPreset].schedules[idx2];
+            s2.active = !s2.active;
+            addAudit('[스케줄 상태 변경] "' + s2.name + '" → ' + (s2.active ? '활성' : '일시정지'));
+            saveState();
+            renderMemoryAndSchedules();
+          }
+        });
+
+        // Agent Settings Modal
+        var cfgModal = document.getElementById('agent-settings-modal');
+        function openCfgModal() {
+          var cfg = getSessionCfg();
+          document.getElementById('cfg-gemini-key').value = cfg.geminiKey || '';
+          document.getElementById('cfg-anthropic-key').value = cfg.anthropicKey || '';
+          document.getElementById('cfg-local-url').value = cfg.localUrl || '';
+          document.getElementById('cfg-local-model').value = cfg.localModel || '';
+          cfgModal.hidden = false;
+        }
+        function closeCfgModal() {
+          cfgModal.hidden = true;
+        }
+        document.getElementById('open-agent-settings').addEventListener('click', openCfgModal);
+        document.getElementById('chat-open-settings-btn').addEventListener('click', openCfgModal);
+        document.getElementById('close-agent-settings').addEventListener('click', closeCfgModal);
+        cfgModal.addEventListener('click', function (e) {
+          if (e.target === cfgModal) closeCfgModal();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !cfgModal.hidden) closeCfgModal();
+        });
+
+        document.getElementById('save-agent-cfg').addEventListener('click', function () {
+          saveSessionCfg({
+            geminiKey: document.getElementById('cfg-gemini-key').value.trim(),
+            anthropicKey: document.getElementById('cfg-anthropic-key').value.trim(),
+            localUrl: document.getElementById('cfg-local-url').value.trim(),
+            localModel: document.getElementById('cfg-local-model').value.trim(),
+          });
+          closeCfgModal();
+          checkAgentStatus();
+          window.showEduToast('AI 에이전트 연결 설정이 현재 세션에 적용되었습니다.');
+        });
+
+        document.getElementById('clear-agent-cfg').addEventListener('click', function () {
+          saveSessionCfg({ geminiKey: '', anthropicKey: '', localUrl: '', localModel: '' });
+          document.getElementById('cfg-gemini-key').value = '';
+          document.getElementById('cfg-anthropic-key').value = '';
+          document.getElementById('cfg-local-url').value = '';
+          document.getElementById('cfg-local-model').value = '';
+          checkAgentStatus();
+          window.showEduToast('세션 입력값이 초기화되어 서버 기본 키 설정으로 복귀했습니다.');
+        });
+
+        document.getElementById('reset-demo-btn').addEventListener('click', function () {
+          state = clone(PRESETS);
+          saveState();
+          renderAll();
+          window.showEduToast('스튜디오 실습 데이터가 초기 상태로 복원되었습니다.');
+        });
+
+        renderAll();
+        checkAgentStatus();
+      })();
+    </script>
+  </body>
+</html>

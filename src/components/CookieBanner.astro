@@ -1,0 +1,55 @@
+---
+// 수정 완비된 로컬 저장소/개인정보 안내 배너 (미동의 시 정상 노출, 세부 설정 토글 지원)
+---
+<div class="en-cookie-bar" id="cookie-overlay" hidden>
+  <div class="en-cookie-card" role="region" aria-labelledby="cookie-title">
+    <div>
+      <h2 id="cookie-title">로컬 환경설정 및 개인정보 안내</h2>
+      <p>
+        에듀노드 웹사이트는 광고 추적 픽셀이나 제3자 마케팅 쿠키를 일절 사용하지 않습니다. 화면 테마, 스튜디오 실습 데이터 등 브라우저 내 로컬 저장소(LocalStorage) 활용 여부를 직접 선택하실 수 있습니다.
+      </p>
+    </div>
+    <div class="en-cookie-prefs" id="cookie-prefs" hidden>
+      <label><input type="checkbox" checked disabled /> 필수 로컬 저장소 (동의 여부 기억)</label>
+      <label><input type="checkbox" id="pref-ui" checked /> 테마 및 스튜디오 실습 상태 보존</label>
+      <label><input type="checkbox" id="pref-diag" /> 익명 오류 진단 허용 (대화·파일 제외)</label>
+    </div>
+    <div class="en-cookie-actions">
+      <button type="button" data-cookie="essential">필수 항목만 유지</button>
+      <button type="button" data-cookie-toggle>세부 설정</button>
+      <button type="button" data-cookie="accept" class="primary">확인 및 저장</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('cookie-overlay');
+    var prefs = document.getElementById('cookie-prefs');
+    if (!bar) return;
+    try {
+      if (!localStorage.getItem('edunod-cookie')) {
+        bar.hidden = false;
+      }
+    } catch (e) {
+      bar.hidden = false;
+    }
+    bar.addEventListener('click', function (ev) {
+      var toggleBtn = ev.target.closest('button[data-cookie-toggle]');
+      if (toggleBtn && prefs) {
+        prefs.hidden = !prefs.hidden;
+        toggleBtn.textContent = prefs.hidden ? '세부 설정' : '설정 접기';
+        return;
+      }
+      var choiceBtn = ev.target.closest('button[data-cookie]');
+      if (!choiceBtn) return;
+      try {
+        localStorage.setItem('edunod-cookie', choiceBtn.dataset.cookie || 'accept');
+      } catch (e) {}
+      bar.hidden = true;
+      if (window.showEduToast) {
+        window.showEduToast('개인정보 및 로컬 저장소 설정이 저장되었습니다.');
+      }
+    });
+  })();
+</script>

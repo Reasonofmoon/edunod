@@ -1,0 +1,16 @@
+---
+// "Related resources" link cards.
+interface Item { label: string; href: string; note?: string; }
+interface Props { items: Item[]; }
+const { items } = Astro.props;
+---
+<ul class="doc-related">
+  {items.map((i) => (
+    <li>
+      <a href={i.href}>
+        <span><b>{i.label}</b>{i.note && <small>{i.note}</small>}</span>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </li>
+  ))}
+</ul>

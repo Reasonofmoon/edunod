@@ -1,0 +1,25 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  big?: boolean;
+  external?: boolean;
+}
+const { href, variant = 'primary', big = false, external = false } = Astro.props;
+const cls = [
+  'lp-btn',
+  variant === 'primary' ? 'lp-btn-primary' : 'lp-btn-secondary',
+  big ? 'lp-btn-big' : '',
+]
+  .join(' ')
+  .trim();
+---
+<div class="lp-btn-wrap">
+  <a class={cls} href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+    <slot />
+  </a>
+  <img src="/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tl" />
+  <img src="/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tr" />
+  <img src="/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair bl" />
+  <img src="/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair br" />
+</div>

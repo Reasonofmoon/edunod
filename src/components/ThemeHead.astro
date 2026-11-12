@@ -1,0 +1,20 @@
+---
+// FOUC 방지를 위한 인라인 테마 초기화 및 웹폰트 로드
+---
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+/>
+<script is:inline>
+  (function () {
+    try {
+      var saved = localStorage.getItem('edunod-theme');
+      if (saved === 'dark' || saved === 'light') {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    } catch (e) {}
+  })();
+</script>
