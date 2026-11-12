@@ -4,6 +4,16 @@
 
 에듀노드(EduNod)는 원생·학생 개인정보와 수납 원장을 로컬 환경에 안전하게 격리하면서, **실제 멀티스텝 도구 호출(Tool-Calling) AI 에이전트**와 **인간 최종 승인 게이트(Trust Check)**를 결합한 교육 기관 전용 AI 조교 웹 애플리케이션입니다.
 
+> **인터랙티브 HTML 제품 카탈로그**: 서버 실행 후 `/catalog/` 라우트에서 고해상도 스크린샷 갤러리, 아키텍처 다이어그램, 업무 절감 차트, 인터랙티브 ROI 시뮬레이터 및 PDF 브로슈어 인쇄 기능을 확인할 수 있습니다.
+
+## 실시간 작동 데모 (GIF) & 대표 화면
+
+| ① 실제 AI 도구 호출 & Trust Check 결재 워크플로우 | ② 원장·강사 수납 RBAC 실시간 마스킹 & 오답 클리닉 |
+| :---: | :---: |
+| ![Live AI Agent Flow](./public/catalog/demo-live-agent-flow.gif) | ![RBAC & Clinic Flow](./public/catalog/demo-rbac-clinic-flow.gif) |
+
+![학원 운영자(원장) 대시보드](./public/catalog/shot-director-briefing.png)
+
 ## 주요 기능
 
 - **4대 교육 현장 맞춤 모드 (`/studio/`)**
@@ -45,6 +55,7 @@ npm start
 │   ├── server/agent-runtime.mjs # 멀티 LLM 도구 호출(5종) + Trust Check + RBAC 런타임
 │   ├── pages/
 │   │   ├── index.astro         # 에듀노드 메인 랜딩 페이지
+│   │   ├── catalog/index.astro # 상세 HTML 제품 카탈로그 (스샷·GIF·다이어그램·ROI 계산기)
 │   │   ├── studio/index.astro  # 실시간 AI 에이전트 인터랙티브 스튜디오
 │   │   └── docs/               # 한국어 교육 도입 문서 가이드 (6개 섹션)
 │   ├── components/             # 공통 UI · 통합 검색(Ctrl+K) · 테마 스위치

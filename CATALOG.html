@@ -1,0 +1,489 @@
+<!DOCTYPE html><html lang="ko"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>에듀노드 (EduNod) 제품 상세 카탈로그 · 아키텍처 · 시각화 · 작동 GIF 브로슈어</title><meta name="description" content="실제 화면 스크린샷, 라이브 작동 GIF, 아키텍처 다이어그램, 업무 절감 데이터 시각화 및 인터랙티브 ROI 시뮬레이터로 살펴보는 에듀노드 교육 AI 에이전트 종합 카탈로그."><meta property="og:title" content="에듀노드 (EduNod) v2.5 공식 인터랙티브 제품 카탈로그"><meta property="og:description" content="실제 화면 스크린샷, 라이브 작동 GIF, 아키텍처 다이어그램, 업무 절감 데이터 시각화 및 인터랙티브 ROI 시뮬레이터로 살펴보는 에듀노드 교육 AI 에이전트 종합 카탈로그."><meta property="og:type" content="website"><meta name="theme-color" content="#1f6f54"><link rel="icon" href="./public/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('edunod-theme');
+      if (saved === 'dark' || saved === 'light') {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    } catch (e) {}
+  })();
+</script><style>
+:root{color-scheme:light;--bg-canvas: #faf8f4;--bg-surface: #ffffff;--bg-subtle: #f2efe8;--bg-raised: #f6f4ee;--bg-code: #f3f1eb;--bg-banner: #16211d;--banner-ink: #faf8f4;--ink: #18201d;--ink-body: #2a3530;--ink-muted: #4a5751;--ink-subtle: #66756e;--brand: #1f6f54;--brand-hover: #175842;--brand-ink: #ffffff;--brand-soft: #e6f3ee;--brand-border: #badbce;--accent: #c4552d;--accent-hover: #a84420;--accent-soft: #fdf0ea;--accent-border: #f2cab8;--tip-bg: #eaf6f0;--tip-border: #bfe2d0;--tip-ink: #155c42;--warn-bg: #fef6e6;--warn-border: #f0d8a8;--warn-ink: #7a4b00;--danger-bg: #fdf0ef;--danger-border: #f2c6c2;--danger-ink: #a6261d;--border: #e2ddd2;--border-strong: #cbc4b4;--dot-grid: #d4cec0;--overlay-bg: rgba(20, 30, 26, .48);--shadow-sm: 0 1px 2px rgba(24, 32, 29, .06);--shadow-md: 0 12px 32px -12px rgba(24, 32, 29, .14);--shadow-lg: 0 24px 60px -20px rgba(24, 32, 29, .24);--card-sage: #e6f3ee;--card-sand: #efeadd;--card-terracotta: #fcece4;--card-sky: #e9f1f7;--card-lavender: #f0eef8;--card-amber: #fbf3df;--radius-xs: 6px;--radius-sm: 8px;--radius-md: 12px;--radius-lg: 16px;--radius-xl: 24px;--radius-full: 9999px;--gutter: clamp(16px, 4.5vw, 56px);--section-gap: clamp(72px, 10vw, 112px);--w-content: 1280px;--w-hero-copy: 660px;--w-pillar-media: 740px;--w-claim: 400px;--font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;--fs-xs: 12px;--fs-sm: 13.5px;--fs-14: 14px;--fs-15: 15px;--fs-16: 16px;--fs-18: 18px;--fs-20: 20px;--fs-24: 24px;--fs-32: 32px;--fs-40: 40px;--fs-48: 48px;--doc-nav-height: 4rem;--doc-nav-height-mobile: 3.5rem;--doc-sidebar-width: 18.5rem;--doc-toc-width: 256px;--doc-toc-bar-height: 46px;--doc-content-width: 48rem;--doc-wide-width: 58rem}html[data-theme=dark]{color-scheme:dark;--bg-canvas: #111815;--bg-surface: #18221e;--bg-subtle: #202d28;--bg-raised: #151e1a;--bg-code: #1d2924;--bg-banner: #0c120f;--banner-ink: #eef3f0;--ink: #eef3f0;--ink-body: #d5e0da;--ink-muted: #9eb2a8;--ink-subtle: #7f948a;--brand: #3db88f;--brand-hover: #52c9a1;--brand-ink: #0c1713;--brand-soft: #19352b;--brand-border: #285646;--accent: #f08c67;--accent-hover: #f5a182;--accent-soft: #36221b;--accent-border: #5c372a;--tip-bg: #163026;--tip-border: #265442;--tip-ink: #7be0bc;--warn-bg: #332814;--warn-border: #5c4722;--warn-ink: #f6cc7a;--danger-bg: #361b19;--danger-border: #612e2a;--danger-ink: #f89890;--border: #293832;--border-strong: #3a4f46;--dot-grid: #2a3a33;--overlay-bg: rgba(5, 10, 8, .72);--shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);--shadow-md: 0 12px 32px -12px rgba(0, 0, 0, .5);--shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, .7);--card-sage: #183229;--card-sand: #292720;--card-terracotta: #33211b;--card-sky: #192933;--card-lavender: #242133;--card-amber: #302919}@media(prefers-color-scheme:dark){html:not([data-theme=light]){color-scheme:dark;--bg-canvas: #111815;--bg-surface: #18221e;--bg-subtle: #202d28;--bg-raised: #151e1a;--bg-code: #1d2924;--bg-banner: #0c120f;--banner-ink: #eef3f0;--ink: #eef3f0;--ink-body: #d5e0da;--ink-muted: #9eb2a8;--ink-subtle: #7f948a;--brand: #3db88f;--brand-hover: #52c9a1;--brand-ink: #0c1713;--brand-soft: #19352b;--brand-border: #285646;--accent: #f08c67;--accent-hover: #f5a182;--accent-soft: #36221b;--accent-border: #5c372a;--tip-bg: #163026;--tip-border: #265442;--tip-ink: #7be0bc;--warn-bg: #332814;--warn-border: #5c4722;--warn-ink: #f6cc7a;--danger-bg: #361b19;--danger-border: #612e2a;--danger-ink: #f89890;--border: #293832;--border-strong: #3a4f46;--dot-grid: #2a3a33;--overlay-bg: rgba(5, 10, 8, .72);--shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);--shadow-md: 0 12px 32px -12px rgba(0, 0, 0, .5);--shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, .7);--card-sage: #183229;--card-sand: #292720;--card-terracotta: #33211b;--card-sky: #192933;--card-lavender: #242133;--card-amber: #302919}}*,*:before,*:after{box-sizing:border-box}html{scroll-behavior:smooth;text-size-adjust:100%}body{margin:0;background:var(--bg-canvas);color:var(--ink);font-family:var(--font-sans);font-size:var(--fs-16);line-height:1.65;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}img,svg{display:block;max-width:100%}a{color:inherit}:focus-visible{outline:2px solid var(--brand);outline-offset:2px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.mono{font-family:var(--font-mono);letter-spacing:.01em}html[data-theme=dark] .lockup-invert{filter:brightness(0) invert(.95)}@media(prefers-color-scheme:dark){html:not([data-theme=light]) .lockup-invert{filter:brightness(0) invert(.95)}}.en-modal-backdrop{position:fixed;inset:0;z-index:100;background:var(--overlay-bg);backdrop-filter:blur(3px);display:flex;align-items:flex-start;justify-content:center;padding:clamp(16px,8vh,72px) 16px 24px}.en-modal-backdrop[hidden]{display:none}.en-search-dialog{width:min(100%,640px);max-height:min(76vh,620px);background:var(--bg-surface);color:var(--ink);border:1px solid var(--border-strong);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden}.en-search-bar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border)}.en-search-bar svg{flex:none;color:var(--ink-muted)}.en-search-input{flex:1;border:0;background:transparent;color:var(--ink);font:inherit;font-size:var(--fs-16);outline:none}.en-search-input::placeholder{color:var(--ink-subtle)}.en-search-esc{padding:3px 8px;border:1px solid var(--border);border-radius:var(--radius-xs);background:var(--bg-subtle);color:var(--ink-muted);font-family:var(--font-mono);font-size:var(--fs-xs);cursor:pointer}.en-search-results{list-style:none;margin:0;padding:8px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}.en-search-item a{display:flex;flex-direction:column;gap:3px;padding:10px 14px;border-radius:var(--radius-sm);text-decoration:none;border:1px solid transparent}.en-search-item a:hover,.en-search-item a[data-active=true]{background:var(--brand-soft);border-color:var(--brand-border)}.en-search-item-top{display:flex;align-items:center;gap:8px}.en-search-cat{display:inline-block;padding:1px 7px;border-radius:var(--radius-full);background:var(--bg-subtle);color:var(--brand);font-size:11.5px;font-weight:600}.en-search-title{font-weight:600;font-size:var(--fs-15);color:var(--ink)}.en-search-desc{margin:0;font-size:var(--fs-sm);color:var(--ink-muted);line-height:1.45}.en-search-empty{padding:32px 16px;text-align:center;color:var(--ink-muted);font-size:var(--fs-15)}.en-search-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-raised);color:var(--ink-subtle);font-size:var(--fs-xs)}.en-toast{position:fixed;bottom:24px;right:24px;z-index:120;padding:10px 18px;border-radius:var(--radius-md);background:var(--bg-banner);color:var(--banner-ink);font-size:var(--fs-14);font-weight:500;box-shadow:var(--shadow-md);border:1px solid var(--border-strong);transition:opacity .2s ease,transform .2s ease}.en-toast[hidden]{display:none}.en-cookie-bar{position:fixed;inset:auto 16px 16px;z-index:90;display:flex;justify-content:center;pointer-events:none}.en-cookie-bar[hidden]{display:none}.en-cookie-card{pointer-events:auto;width:min(100%,760px);background:var(--bg-surface);color:var(--ink);border:1px solid var(--border-strong);border-radius:var(--radius-lg);padding:20px 24px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;gap:14px}.en-cookie-card h2{margin:0;font-size:var(--fs-16);font-weight:700}.en-cookie-card p{margin:0;font-size:var(--fs-14);color:var(--ink-muted);line-height:1.55}.en-cookie-prefs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;padding:12px;border-radius:var(--radius-sm);background:var(--bg-subtle);font-size:var(--fs-sm)}.en-cookie-prefs[hidden]{display:none}.en-cookie-prefs label{display:flex;align-items:center;gap:8px;cursor:pointer}.en-cookie-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}.en-cookie-actions button{padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--bg-surface);color:var(--ink);font:inherit;font-size:var(--fs-sm);font-weight:600;cursor:pointer}.en-cookie-actions button:hover{background:var(--bg-subtle)}.en-cookie-actions button.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}.en-cookie-actions button.primary:hover{background:var(--brand-hover)}
+
+</style>
+<style>
+body.lp{background:var(--bg-canvas);color:var(--ink)}.lp-skip{position:absolute;left:-9999px;top:.75rem;z-index:120;padding:.5rem 1rem;background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:var(--radius-sm);font-weight:600}.lp-skip:focus{left:1rem}.lp-accent{color:var(--brand)}.lp-accent-warm{color:var(--accent)}.lp-dot-grid-bg{background-color:var(--bg-raised);background-image:radial-gradient(circle at 1px 1px,var(--dot-grid) 1px,transparent 1.2px);background-size:18px 18px;border:1px solid var(--border)}.lp-top-banner{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 12px;min-height:38px;padding:8px var(--gutter);background:var(--bg-banner);color:var(--banner-ink);font-size:var(--fs-14);text-decoration:none;text-align:center}.lp-top-banner-cta{color:#7be0bc;font-weight:700}.lp-top-banner:hover .lp-top-banner-cta{text-decoration:underline}.lp-page{max-width:calc(var(--w-content) + 2 * var(--gutter));margin:0 auto;padding:20px var(--gutter) 48px}.lp-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px 20px;padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid var(--border)}.lp-logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none}.lp-nav-links{display:flex;align-items:center;flex-wrap:wrap;gap:6px 18px;font-size:var(--fs-15);font-weight:500;color:var(--ink-muted)}.lp-nav-links a{text-decoration:none;padding:6px 4px}.lp-nav-links a:hover{color:var(--ink)}.lp-header-actions{display:flex;align-items:center;gap:8px}.lp-icon-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;padding:0 12px;border-radius:var(--radius-full);border:1px solid var(--border-strong);background:var(--bg-surface);color:var(--ink);font:inherit;font-size:var(--fs-sm);font-weight:500;cursor:pointer;text-decoration:none}.lp-icon-btn:hover{background:var(--bg-subtle)}.lp-icon-btn svg{width:16px;height:16px}.lp-icon-btn kbd{padding:1px 5px;border-radius:4px;background:var(--bg-subtle);border:1px solid var(--border);font-family:var(--font-mono);font-size:11px;color:var(--ink-muted)}.lp-main{display:flex;flex-direction:column;gap:var(--section-gap);width:100%;max-width:var(--w-content);margin:0 auto}.lp-cta-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:16px}.lp-btn-wrap{position:relative;display:inline-flex}.lp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:var(--fs-15);line-height:1.3;text-decoration:none;border-radius:var(--radius-xs);border:1px solid transparent;padding:12px 22px;min-height:44px;cursor:pointer;transition:background .15s ease,transform .15s ease}.lp-btn svg{width:16px;height:16px}.lp-btn-primary{background:var(--brand);color:var(--brand-ink)}.lp-btn-primary:hover{background:var(--brand-hover)}.lp-btn-secondary{background:var(--bg-surface);color:var(--ink);border-color:var(--border-strong)}.lp-btn-secondary:hover{background:var(--bg-subtle)}.lp-btn-big{min-height:52px;padding:14px 32px;font-size:var(--fs-18)}.lp-crosshair{position:absolute;width:7px;height:7px;pointer-events:none}.lp-crosshair.tl{top:-4px;left:-4px}.lp-crosshair.tr{top:-4px;right:-4px}.lp-crosshair.bl{bottom:-4px;left:-4px}.lp-crosshair.br{bottom:-4px;right:-4px}.lp-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:44px;padding:28px 0 0}.lp-hero-intro{display:flex;flex-direction:column;align-items:center;gap:22px;width:100%}.lp-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0;padding:5px 14px;border-radius:var(--radius-full);background:var(--brand-soft);color:var(--brand);font-size:var(--fs-sm);font-weight:700}.lp-hero-frame{padding:clamp(24px,4vw,40px) clamp(20px,5vw,48px);border-radius:var(--radius-xl);max-width:880px;width:100%}.lp-h1{margin:0;font-weight:800;font-size:clamp(28px,4.4vw,46px);line-height:1.25;letter-spacing:-.025em}.lp-h1-brand{display:flex;align-items:center;justify-content:center;gap:.2em;font-size:clamp(44px,7.5vw,84px);font-weight:800;line-height:1.05;letter-spacing:-.035em;margin-bottom:14px;color:var(--ink)}.lp-h1-brand .lp-o{width:clamp(36px,5.5vw,58px);height:clamp(36px,5.5vw,58px);flex:none}.lp-hero-copy{margin:0;max-width:var(--w-hero-copy);font-size:clamp(16px,2vw,19px);color:var(--ink-body);line-height:1.65}.lp-platforms{margin:0;font-size:var(--fs-sm);color:var(--ink-muted)}.lp-demo{position:relative;width:100%;padding:clamp(16px,3.5vw,44px);border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--border);display:grid;place-items:center}.lp-demo .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.lp-video-play{position:relative;width:min(100%,920px);aspect-ratio:960 / 540;padding:0;border:1px solid var(--border-strong);cursor:pointer;border-radius:var(--radius-lg);overflow:hidden;background:#16211d;box-shadow:var(--shadow-lg);font:inherit;transition:transform .2s ease}.lp-video-play:hover{transform:translateY(-2px)}.lp-video-play img{width:100%;height:100%;object-fit:cover}.lp-play-label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:var(--radius-full);background:var(--bg-surface);color:var(--ink);border:1px solid var(--border-strong);font-size:var(--fs-15);font-weight:700;box-shadow:var(--shadow-md);white-space:nowrap}.lp-play-label:before{content:"";width:0;height:0;border-left:11px solid var(--brand);border-top:7px solid transparent;border-bottom:7px solid transparent}.lp-section{display:flex;flex-direction:column;align-items:center;gap:48px;width:100%}.lp-section-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;width:100%}.lp-section-frame{padding:28px 24px;border-radius:var(--radius-xl);width:100%;text-align:center}.lp-h2{margin:0;font-weight:800;font-size:clamp(24px,3.4vw,38px);line-height:1.25;letter-spacing:-.02em}.lp-sub{margin:0;max-width:680px;font-size:var(--fs-18);color:var(--ink-muted)}.lp-trust{display:flex;flex-direction:column;align-items:center;gap:36px;text-align:center;padding:40px clamp(20px,4vw,48px);border-radius:var(--radius-xl);background:var(--bg-surface);border:1px solid var(--border);box-shadow:var(--shadow-sm)}.lp-trust-h2{margin:0;max-width:680px;font-weight:800;font-size:clamp(24px,3.2vw,36px);line-height:1.3;letter-spacing:-.02em}.lp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;width:100%}.lp-stat{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px;border-radius:var(--radius-md);background:var(--bg-raised);border:1px solid var(--border)}.lp-stat-num{font-size:clamp(34px,4vw,46px);font-weight:800;line-height:1.1;color:var(--brand);letter-spacing:-.02em}.lp-stat h3{margin:0;font-size:var(--fs-18);font-weight:700}.lp-stat h3 a{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--border-strong)}.lp-stat h3 a:hover{color:var(--brand);text-decoration-color:var(--brand)}.lp-stat p{margin:0;font-size:var(--fs-15);color:var(--ink-muted)}.lp-footnote{margin:0;max-width:720px;font-size:var(--fs-14);color:var(--ink-muted);text-align:center}.lp-footnote a{color:var(--brand);font-weight:600}.lp-pillars{display:flex;flex-direction:column;gap:64px;width:100%}.lp-pillar{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(24px,4vw,48px);align-items:center}.lp-pillar-media{position:relative;min-height:440px;border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--border);display:grid;place-items:center;padding:clamp(20px,3vw,36px)}.lp-pillar-media .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.lp-pillar-media>:not(.bg){position:relative;width:min(100%,520px)}.lp-mock{display:flex;flex-direction:column;gap:12px}.lp-bubble{align-self:flex-start;padding:11px 16px;border-radius:var(--radius-md);background:#fff;color:#18201d;font-size:var(--fs-14);font-weight:500;box-shadow:var(--shadow-sm);border:1px solid #ded8ca}.lp-bubble-draft{background:#fdf9f1;border-left:4px solid #1f6f54}.lp-bubble.me{align-self:flex-end;background:#1f6f54;color:#fff;border-color:#1f6f54}.lp-mock-actions{display:flex;gap:8px}.lp-mock-btn{display:inline-flex;align-items:center;padding:7px 14px;border-radius:var(--radius-sm);background:#1f6f54;color:#fff;font-size:var(--fs-sm);font-weight:700}.lp-mock-btn.ghost{background:#fff;color:#2a3530;border:1px solid #cbc4b4}.lp-file{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-md);background:#fff;color:#18201d;border:1px solid #ded8ca}.lp-file-icon{width:34px;height:38px;border-radius:6px;background:#e6f3ee;border:1.5px solid #1f6f54;flex:none;display:grid;place-items:center;font-size:10px;font-weight:800;color:#1f6f54}.lp-file small{display:block;color:#55625c;font-size:var(--fs-xs)}.lp-brief{background:#fff;color:#18201d;border-radius:var(--radius-md);padding:16px 18px;border:1px solid #ded8ca;display:flex;flex-direction:column;gap:6px;font-size:var(--fs-14);box-shadow:var(--shadow-sm)}.lp-brief p{margin:0}.lp-brief-label{margin-top:6px!important;font-size:11.5px;font-weight:700;color:#1f6f54}.lp-brief ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;color:#2a3530}.lp-plan{background:#fff;color:#18201d;border-radius:var(--radius-md);padding:20px;border:1px solid #ded8ca;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px}.lp-plan-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:var(--fs-sm);color:#4a5751}.lp-plan-meta b{color:#18201d;font-size:var(--fs-16)}.lp-plan-badge{padding:2px 9px;border-radius:var(--radius-full);background:#e6f3ee;color:#1f6f54;font-size:12px;font-weight:700}.lp-plan-desc{margin:4px 0;font-size:var(--fs-15);font-weight:600;color:#18201d}.lp-plan-note{margin:0;font-size:var(--fs-sm);color:#55625c}.lp-plan-actions{display:flex;flex-wrap:wrap;gap:12px;padding-top:8px;border-top:1px solid #eae5d9;font-size:var(--fs-xs);font-weight:600;color:#1f6f54}.lp-claim{display:flex;flex-direction:column;gap:14px}.lp-claim h3{margin:0;font-size:clamp(22px,2.5vw,28px);line-height:1.3;font-weight:800}.lp-claim p{margin:0;color:var(--ink-muted);font-size:var(--fs-16)}.lp-memory-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;width:100%}.lp-memory-list li{padding:24px;border-radius:var(--radius-lg);background:var(--bg-surface);border:1px solid var(--border);display:flex;flex-direction:column;align-items:flex-start;gap:10px}.lp-pill{display:inline-block;padding:4px 12px;border-radius:var(--radius-full);background:var(--brand-soft);color:var(--brand);font-size:var(--fs-sm);font-weight:700}.lp-memory-list p{margin:0;color:var(--ink-body);font-size:var(--fs-15)}.lp-roadmap{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;width:100%}.lp-roadmap li{display:flex;align-items:flex-start;gap:14px;padding:20px 22px;border-radius:var(--radius-lg);background:var(--bg-surface);border:1px solid var(--border);font-size:var(--fs-15);color:var(--ink-body)}.lp-roadmap li.featured{background:var(--brand-soft);border-color:var(--brand-border)}.lp-roadmap li svg{width:22px;height:22px;flex:none;margin-top:2px;color:var(--brand)}.lp-roadmap li b{color:var(--ink);display:block;margin-bottom:3px;font-size:var(--fs-16)}.lp-usecase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;width:100%}.lp-usecase{padding:24px;border-radius:var(--radius-lg);background:var(--bg-surface);border:1px solid var(--border);display:flex;flex-direction:column;gap:10px;transition:border-color .15s ease,transform .15s ease}.lp-usecase:hover{border-color:var(--brand);transform:translateY(-2px)}.lp-usecase-swatch{height:8px;width:48px;border-radius:var(--radius-full)}.lp-usecase-cat{margin:4px 0 0;font-size:var(--fs-xs);font-weight:700;color:var(--brand);text-transform:uppercase}.lp-usecase h3{margin:0;font-size:var(--fs-18);font-weight:700}.lp-usecase p{margin:0;font-size:var(--fs-15);color:var(--ink-muted)}.lp-faq-list{width:100%;max-width:820px;display:flex;flex-direction:column;gap:10px}.lp-faq{border-radius:var(--radius-md);background:var(--bg-surface);border:1px solid var(--border);padding:0 20px}.lp-faq summary{list-style:none;cursor:pointer;padding:18px 0;font-weight:700;font-size:var(--fs-16);display:flex;align-items:center;justify-content:space-between;gap:12px}.lp-faq summary::-webkit-details-marker{display:none}.lp-faq summary:after{content:"+";font-size:20px;font-weight:500;color:var(--brand);flex:none}.lp-faq[open] summary:after{content:"−"}.lp-faq p{margin:0 0 18px;color:var(--ink-muted);font-size:var(--fs-15);line-height:1.65}.lp-faq p a{color:var(--brand);font-weight:600}.lp-final{display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;padding:44px 24px;width:100%;border-radius:var(--radius-xl);background:var(--brand-soft);border:1px solid var(--brand-border)}.lp-final h3{margin:0;font-size:clamp(22px,3vw,30px);font-weight:800}.lp-final p{margin:0;color:var(--ink-muted);max-width:560px}.lp-footer{margin-top:72px;padding-top:28px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;font-size:var(--fs-14);color:var(--ink-muted)}.lp-footer-line{margin:0;display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink)}.lp-footer-line svg{width:20px;height:20px}.lp-footer nav{display:flex;flex-wrap:wrap;gap:12px 20px}.lp-footer nav a{text-decoration:none}.lp-footer nav a:hover{color:var(--brand);text-decoration:underline}.lp-tour-dialog{width:min(100%,780px);background:var(--bg-surface);color:var(--ink);border:1px solid var(--border-strong);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);overflow:hidden;display:flex;flex-direction:column}.lp-tour-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--bg-raised)}.lp-tour-head h2{margin:0;font-size:var(--fs-18);font-weight:800}.lp-tour-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:12px 24px 0}.lp-tour-tab{padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-raised);color:var(--ink-muted);font:inherit;font-size:var(--fs-xs);font-weight:700;cursor:pointer;text-align:left}.lp-tour-tab[aria-selected=true]{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}.lp-tour-stage{padding:24px;min-height:250px;display:flex;flex-direction:column;gap:14px}.lp-tour-stage h3{margin:0;font-size:var(--fs-20);font-weight:800}.lp-tour-stage p{margin:0;color:var(--ink-muted)}.lp-tour-preview{padding:16px 18px;border-radius:var(--radius-md);background:var(--bg-subtle);border:1px solid var(--border);font-size:var(--fs-14);display:flex;flex-direction:column;gap:8px}.lp-tour-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:16px 24px;border-top:1px solid var(--border);background:var(--bg-raised)}@media(max-width:980px){.lp-pillar{grid-template-columns:1fr}.lp-stats,.lp-usecase-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.lp-nav-links{order:3;width:100%;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border)}.lp-stats,.lp-memory-list,.lp-roadmap,.lp-usecase-grid{grid-template-columns:1fr}.lp-tour-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.lp-icon-btn kbd{display:none}}
+
+</style>
+<style>
+.cat-page{max-width:1280px;margin:0 auto;padding:0 clamp(16px,3.5vw,44px) 96px}.cat-subnav{position:sticky;top:0;z-index:35;background:color-mix(in srgb,var(--bg-canvas) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);margin:0 calc(-1*clamp(16px,3.5vw,44px)) 40px;padding:10px clamp(16px,3.5vw,44px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}.cat-subnav-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:13.5px;font-weight:600}.cat-subnav-links a{color:var(--ink-muted);text-decoration:none;padding:4px 8px;border-radius:var(--radius-sm)}.cat-subnav-links a:hover{color:var(--brand);background:var(--brand-soft)}.cat-subnav-actions{display:flex;align-items:center;gap:8px}.cat-cover{display:grid;grid-template-columns:1.05fr 1.25fr;gap:36px;align-items:center;padding:20px 0 56px;border-bottom:1px solid var(--border)}.cat-vol{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:var(--radius-full);background:var(--brand-soft);border:1px solid var(--brand-border);color:var(--brand);margin-bottom:16px}.cat-h1{margin:0 0 18px;font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.18;letter-spacing:-.025em}.cat-lead{margin:0 0 24px;font-size:clamp(16px,1.4vw,18.5px);line-height:1.68;color:var(--ink-muted)}.cat-meta-badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:26px}.cat-meta-item{padding:12px 14px;border-radius:var(--radius-md);background:var(--bg-surface);border:1px solid var(--border)}.cat-meta-item strong{display:block;font-size:18px;font-weight:800;color:var(--brand)}.cat-meta-item span{font-size:12.5px;color:var(--ink-muted)}.cat-window{border-radius:14px;overflow:hidden;background:var(--bg-surface);border:1px solid var(--border-strong);box-shadow:var(--shadow-lg)}.cat-window-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 14px;background:var(--bg-raised);border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:11.5px;color:var(--ink-muted)}.cat-dots{display:inline-flex;gap:6px}.cat-dots i{width:10px;height:10px;border-radius:50%;display:inline-block}.cat-dots i:nth-child(1){background:#e06c60}.cat-dots i:nth-child(2){background:#e5b55c}.cat-dots i:nth-child(3){background:#57ab7d}.cat-window img{display:block;width:100%;height:auto}.cat-sec{padding:64px 0;border-bottom:1px solid var(--border)}.cat-sec-head{max-width:780px;margin-bottom:32px}.cat-sec-num{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:8px}.cat-sec-head h2{margin:0 0 10px;font-size:clamp(24px,3vw,34px);font-weight:800;letter-spacing:-.02em}.cat-sec-head p{margin:0;font-size:16px;line-height:1.65;color:var(--ink-muted)}.cat-gif-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}.cat-gif-card{display:flex;flex-direction:column;gap:14px}.cat-gif-caption{padding:16px 18px;border-radius:var(--radius-md);background:var(--bg-surface);border:1px solid var(--border)}.cat-gif-caption h3{margin:0 0 6px;font-size:18px;font-weight:800}.cat-gif-caption p{margin:0;font-size:14px;line-height:1.6;color:var(--ink-muted)}.cat-step-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.cat-step-pills span{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:var(--radius-full);background:var(--brand-soft);color:var(--brand)}.cat-arch-box{padding:28px;border-radius:var(--radius-lg);background:var(--bg-surface);border:1px solid var(--border);box-shadow:var(--shadow-sm)}.cat-arch-svg{width:100%;height:auto;display:block}.cat-arch-node{cursor:pointer;transition:opacity .18s ease}.cat-arch-node:hover{opacity:.9}.cat-arch-inspector{margin-top:20px;padding:18px 20px;border-radius:var(--radius-md);background:var(--brand-soft);border:1px solid var(--brand-border);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}.cat-arch-inspector h3{margin:0 0 4px;font-size:16px;color:var(--brand)}.cat-arch-inspector p{margin:0;font-size:14px;color:var(--ink)}.cat-pipeline{margin-top:24px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.cat-pipe-step{padding:16px;border-radius:var(--radius-md);background:var(--bg-surface);border:1px solid var(--border);position:relative}.cat-pipe-step b{display:inline-block;font-family:var(--font-mono);font-size:11.5px;color:var(--accent);margin-bottom:6px}.cat-pipe-step h4{margin:0 0 6px;font-size:14.5px;font-weight:800}.cat-pipe-step p{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-muted)}.cat-gallery-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}.cat-tab-btn{padding:8px 14px;border-radius:var(--radius-full);border:1px solid var(--border-strong);background:var(--bg-surface);color:var(--ink-muted);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}.cat-tab-btn[aria-selected=true]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}.cat-gallery-stage{display:grid;grid-template-columns:1.45fr .85fr;gap:24px;align-items:start}.cat-gallery-info{padding:24px;border-radius:var(--radius-lg);background:var(--bg-surface);border:1px solid var(--border);display:flex;flex-direction:column;gap:14px}.cat-gallery-info h3{margin:0;font-size:21px;font-weight:800}.cat-gallery-info p{margin:0;font-size:14.5px;line-height:1.65;color:var(--ink-muted)}.cat-gallery-points{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.55}.cat-rbac-compare{margin-top:32px;padding:24px;border-radius:var(--radius-lg);background:var(--bg-raised);border:1px solid var(--border)}.cat-rbac-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:16px}.cat-viz-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px}.cat-viz-card{padding:24px;border-radius:var(--radius-lg);background:var(--bg-surface);border:1px solid var(--border);display:flex;flex-direction:column;gap:18px}.cat-viz-card h3{margin:0;font-size:19px;font-weight:800}.cat-bar-group{display:flex;flex-direction:column;gap:14px}.cat-bar-row{display:flex;flex-direction:column;gap:6px}.cat-bar-label{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700}.cat-bar-track{height:12px;border-radius:var(--radius-full);background:var(--bg-subtle);overflow:hidden;position:relative}.cat-bar-before{height:100%;background:color-mix(in srgb,var(--ink-muted) 35%,transparent);border-radius:var(--radius-full)}.cat-bar-after{position:absolute;left:0;top:0;height:100%;background:var(--brand);border-radius:var(--radius-full)}.cat-sim-controls{display:flex;flex-direction:column;gap:14px}.cat-sim-row{display:flex;flex-direction:column;gap:6px}.cat-sim-row label{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700}.cat-sim-row input[type=range]{width:100%;accent-color:var(--brand);cursor:pointer}.cat-sim-results{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center;padding:16px;border-radius:var(--radius-md);background:var(--bg-raised);border:1px solid var(--border)}.cat-donut-wrap{position:relative;width:112px;height:112px;display:flex;align-items:center;justify-content:center}.cat-donut-center{position:absolute;text-align:center;font-family:var(--font-mono)}.cat-donut-center strong{display:block;font-size:16px;color:var(--brand)}.cat-donut-center small{font-size:10px;color:var(--ink-muted)}.cat-matrix-wrap{border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg-surface);overflow-x:auto}.cat-matrix{width:100%;border-collapse:collapse;font-size:14px}.cat-matrix th,.cat-matrix td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border)}.cat-matrix th{background:var(--bg-raised);font-weight:800}.cat-matrix td.is-edunod,.cat-matrix th.is-edunod{background:color-mix(in srgb,var(--brand-soft) 65%,var(--bg-surface))}.cat-matrix tr:last-child td{border-bottom:0}.cat-zoom-btn{cursor:zoom-in}.cat-lightbox-img{max-width:min(94vw,1360px);max-height:86vh;border-radius:12px;box-shadow:var(--shadow-lg);border:1px solid var(--border-strong)}@media(max-width:980px){.cat-cover,.cat-gif-grid,.cat-gallery-stage,.cat-rbac-grid,.cat-viz-grid{grid-template-columns:1fr}.cat-pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}}@media print{.lp-top-banner,.lp-header,.cat-subnav,.lp-footer,#cookie-banner{display:none!important}.cat-sec{break-inside:avoid;padding:28px 0}body{background:#fff!important;color:#111!important}}
+
+</style></head> <body class="lp"> <a class="lp-skip" href="#main-content">본문으로 바로가기</a>  <a class="lp-top-banner" href="/studio/"> <span>카탈로그의 모든 화면은 시뮬레이션이 아닌 실제 작동 앱에서 촬영되었습니다 — 지금 스튜디오에서 직접 실행해 보세요.</span> <span class="lp-top-banner-cta">라이브 스튜디오 열기 →</span> </a> <div class="lp-page"> <header class="lp-header"> <a class="lp-logo" href="/" aria-label="에듀노드 홈"> <img class="lockup lockup-invert" src="./public/img/lockup.svg" alt="EduNod EDU LABS" width="210" height="36"> </a> <nav class="lp-nav-links" aria-label="주요 메뉴"> <a href="/">홈</a> <a href="./public/catalog/"><strong>제품 카탈로그</strong></a> <a href="/docs/">문서 가이드</a> <a href="/docs/how-it-works/benchmarks/">벤치마크</a> <a href="/studio/"><strong>스튜디오 체험</strong></a> </nav> <div class="lp-header-actions"> <button type="button" class="lp-icon-btn" data-search aria-label="문서 및 기능 통합 검색"> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.8" stroke="currentColor" stroke-width="1.7"></circle><path d="m13.5 13.5 3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg> <span>검색</span> <kbd>Ctrl K</kbd> </button> <button type="button" class="lp-icon-btn" data-theme-cycle aria-label="밝은 테마와 어두운 테마 전환"> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.6" stroke="currentColor" stroke-width="1.6"></circle><path d="M10 2.2v2M10 15.8v2M2.2 10h2M15.8 10h2M4.5 4.5l1.4 1.4M14.1 14.1l1.4 1.4M15.5 4.5l-1.4 1.4M5.9 14.1l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg> <span>테마</span> </button> <a class="lp-icon-btn" href="https://github.com/Reasonofmoon/edunod" target="_blank" rel="noopener noreferrer" aria-label="GitHub 오픈소스 저장소"> <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path></svg> <span>GitHub</span> </a> </div> </header> <main id="main-content" class="cat-page"> <!-- 스티키 카탈로그 목차 바 --> <nav class="cat-subnav" aria-label="카탈로그 섹션 바로가기"> <div class="cat-subnav-links"> <a href="#sec-overview">01. 제품 개요</a> <a href="#sec-gifs">02. 실시간 작동 GIF</a> <a href="#sec-arch">03. 아키텍처 다이어그램</a> <a href="#sec-screens">04. 화면 스샷 &amp; RBAC</a> <a href="#sec-viz">05. 데이터 시각화 &amp; ROI</a> <a href="#sec-matrix">06. 경쟁 비교표</a> </div> <div class="cat-subnav-actions"> <button type="button" class="lp-icon-btn" id="print-catalog-btn" aria-label="카탈로그 브로슈어 PDF 인쇄"> <span>브로슈어 인쇄 / PDF</span> </button> </div> </nav> <!-- 01. 에디토리얼 커버 & 핵심 요약 --> <section class="cat-cover" id="sec-overview" aria-labelledby="cat-cover-title"> <div> <span class="cat-vol">EDUNOD PRODUCT MONOGRAPH · VOL. 2.5</span> <h1 class="cat-h1" id="cat-cover-title">
+학원 원장 · 강사 · 교사를 위한<br> <span class="lp-accent">실제 AI 에이전트</span> 종합 카탈로그
+</h1> <p class="cat-lead">
+에듀노드(EduNod)는 원생·학생 민감 데이터와 수납 원장을 내 컴퓨터 안에 격리하면서도, 실제 멀티스텝 도구 호출(Tool Calling)로 출결·미납 알림톡 초안, 오답 클리닉 문항, 상담 브리핑을 완성하고 <strong>인간 최종 승인 게이트(Trust Check)</strong>로 오발송 사고를 원천 차단합니다.
+</p> <div class="cat-meta-badges"> <div class="cat-meta-item"> <strong>5종 실전 도구 호출</strong> <span>원생 조회 · 브리핑 · 알림톡 격리 · 클리닉 출제 · 기억장</span> </div> <div class="cat-meta-item"> <strong>무단 외부 발송 0건</strong> <span>모든 대외 메시지는 승인 대기함(Trust Queue) 선격리</span> </div> <div class="cat-meta-item"> <strong>원장 · 강사 RBAC</strong> <span>강사·조교 전환 시 원비 수납액·퇴원 메모 자동 마스킹</span> </div> <div class="cat-meta-item"> <strong>멀티 LLM + 폐쇄망</strong> <span>Gemini · Claude · OpenAI · 로컬 Ollama(₩0) 지원</span> </div> </div> <div class="lp-cta-row"> <div class="lp-btn-wrap"> <a class="lp-btn lp-btn-primary" href="/studio/">  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m10 2.5 1.6 4.4 4.4 1.6-4.4 1.6L10 14.5l-1.6-4.4L4 8.5l4.4-1.6L10 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><path d="M15.5 13.5v3M14 15h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg> 실제 AI 스튜디오 바로 열기
+ </a> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tr"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair bl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair br"> </div> <div class="lp-btn-wrap"> <a class="lp-btn lp-btn-secondary" href="/docs/get-started/install-desktop/"> 
+원장실 · 교무실 설치 가이드
+ </a> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tr"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair bl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair br"> </div> </div> </div> <div class="cat-window"> <div class="cat-window-bar"> <span class="cat-dots" aria-hidden="true"><i></i><i></i><i></i></span> <span>localhost:4321/studio — 학원 운영자(원장) 모드 실시간 화면</span> <span>LIVE</span> </div> <img class="cat-zoom-btn" data-zoom-src="./public/catalog/shot-director-briefing.png" src="./public/catalog/shot-director-briefing.png" alt="에듀노드 스튜디오 학원 운영자(원장) 모드 실시간 대시보드 스크린샷" width="1440" height="900"> </div> </section> <!-- 02. 실제 녹화된 작동 애니메이션 GIF 쇼케이스 --> <section class="cat-sec" id="sec-gifs" aria-labelledby="h-gifs"> <div class="cat-sec-head"> <span class="cat-sec-num">SECTION 02 · LIVE ANIMATED WORKFLOWS (GIF)</span> <h2 id="h-gifs">실제 작동 녹화 GIF로 보는 핵심 워크플로우</h2> <p>
+모형 시안이 아니라 실제 가동 중인 에듀노드 서버에서 LLM 도구 호출과 권한 마스킹이 실시간으로 실행되는 모습을 그대로 녹화한 워크플로우 GIF입니다. (이미지를 클릭하면 크게 확대됩니다.)
+</p> </div> <div class="cat-gif-grid"> <article class="cat-gif-card"> <div class="cat-window"> <div class="cat-window-bar"> <span class="cat-dots" aria-hidden="true"><i></i><i></i><i></i></span> <span>WORKFLOW GIF #1 · 실제 AI 도구 호출 &amp; Trust Check 결재</span> <span>GIF</span> </div> <img class="cat-zoom-btn" data-zoom-src="./public/catalog/demo-live-agent-flow.gif" src="./public/catalog/demo-live-agent-flow.gif" alt="원장이 미등원 안심 확인 알림톡 초안 작성을 지시하자 실제 Gemini 에이전트가 원생 기록을 조회해 승인 대기함에 등록하고 원장이 최종 승인하는 작동 GIF" width="1120" height="700"> </div> <div class="cat-gif-caption"> <h3>① 자연어 지시 → 실제 AI 도구 실행 → 승인 대기함 결재</h3> <p>
+원장님이 “미등원 중인 정서윤 학부모님께 안심 확인 알림톡 초안 만들어줘”라고 입력하면, 백엔드 에이전트가 원생 DB를 조회한 뒤 <code>propose_external_message</code> 도구를 호출해 즉시 발송 대신 <strong>[2. 최종 승인 대기함]</strong>에 초안을 격리 등록합니다.
+</p> <div class="cat-step-pills"> <span>1. 출결 브리핑 확인</span> <span>2. 자연어 업무 지시</span> <span>3. Gemini 2.5 도구 호출</span> <span>4. 승인 대기함 검토·발송</span> </div> </div> </article> <article class="cat-gif-card"> <div class="cat-window"> <div class="cat-window-bar"> <span class="cat-dots" aria-hidden="true"><i></i><i></i><i></i></span> <span>WORKFLOW GIF #2 · 수납 RBAC 마스킹 &amp; 강사 오답 클리닉</span> <span>GIF</span> </div> <img class="cat-zoom-btn" data-zoom-src="./public/catalog/demo-rbac-clinic-flow.gif" src="./public/catalog/demo-rbac-clinic-flow.gif" alt="원장 권한에서 강사·조교 권한으로 바꾸자 원비 미납액이 즉시 비공개 마스킹되고 학원 강사 클리닉 모드와 다크 테마로 전환되는 작동 GIF" width="1120" height="700"> </div> <div class="cat-gif-caption"> <h3>② 원장·강사 수납 권한 분리(RBAC) &amp; 오답 클리닉 전환</h3> <p>
+상단 권한을 <strong>강사 · 조교 TA</strong>로 바꾸는 즉시 원비 미납 금액(<code>380,000원</code>)과 퇴원 위험 메모가 <code>🔒 원장 전용</code>으로 가려지며, <strong>학원 강사 모드</strong>에서는 커트라인 미달 원생용 쌍둥이 오답 클리닉 문항과 지도 팁을 바로 활용합니다.
+</p> <div class="cat-step-pills"> <span>1. 원장 수납 원장 열람</span> <span>2. 강사·조교 전환 즉시 마스킹</span> <span>3. 강사 오답 클리닉 문항지</span> <span>4. 다크 모드 지원</span> </div> </div> </article> </div> </section> <!-- 03. 인터랙티브 아키텍처 & 시퀀스 다이어그램 --> <section class="cat-sec" id="sec-arch" aria-labelledby="h-arch"> <div class="cat-sec-head"> <span class="cat-sec-num">SECTION 03 · ARCHITECTURE &amp; TRUST DIAGRAM</span> <h2 id="h-arch">데이터 격리 · RBAC · 승인 게이트 통합 아키텍처</h2> <p>
+다이어그램의 각 구성 블록(①~⑤)을 클릭하면 해당 계층이 원생·학생 개인정보와 오발송 위험을 어떻게 통제하는지 상세 설계가 아래 인스펙터에 표시됩니다.
+</p> </div> <div class="cat-arch-box"> <svg class="cat-arch-svg" viewBox="0 0 1120 340" role="img" aria-label="에듀노드 5계층 보안 및 도구 호출 아키텍처 다이어그램"> <defs> <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"> <path d="M 0 1 L 10 5 L 0 9 z" fill="#1f6f54"></path> </marker> <marker id="arr-warm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"> <path d="M 0 1 L 10 5 L 0 9 z" fill="#c75c24"></path> </marker> </defs> <!-- 로컬 안전 경계선 --> <rect x="16" y="16" width="664" height="308" rx="18" fill="#1f6f54" fill-opacity="0.06" stroke="#1f6f54" stroke-dasharray="6 5" stroke-width="1.8"></rect> <text x="36" y="44" font-size="13" font-weight="800" fill="#1f6f54">원장실 · 교무실 로컬 신뢰 경계 (원본 DB 및 API 시크릿 외부 유출 0바이트)</text> <!-- Node 1: Data Sources --> <g class="cat-arch-node" data-arch="0" tabindex="0" role="button" aria-label="1계층: 학원 및 학교 현장 채널"> <rect x="36" y="72" width="184" height="224" rx="14" fill="#ffffff" stroke="#1f6f54" stroke-width="2"></rect> <rect x="36" y="72" width="184" height="38" rx="14" fill="#1f6f54"></rect> <text x="128" y="96" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">① 현장 입력 채널</text> <text x="54" y="136" font-size="12.5" font-weight="700" fill="#18221e">• 등·하원 출결 키오스크</text> <text x="54" y="164" font-size="12.5" font-weight="700" fill="#18221e">• 결제선생 · 수납 시트</text> <text x="54" y="192" font-size="12.5" font-weight="700" fill="#18221e">• 주간평가 · 내신 기출</text> <text x="54" y="220" font-size="12.5" font-weight="700" fill="#18221e">• Classroom · Canvas</text> <text x="54" y="248" font-size="12.5" font-weight="700" fill="#18221e">• 학사·상담 일정 캘린더</text> <text x="128" y="280" text-anchor="middle" font-size="11" fill="#52605a">[클릭하여 상세 보기]</text> </g> <!-- Arrow 1 -> 2 --> <line x1="220" y1="184" x2="258" y2="184" stroke="#1f6f54" stroke-width="2.5" marker-end="url(#arr-green)"></line> <!-- Node 2: Local Workspace + RBAC --> <g class="cat-arch-node" data-arch="1" tabindex="0" role="button" aria-label="2계층: 로컬 워크스페이스 및 RBAC 필터"> <rect x="264" y="72" width="192" height="224" rx="14" fill="#ffffff" stroke="#1f6f54" stroke-width="2"></rect> <rect x="264" y="72" width="192" height="38" rx="14" fill="#1f6f54"></rect> <text x="360" y="96" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">② 로컬 DB &amp; RBAC</text> <text x="282" y="138" font-size="12.5" font-weight="700" fill="#18221e">• 원생·학생 명렬 격리</text> <text x="282" y="166" font-size="12.5" font-weight="700" fill="#18221e">• 강사/TA 수납액 마스킹</text> <text x="282" y="194" font-size="12.5" font-weight="700" fill="#18221e">• 투명 기억장 (즉시 파기)</text> <text x="282" y="222" font-size="12.5" font-weight="700" fill="#18221e">• 주민번호 정규식 치환</text> <text x="282" y="250" font-size="12.5" font-weight="700" fill="#18221e">• 실시간 감사 로그 기록</text> <text x="360" y="280" text-anchor="middle" font-size="11" fill="#52605a">[클릭하여 상세 보기]</text> </g> <!-- Arrow 2 <-> 4 (Trust Gate) & 2 <-> 3 (LLM) --> <line x1="456" y1="145" x2="706" y2="145" stroke="#1f6f54" stroke-width="2.5" marker-end="url(#arr-green)"></line> <line x1="706" y1="172" x2="456" y2="172" stroke="#1f6f54" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr-green)"></line> <!-- Node 4: Trust Check Gate (Inside Local Boundary!) --> <g class="cat-arch-node" data-arch="3" tabindex="0" role="button" aria-label="4계층: 독립 승인 게이트 Trust Check"> <rect x="484" y="196" width="180" height="100" rx="14" fill="#fff7f2" stroke="#c75c24" stroke-width="2.4"></rect> <text x="574" y="224" text-anchor="middle" font-size="13" font-weight="800" fill="#c75c24">④ Trust Check 게이트</text> <text x="574" y="248" text-anchor="middle" font-size="12" font-weight="700" fill="#18221e">모든 발송 도구 즉시 가로채기</text> <text x="574" y="268" text-anchor="middle" font-size="11.5" fill="#52605a">승인 대기함 격리 · 무단발송 0%</text> <text x="574" y="286" text-anchor="middle" font-size="10.5" fill="#c75c24">[클릭하여 상세 보기]</text> </g> <!-- Node 3: Multi-LLM Engine --> <g class="cat-arch-node" data-arch="2" tabindex="0" role="button" aria-label="3계층: 멀티 LLM 도구 호출 런타임"> <rect x="712" y="42" width="188" height="148" rx="14" fill="#ffffff" stroke="#2c6ea3" stroke-width="2"></rect> <rect x="712" y="42" width="188" height="36" rx="14" fill="#2c6ea3"></rect> <text x="806" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">③ 멀티 AI 추론 엔진</text> <text x="728" y="104" font-size="12.5" font-weight="700" fill="#18221e">• Gemini 2.5 Flash</text> <text x="728" y="128" font-size="12.5" font-weight="700" fill="#18221e">• Claude Sonnet 4</text> <text x="728" y="152" font-size="12.5" font-weight="700" fill="#18221e">• 폐쇄망 Ollama (₩0)</text> <text x="806" y="176" text-anchor="middle" font-size="11" fill="#2c6ea3">자동 페일오버 &amp; 예산 상한</text> </g> <!-- Arrow 4 -> 5 --> <line x1="664" y1="246" x2="914" y2="246" stroke="#c75c24" stroke-width="2.5" marker-end="url(#arr-warm)"></line> <!-- Node 5: Human Final Approval & Delivery --> <g class="cat-arch-node" data-arch="4" tabindex="0" role="button" aria-label="5계층: 원장 및 교사 최종 승인 후 안전 전송"> <rect x="920" y="178" width="180" height="136" rx="14" fill="#1f6f54"></rect> <text x="1010" y="210" text-anchor="middle" font-size="13.5" font-weight="800" fill="#ffffff">⑤ 원장 · 교사 최종 승인</text> <text x="1010" y="236" text-anchor="middle" font-size="12" fill="#e6f4ee">초안 문구 직접 수정 가능</text> <text x="1010" y="258" text-anchor="middle" font-size="12" fill="#e6f4ee">원장 결재 후 알림톡·공지 발송</text> <text x="1010" y="286" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">[클릭하여 상세 보기]</text> </g> </svg> <div class="cat-arch-inspector" id="arch-inspector" aria-live="polite"> <div> <h3 id="arch-ins-title">④ Trust Check 독립 승인 게이트 (기본 선택됨)</h3> <p id="arch-ins-desc">
+AI 모델이 <code>propose_external_message</code> 도구를 호출하더라도 실제 카카오 알림톡이나 LMS API를 직접 호출할 수 없습니다. 서버 커널 검증기가 이를 가로채 승인 대기함 카드로 변환하고 주민번호 패턴을 마스킹합니다.
+</p> </div> <a class="lp-btn lp-btn-primary" href="/docs/trust/privacy/">보안 설계 문서 전문 →</a> </div> <!-- 5단계 실행 파이프라인 --> <div class="cat-pipeline" aria-label="멀티스텝 에이전트 실행 5단계"> <div class="cat-pipe-step"> <b>STEP 01</b> <h4>자연어 지시 입력</h4> <p>“미납 원생 확인하고 정중한 수납 안내 알림톡 초안 만들어줘”</p> </div> <div class="cat-pipe-step"> <b>STEP 02</b> <h4>로컬 레코드 조회</h4> <p><code>query_workspace_records</code> 호출 (강사 권한이면 수납액 서버 차단)</p> </div> <div class="cat-pipe-step"> <b>STEP 03</b> <h4>기억장 원칙 결합</h4> <p>“미납 안내 전 최근 성취 칭찬 1줄 포함” 원장 운영 원칙 자동 반영</p> </div> <div class="cat-pipe-step"> <b>STEP 04</b> <h4>Trust Queue 격리</h4> <p><code>propose_external_message</code> 실행 결과를 승인 대기함에 안전 격리</p> </div> <div class="cat-pipe-step"> <b>STEP 05</b> <h4>최종 검토 · 감사 기록</h4> <p>원장님이 문구 검토 후 승인 시 발송 처리 및 타임스탬프 로그 저장</p> </div> </div> </div> </section> <!-- 04. 고해상도 스크린샷 갤러리 & RBAC 전후 비교 --> <section class="cat-sec" id="sec-screens" aria-labelledby="h-screens"> <div class="cat-sec-head"> <span class="cat-sec-num">SECTION 04 · HIGH-DPI SCREENSHOTS &amp; RBAC COMPARISON</span> <h2 id="h-screens">기능별 실제 화면 상세 투어 &amp; 권한 마스킹 비교</h2> <p>
+탭을 전환해 에듀노드의 6개 핵심 화면을 고해상도 스크린샷으로 살펴보고, 아래에서 원장 권한과 강사·조교 권한의 실시간 마스킹 차이를 직접 비교해 보세요.
+</p> </div> <div class="cat-gallery-tabs" role="tablist" aria-label="카탈로그 화면 갤러리 탭"> <button type="button" class="cat-tab-btn" role="tab" aria-selected="true" data-shot="0">1. 학원 원장 운영 브리핑</button> <button type="button" class="cat-tab-btn" role="tab" aria-selected="false" data-shot="1">2. Trust Check 승인 대기함</button> <button type="button" class="cat-tab-btn" role="tab" aria-selected="false" data-shot="2">3. 실제 AI 에이전트 도구 실행</button> <button type="button" class="cat-tab-btn" role="tab" aria-selected="false" data-shot="3">4. 학원 강사 오답 클리닉 생성</button> <button type="button" class="cat-tab-btn" role="tab" aria-selected="false" data-shot="4">5. 메인 랜딩 페이지</button> <button type="button" class="cat-tab-btn" role="tab" aria-selected="false" data-shot="5">6. 다크 모드 보안·문서 뷰</button> </div> <div class="cat-gallery-stage"> <div class="cat-window"> <div class="cat-window-bar"> <span class="cat-dots" aria-hidden="true"><i></i><i></i><i></i></span> <span id="gal-url">localhost:4321/studio — 학원 원장 브리핑</span> <span>클릭 시 확대</span> </div> <img id="gal-img" class="cat-zoom-btn" data-zoom-src="./public/catalog/shot-director-briefing.png" src="./public/catalog/shot-director-briefing.png" alt="학원 원장 운영 브리핑 화면" width="1440" height="900"> </div> <div class="cat-gallery-info" aria-live="polite"> <span class="st-tag" id="gal-badge">학원 운영자(원장·실장) 모드</span> <h3 id="gal-title">출근 직후 3분 만에 파악하는 출결 · 수납 · 입학 상담 지표</h3> <p id="gal-desc">
+등원 출결률(91.7%), 이번 달 원비 수납률(94.2%), 오늘 예정된 신규 레벨테스트 상담, 연속 지각·성적 저하로 감지된 휴·퇴원 조기 주의군을 상단 KPI 카드와 1페이지 체크리스트로 요약합니다.
+</p> <ul class="cat-gallery-points" id="gal-points"> <li><strong>실시간 AI 브리핑 생성:</strong> 상단 <code>✦ AI 실시간 브리핑 생성</code> 버튼 클릭 시 현재 원생 DB를 분석해 새 브리핑 카드를 즉시 추가합니다.</li> <li><strong>월간 예산 가드레일:</strong> 좌측 미터기에서 토큰 사용액과 상한선을 실시간 감시합니다.</li> <li><strong>투명한 감사 추적:</strong> 우측 레일에 키오스크 스캔과 발송 보류 내역이 초 단위로 남습니다.</li> </ul> <a class="lp-btn lp-btn-primary" href="/studio/" style="margin-top:6px;text-align:center;">이 화면 스튜디오에서 직접 조작하기 →</a> </div> </div> <!-- 원장 vs 강사·조교 RBAC 비교 --> <div class="cat-rbac-compare"> <span class="cat-sec-num">SIDE-BY-SIDE SECURITY PROOF · RBAC MASKING</span> <h3 style="margin:0 0 6px;font-size:21px;font-weight:800;">원장(최종 승인권자) vs 강사·조교(제한 권한) 실제 화면 비교</h3> <p style="margin:0;font-size:14.5px;color:var(--ink-muted);">
+학원 현장에서 가장 민감한 <strong>수강료 미납 금액과 퇴원 위험 상담 메모</strong>는 원장 권한에서만 표시되며, 강사·조교 뷰에서는 화면과 AI 도구 응답 양쪽에서 즉시 <code>🔒 수납·민감메모 원장 전용</code>으로 마스킹됩니다.
+</p> <div class="cat-rbac-grid"> <div> <p style="margin:0 0 8px;font-size:13px;font-weight:800;color:var(--brand);">✓ 원장 · 담임 권한 (수납 미납액 및 퇴원 주의 메모 전체 표시)</p> <div class="cat-window"> <img class="cat-zoom-btn" data-zoom-src="./public/catalog/shot-roster-owner.png" src="./public/catalog/shot-roster-owner.png" alt="원장 권한 원생 현황표: 박시우 미납 D+5 380,000원 및 퇴원 위험 메모 표시" width="1440" height="900"> </div> </div> <div> <p style="margin:0 0 8px;font-size:13px;font-weight:800;color:var(--accent);">🔒 강사 · 조교 TA 제한 권한 (원비 금액 및 민감 메모 자동 비공개 마스킹)</p> <div class="cat-window"> <img class="cat-zoom-btn" data-zoom-src="./public/catalog/shot-roster-ta-masked.png" src="./public/catalog/shot-roster-ta-masked.png" alt="강사 조교 제한 권한 원생 현황표: 수납 및 민감메모 원장 전용 배지로 자동 마스킹된 화면" width="1440" height="900"> </div> </div> </div> </div> </section> <!-- 05. 데이터 시각화 차트 & 인터랙티브 ROI 시뮬레이터 --> <section class="cat-sec" id="sec-viz" aria-labelledby="h-viz"> <div class="cat-sec-head"> <span class="cat-sec-num">SECTION 05 · DATA VISUALIZATION &amp; ROI SIMULATOR</span> <h2 id="h-viz">업무 절감 데이터 시각화 &amp; 우리 학원·학교 도입 시뮬레이터</h2> <p>
+반복 행정·클리닉 출제 업무에서 절약되는 주간 시간을 시각화로 확인하고, 슬라이더를 움직여 기관 규모별 월간 절감 시간과 예상 AI 비용을 계산해 보세요.
+</p> </div> <div class="cat-viz-grid"> <!-- 차트 카드: 주간 업무 소요 시간 전/후 비교 --> <div class="cat-viz-card"> <div> <span class="st-tag">교강사 1인당 주간 평균 행정·출제 소요 시간</span> <h3 style="margin-top:8px;">주 19.0시간 → 2.9시간 (84.7% 단축)</h3> <p style="margin:4px 0 0;font-size:13.5px;color:var(--ink-muted);">
+회색 막대는 기존 수작업 시간, 초록색 막대는 에듀노드 AI 초안 + 최종 승인 워크플로우 소요 시간입니다.
+</p> </div> <div class="cat-bar-group" role="img" aria-label="업무 영역별 도입 전후 소요 시간 비교 막대 차트"> <div class="cat-bar-row"> <div class="cat-bar-label"> <span>커트라인 미달 오답 클리닉 변형 문항·해설 제작</span> <span>6.0h → <strong style="color:var(--brand);">1.0h (-83%)</strong></span> </div> <div class="cat-bar-track"> <div class="cat-bar-before" style="width: 100%"></div> <div class="cat-bar-after" style="width: 16.7%"></div> </div> </div> <div class="cat-bar-row"> <div class="cat-bar-label"> <span>반별 일일 수업·과제 피드백 학부모 알림톡 작성</span> <span>5.0h → <strong style="color:var(--brand);">0.8h (-84%)</strong></span> </div> <div class="cat-bar-track"> <div class="cat-bar-before" style="width: 83.3%"></div> <div class="cat-bar-after" style="width: 13.3%"></div> </div> </div> <div class="cat-bar-row"> <div class="cat-bar-label"> <span>미등원 확인 · 원비 미납/재등록 안내 · 보강 조율</span> <span>4.5h → <strong style="color:var(--brand);">0.6h (-87%)</strong></span> </div> <div class="cat-bar-track"> <div class="cat-bar-before" style="width: 75%"></div> <div class="cat-bar-after" style="width: 10%"></div> </div> </div> <div class="cat-bar-row"> <div class="cat-bar-label"> <span>신규 레벨테스트 분석 &amp; 정기 학부모 상담 브리핑</span> <span>3.5h → <strong style="color:var(--brand);">0.5h (-86%)</strong></span> </div> <div class="cat-bar-track"> <div class="cat-bar-before" style="width: 58.3%"></div> <div class="cat-bar-after" style="width: 8.3%"></div> </div> </div> </div> <div style="padding:12px 14px;border-radius:10px;background:var(--bg-raised);border:1px solid var(--border);font-size:13px;color:var(--ink-muted);"> <strong>신뢰성 검증 지표 요약:</strong> 720회 시나리오 완수율 <strong>98.2%</strong> · 학기 장기기억 회상률 <strong>94.1%</strong> · 악성 문서 기억 오염 <strong>0 / 216건</strong> </div> </div> <!-- 인터랙티브 ROI & 예산 시뮬레이터 --> <div class="cat-viz-card"> <div> <span class="st-tag st-tag-warn">인터랙티브 계산 도구</span> <h3 style="margin-top:8px;">기관 규모별 절감 시간 &amp; AI 비용 시뮬레이터</h3> </div> <div class="cat-sim-controls"> <div class="cat-sim-row"> <label for="sim-students"> <span>관리 원생 · 학생 수</span> <strong id="sim-students-val">80명</strong> </label> <input id="sim-students" type="range" min="20" max="300" step="10" value="80"> </div> <div class="cat-sim-row"> <label for="sim-teachers"> <span>원장 · 강사 · 교사 인원</span> <strong id="sim-teachers-val">4명</strong> </label> <input id="sim-teachers" type="range" min="1" max="25" step="1" value="4"> </div> <div class="cat-sim-row"> <label for="sim-engine"><span>주력 AI 에이전트 모델 선택</span></label> <select id="sim-engine" class="st-select" aria-label="시뮬레이션 AI 모델 선택" style="width:100%;height:38px;padding:0 10px;border-radius:8px;border:1px solid var(--border-strong);background:var(--bg-raised);color:var(--ink);font-weight:600;"> <option value="gemini">Google Gemini 2.5 Flash (초저비용 · 고속 도구 호출)</option> <option value="claude">Anthropic Claude Sonnet 4 (고정밀 서술·상담 특화)</option> <option value="local">폐쇄망 로컬 Ollama / vLLM (내부 PC 구동 · API ₩0)</option> </select> </div> </div> <div class="cat-sim-results" aria-live="polite"> <div class="cat-donut-wrap"> <svg width="112" height="112" viewBox="0 0 112 112" aria-hidden="true"> <circle cx="56" cy="56" r="46" fill="none" stroke="var(--bg-subtle)" stroke-width="11"></circle> <circle id="sim-donut-arc" cx="56" cy="56" r="46" fill="none" stroke="#1f6f54" stroke-width="11" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="220" transform="rotate(-90 56 56)"></circle> </svg> <div class="cat-donut-center"> <strong id="sim-pct">85%</strong> <small>시간 절감</small> </div> </div> <div style="display:flex;flex-direction:column;gap:8px;"> <div> <span style="font-size:12px;color:var(--ink-muted);display:block;">예상 월간 절약 업무 시간</span> <strong id="sim-hours-saved" style="font-size:24px;font-weight:800;color:var(--brand);">월 148시간 절약</strong> </div> <div> <span style="font-size:12px;color:var(--ink-muted);display:block;">예상 월간 AI 토큰 비용 (소프트웨어 라이선스 ₩0)</span> <strong id="sim-cost" style="font-size:17px;font-weight:800;color:var(--ink);">약 ₩11,200 / 월</strong> </div> </div> </div> </div> </div> </section> <!-- 06. 경쟁 솔루션 비교 매트릭스 --> <section class="cat-sec" id="sec-matrix" aria-labelledby="h-matrix" style="border-bottom:0;"> <div class="cat-sec-head"> <span class="cat-sec-num">SECTION 06 · COMPETITIVE MATRIX</span> <h2 id="h-matrix">왜 범용 챗봇이나 단순 학원 ERP로는 부족한가요?</h2> <p>에듀노드 v2.5는 생성형 AI의 지능과 학원·학교 현장의 보안·권한 통제를 하나로 결합했습니다.</p> </div> <div class="cat-matrix-wrap"> <table class="cat-matrix" aria-label="솔루션별 핵심 역량 비교표"> <thead> <tr> <th>핵심 비교 항목</th> <th>범용 클라우드 AI 챗봇</th> <th>기존 학원 ERP / 알림장 앱</th> <th>기존 1인용 로컬 에이전트</th> <th class="is-edunod">에듀노드 (EduNod v2.5)</th> </tr> </thead> <tbody> <tr> <td><strong>원생·학생 DB 로컬 격리</strong></td> <td>외부 클라우드 대화창 업로드</td> <td>외부 벤더 중앙 서버 저장</td> <td>로컬 저장 지원</td> <td class="is-edunod"><strong>원장실·교무실 로컬 격리 + 주민번호 마스킹</strong></td> </tr> <tr> <td><strong>실제 멀티스텝 도구 호출</strong></td> <td>수동 복사·붙여넣기 반복</td> <td>정해진 고정 템플릿만 발송</td> <td>단순 사무 도구 위주</td> <td class="is-edunod"><strong>출결/수납 조회 → 브리핑·알림톡·클리닉 자동 연계</strong></td> </tr> <tr> <td><strong>오발송 원천 차단 (Trust Check)</strong></td> <td>해당 없음</td> <td>실수 클릭 시 즉시 단체 오발송</td> <td>기본 승인 확인</td> <td class="is-edunod"><strong>승인 대기함 100% 선격리 · 문구 수정 후 결재</strong></td> </tr> <tr> <td><strong>원장 · 강사 · 조교 권한 분리</strong></td> <td>미지원 (단일 계정)</td> <td>부분 지원 (복잡한 유료 옵션)</td> <td>미지원 (1인 단독 구조)</td> <td class="is-edunod"><strong>강사/TA 전환 시 원비 수납액 UI·서버 동시 마스킹</strong></td> </tr> <tr> <td><strong>맞춤 오답 클리닉 문항 생성</strong></td> <td>매번 단원·성적 직접 입력 필요</td> <td>미지원 (별도 문제은행 구매)</td> <td>미지원</td> <td class="is-edunod"><strong>커트라인 미달 원생 취약 단원 기반 즉시 출제·해설</strong></td> </tr> <tr> <td><strong>라이선스 및 로컬 LLM 지원</strong></td> <td>인당 월 구독료 고정 지출</td> <td>원생 수 비례 월 이용료 과금</td> <td>상용 API 위주</td> <td class="is-edunod"><strong>Apache 2.0 무료 + 폐쇄망 Ollama(₩0) + 예산 상한</strong></td> </tr> </tbody> </table> </div> <section class="lp-final" style="margin-top:48px;"> <h3>카탈로그에서 본 모든 기능을 지금 바로 실행해 보세요</h3> <p>학원 원장 모드, 학원 강사 클리닉 모드, 초·중·고 및 대학 모드가 라이브 AI 에이전트와 연결된 채 대기 중입니다.</p> <div class="lp-cta-row"> <div class="lp-btn-wrap"> <a class="lp-btn lp-btn-primary lp-btn-big" href="/studio/">  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m10 2.5 1.6 4.4 4.4 1.6-4.4 1.6L10 14.5l-1.6-4.4L4 8.5l4.4-1.6L10 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><path d="M15.5 13.5v3M14 15h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg> 라이브 스튜디오 바로 실행
+ </a> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tr"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair bl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair br"> </div> <div class="lp-btn-wrap"> <a class="lp-btn lp-btn-secondary lp-btn-big" href="/docs/"> 
+도입 및 설치 문서 보기
+ </a> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair tr"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair bl"> <img src="./public/img/crosshair.svg" alt="" width="7" height="7" class="lp-crosshair br"> </div> </div> </section> </section> </main> <footer class="lp-footer"> <p class="lp-footer-line"> <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2.4"></rect><path d="M7.5 9.5h4.5a2 2 0 0 1 2 2v5.5H8.5a1 1 0 0 1-1-1V9.5Z" fill="var(--brand)"></path><circle cx="17.5" cy="6.5" r="2.6" fill="var(--accent)"></circle></svg> EduNod (에듀노드) Product Catalog v2.5 · 오픈소스 교육 AI 이니셔티브 (Apache 2.0)
+</p> <nav aria-label="푸터 메뉴"> <a href="/">메인 홈</a> <a href="./public/catalog/">제품 카탈로그</a> <a href="/studio/">스튜디오 체험</a> <a href="/docs/">문서 가이드</a> <a href="/docs/trust/privacy/">개인정보·RBAC 보안</a> <a href="https://github.com/Reasonofmoon/edunod" target="_blank" rel="noopener noreferrer">GitHub</a> </nav> </footer> </div>  <div class="en-modal-backdrop" id="cat-lightbox" hidden> <div role="dialog" aria-modal="true" aria-label="카탈로그 이미지 확대 보기" style="display:flex;flex-direction:column;align-items:center;gap:12px;"> <img id="cat-lightbox-img" class="cat-lightbox-img" src="./public/catalog/shot-director-briefing.png" alt="확대된 카탈로그 화면 이미지"> <button type="button" class="lp-btn lp-btn-primary" id="cat-lightbox-close">확대 창 닫기 (ESC)</button> </div> </div> <script>
+    (function () {
+      // 1. Print Brochure button
+      var printBtn = document.getElementById('print-catalog-btn');
+      if (printBtn) {
+        printBtn.addEventListener('click', function () {
+          window.print();
+        });
+      }
+
+      // 2. Interactive Architecture Node Inspector
+      var ARCH_DATA = [
+        {
+          title: '① 학원 · 학교 현장 입력 채널 (읽기 전용 안전 연결)',
+          desc: '등·하원 출결 키오스크, 결제선생 수납 시트, 주간 테스트 채점표, Google Classroom·Canvas 데이터를 비밀번호 저장 없이 최소 권한으로 읽어옵니다.',
+        },
+        {
+          title: '② 로컬 격리 워크스페이스 & 역할별 RBAC 필터',
+          desc: '모든 원생·학생 기록은 로컬 디스크에 격리됩니다. 강사·조교(TA) 역할로 호출될 경우 서버 단에서 원비 수납 금액과 퇴원 위험 메모를 삭제한 뒤 AI에 전달합니다.',
+        },
+        {
+          title: '③ 멀티 AI 추론 엔진 (Gemini · Claude · 폐쇄망 Ollama)',
+          desc: 'Google Gemini 2.5 Flash와 Anthropic Claude Sonnet 간 자동 페일오버를 지원하며, 내부망 Ollama 연결 시 외부 전송 0바이트·추가 비용 ₩0으로 동작합니다.',
+        },
+        {
+          title: '④ Trust Check 독립 승인 게이트 (무단 외부 행동 0건)',
+          desc: 'AI 모델이 propose_external_message 도구를 호출하더라도 실제 발송 API로 직행하지 못하고 승인 대기함에 격리되며, 주민등록번호 패턴은 자동 치환됩니다.',
+        },
+        {
+          title: '⑤ 원장 · 교사 최종 검토 및 감사 로그(Audit Trail)',
+          desc: '원장님·선생님이 승인 대기함에서 초안 문구를 직접 수정하고 [최종 발송 승인]을 눌렀을 때만 발송되며, 모든 실행 내역이 시간순 감사 로그에 남습니다.',
+        },
+      ];
+
+      var archNodes = document.querySelectorAll('.cat-arch-node[data-arch]');
+      var archTitle = document.getElementById('arch-ins-title');
+      var archDesc = document.getElementById('arch-ins-desc');
+      archNodes.forEach(function (node) {
+        function activate() {
+          var item = ARCH_DATA[Number(node.getAttribute('data-arch'))];
+          if (!item) return;
+          archTitle.textContent = item.title;
+          archDesc.textContent = item.desc;
+        }
+        node.addEventListener('click', activate);
+        node.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            activate();
+          }
+        });
+      });
+
+      // 3. Screenshot Gallery Tabs
+      var SHOTS = [
+        {
+          src: './public/catalog/shot-director-briefing.png',
+          url: 'localhost:4321/studio — 학원 운영자(원장) 브리핑 & KPI',
+          badge: '학원 운영자(원장·실장) 모드',
+          title: '출근 직후 3분 만에 파악하는 출결 · 수납 · 입학 상담 지표',
+          desc: '등원 출결률(91.7%), 이번 달 원비 수납률(94.2%), 신규 레벨테스트 상담, 휴·퇴원 조기 주의군을 상단 KPI 카드와 실행 체크리스트로 요약합니다.',
+          points: [
+            '실시간 AI 브리핑 생성: 로컬 원생 데이터를 분석해 새 브리핑 카드를 즉시 추가합니다.',
+            '월간 예산 가드레일: 좌측 미터기에서 토큰 사용액과 상한선을 실시간 감시합니다.',
+            '투명한 감사 추적: 우측 레일에 키오스크 스캔과 발송 보류 내역이 초 단위로 기록됩니다.',
+          ],
+        },
+        {
+          src: './public/catalog/shot-trust-approvals.png',
+          url: 'localhost:4321/studio — [2. 최종 승인 대기함 (Trust Check)]',
+          badge: '오발송 원천 차단 게이트',
+          title: '미등원 안심 확인부터 결제선생 원비 안내까지 결재 후 전송',
+          desc: 'AI가 작성한 모든 학부모 알림톡과 공지 초안이 수신 범위 배지와 함께 대기합니다. 텍스트 상자에서 문구를 바로 고치고 승인하거나 반려할 수 있습니다.',
+          points: [
+            '긍정 피드백 우선 원칙: 미납 안내문에도 최근 주간평가 성취 칭찬 문구를 먼저 배치합니다.',
+            '수신 대상 명시: 개별 학부모 발송인지 반 전체 발송인지 명확히 구분합니다.',
+            '강사 상신 지원: 강사·조교가 검토한 초안은 원장 결재함으로 안전하게 상신됩니다.',
+          ],
+        },
+        {
+          src: './public/catalog/shot-live-agent-chat.png',
+          url: 'localhost:4321/studio — [4. 실제 AI 에이전트 지시 및 도구 실행]',
+          badge: '실시간 LLM Tool-Calling',
+          title: '실제 Gemini · Claude 에이전트가 로컬 원생 조회 후 초안 등록',
+          desc: '지시어를 전송하면 서버 에이전트가 원생 출결·성적·기억장을 직접 조회하고 도구를 실행한 뒤, 사용된 모델·토큰·비용과 바로가기 버튼을 함께 반환합니다.',
+          points: [
+            '원클릭 추천 프롬프트 칩으로 자주 쓰는 학원·교무 업무를 즉시 실행합니다.',
+            '메시지 하단에 실행 엔진(Google gemini-2.5-flash 등)과 토큰 비용이 투명하게 표시됩니다.',
+            '생성된 승인 카드나 클리닉 학습지로 한 번에 이동하는 점프 버튼을 제공합니다.',
+          ],
+        },
+        {
+          src: './public/catalog/shot-instructor-clinic.png',
+          url: 'localhost:4321/studio — 학원 강사(클리닉) 모드 & 쌍둥이 문항 생성',
+          badge: '학원 강사 · 수업 클리닉 모드',
+          title: '커트라인 미달 원생 맞춤형 오답 클리닉 변형 문항 즉시 출제',
+          desc: '주간평가 70점 미달 원생의 취약 단원(예: 제한된 변역에서 이차함수의 최대·최소)을 겨냥한 변형 문항과 강사용 지도 핵심 팁을 실시간 제작합니다.',
+          points: [
+            '원생 행의 [✦ 오답 클리닉] 버튼 한 번으로 개인별 보강 문항지를 생성합니다.',
+            '문항 지문뿐 아니라 대칭축 표시 습관 등 현장 강사용 코칭 포인트를 함께 제공합니다.',
+            '[학습지 전체 복사] 버튼으로 한글(HWP)·워드·노션 유인물에 바로 붙여넣을 수 있습니다.',
+          ],
+        },
+        {
+          src: './public/catalog/shot-landing-hero.png',
+          url: 'localhost:4321/ — 에듀노드 공식 랜딩 페이지',
+          badge: '브랜드 홈 & 신뢰 지표',
+          title: '교육 기관 도입 신뢰를 높이는 에디토리얼 랜딩 & 4단계 투어',
+          desc: '720회 검증 지표(완수율 98.2%, 무단 행동 0건), 8대 학원·학교 실무 유스케이스, 자주 묻는 질문(FAQ)을 한눈에 안내합니다.',
+          points: [
+            'Ctrl+K 통합 검색 모달로 전 문서와 스튜디오 기능을 즉시 검색합니다.',
+            '라이트/다크 테마 전환 시 깜빡임 없는 디자인 토큰 시스템이 적용되어 있습니다.',
+            'Apache 2.0 오픈소스 구조로 교육 기관 보안 심의에 투명하게 대응합니다.',
+          ],
+        },
+        {
+          src: './public/catalog/shot-docs-dark.png',
+          url: 'localhost:4321/docs/trust/privacy — 다크 모드 보안·RBAC 문서',
+          badge: '한국어 공식 문서 & 다크 모드',
+          title: '설치부터 RBAC 권한 설계·벤치마크까지 완비된 한국어 가이드',
+          desc: '야간 원장실·연구실 작업 환경에서도 눈이 편안한 다크 모드와 함께 원장·강사·조교 권한 분리표 및 데이터 보호 원칙을 상세히 문서화했습니다.',
+          points: [
+            '6개 핵심 문서 섹션과 우측 현재 위치 목차(TOC) 자동 추적을 지원합니다.',
+            '지시어 예시 원클릭 복사 버튼으로 설치 직후 5분 만에 실습할 수 있습니다.',
+            '프롬프트 인젝션 방어(WhisperBench 0/216) 검증 방법론을 투명하게 공개합니다.',
+          ],
+        },
+      ];
+
+      var galTabs = document.querySelectorAll('.cat-tab-btn[data-shot]');
+      var galImg = document.getElementById('gal-img');
+      var galUrl = document.getElementById('gal-url');
+      var galBadge = document.getElementById('gal-badge');
+      var galTitle = document.getElementById('gal-title');
+      var galDesc = document.getElementById('gal-desc');
+      var galPoints = document.getElementById('gal-points');
+
+      galTabs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var idx = Number(btn.getAttribute('data-shot'));
+          var s = SHOTS[idx];
+          if (!s) return;
+          galTabs.forEach(function (b, i) {
+            b.setAttribute('aria-selected', String(i === idx));
+          });
+          galImg.src = s.src;
+          galImg.setAttribute('data-zoom-src', s.src);
+          galImg.alt = s.title;
+          galUrl.textContent = s.url;
+          galBadge.textContent = s.badge;
+          galTitle.textContent = s.title;
+          galDesc.textContent = s.desc;
+          galPoints.innerHTML = s.points
+            .map(function (pt) {
+              return '<li>' + pt + '</li>';
+            })
+            .join('');
+        });
+      });
+
+      // 4. Interactive ROI & Cost Simulator
+      var sStudents = document.getElementById('sim-students');
+      var sTeachers = document.getElementById('sim-teachers');
+      var sEngine = document.getElementById('sim-engine');
+
+      function updateSimulator() {
+        var stCount = Number(sStudents.value);
+        var tcCount = Number(sTeachers.value);
+        var eng = sEngine.value;
+
+        document.getElementById('sim-students-val').textContent = stCount + '명';
+        document.getElementById('sim-teachers-val').textContent = tcCount + '명';
+
+        // Weekly hours saved: ~12h per teacher base + student communication scaling
+        var monthlyHours = Math.round(tcCount * 29 + stCount * 0.4);
+        document.getElementById('sim-hours-saved').textContent = '월 약 ' + monthlyHours.toLocaleString() + '시간 절약';
+
+        var costKrw = 0;
+        if (eng === 'gemini') {
+          costKrw = Math.round((stCount * 95 + tcCount * 900) / 100) * 100;
+        } else if (eng === 'claude') {
+          costKrw = Math.round((stCount * 360 + tcCount * 3200) / 100) * 100;
+        } else {
+          costKrw = 0;
+        }
+
+        document.getElementById('sim-cost').textContent =
+          costKrw === 0 ? '₩0 / 월 (폐쇄망 로컬 LLM 무과금)' : '약 ₩' + costKrw.toLocaleString() + ' / 월';
+
+        var ratio = eng === 'local' ? 0.82 : eng === 'claude' ? 0.87 : 0.85;
+        document.getElementById('sim-pct').textContent = Math.round(ratio * 100) + '%';
+        var circumference = 289;
+        var offset = Math.round(circumference * (1 - ratio));
+        document.getElementById('sim-donut-arc').setAttribute('stroke-dashoffset', String(offset));
+      }
+
+      [sStudents, sTeachers, sEngine].forEach(function (el) {
+        if (el) el.addEventListener('input', updateSimulator);
+        if (el) el.addEventListener('change', updateSimulator);
+      });
+      updateSimulator();
+
+      // 5. Lightbox Zoom for all Screenshots & GIFs
+      var lightbox = document.getElementById('cat-lightbox');
+      var lightboxImg = document.getElementById('cat-lightbox-img');
+      var lightboxClose = document.getElementById('cat-lightbox-close');
+
+      document.addEventListener('click', function (e) {
+        var zoomEl = e.target.closest('[data-zoom-src]');
+        if (zoomEl) {
+          lightboxImg.src = zoomEl.getAttribute('data-zoom-src');
+          lightboxImg.alt = zoomEl.getAttribute('alt') || '확대 이미지';
+          lightbox.hidden = false;
+          lightboxClose.focus();
+        }
+      });
+      lightboxClose.addEventListener('click', function () {
+        lightbox.hidden = true;
+      });
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) lightbox.hidden = true;
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !lightbox.hidden) lightbox.hidden = true;
+      });
+    })();
+  </script>  <div class="en-modal-backdrop" id="en-search-modal" hidden> <div class="en-search-dialog" role="dialog" aria-modal="true" aria-labelledby="en-search-label"> <label class="sr-only" id="en-search-label" for="en-search-input">에듀노드 문서 및 기능 통합 검색</label> <div class="en-search-bar"> <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"> <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle> <path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path> </svg> <input id="en-search-input" class="en-search-input" type="search" placeholder="기능, 문서, 학교 앱 연동, 개인정보 보호 검색… (예: 클래스룸, 승인, 로컬)" autocomplete="off"> <button type="button" class="en-search-esc" data-search-close aria-label="검색 창 닫기">ESC</button> </div> <ul class="en-search-results" id="en-search-results" role="listbox" aria-label="검색 결과"></ul> <div class="en-search-foot"> <span>↑↓ 이동 · Enter 열기 · Esc 닫기</span> <span>100% 브라우저 내 로컬 검색</span> </div> </div> </div> <div class="en-toast" id="en-toast" role="status" aria-live="polite" hidden></div> <script>(function(){const serialized = "[{\"cat\":\"제품 브로슈어 · 카탈로그\",\"title\":\"에듀노드(EduNod) 상세 제품 카탈로그 (실제 스샷 · GIF · 다이어그램 · ROI)\",\"desc\":\"실제 작동 녹화 GIF, 5계층 보안 다이어그램, 원장·강사 RBAC 화면 비교, 인터랙티브 비용·시간 시뮬레이터 브로슈어.\",\"href\":\"./public/catalog/\",\"keywords\":\"카탈로그 브로슈어 소개서 스샷 스크린샷 gif 다이어그램 시각화 roi 비교표 catalog\"},{\"cat\":\"스튜디오 · 실시간 AI\",\"title\":\"에듀노드 스튜디오 — 실제 AI 에이전트 워크스페이스 체험\",\"desc\":\"학원 원장 모드, 학원 강사(오답 클리닉) 모드, 초·중·고 담임, 대학 교수 모드를 실제 LLM 도구 호출 에이전트와 함께 실행합니다.\",\"href\":\"/studio/\",\"keywords\":\"스튜디오 체험 데모 실습 학원 원장 강사 클리닉 알림톡 수납 출결 실제 에이전트 studio\"},{\"cat\":\"학원 운영 · 강사\",\"title\":\"학원 운영자(원장) 수납·출결 관리 & 강사 오답 클리닉 기능\",\"desc\":\"미등원 안심 알림톡, 원비 미납 D+5 정중 안내, 신규 레벨테스트 브리핑, 커트라인 미달 오답 클리닉 문항 실시간 생성.\",\"href\":\"/#usecase-title\",\"keywords\":\"학원 원장 상담실장 강사 전임강사 원비 수강료 미납 결제선생 등하원 키오스크 오답 클리닉 보강 내신\"},{\"cat\":\"홈\",\"title\":\"에듀노드(EduNod) 메인 소개 및 핵심 가치\",\"desc\":\"원장·강사·교사·교수의 컴퓨터 안에서 원생·학생 개인정보를 지키며 운영과 수업을 돕는 오픈소스 AI 에이전트.\",\"href\":\"/\",\"keywords\":\"홈 메인 에듀노드 소개 다운로드 오픈소스 학원 교사 교수 조교\"},{\"cat\":\"홈 · FAQ\",\"title\":\"자주 묻는 질문 (학원 수납 보안, 개인정보, 비용, 상시 서버)\",\"desc\":\"원생·학생 데이터 로컬 보관, 원장/강사 권한 분리, 예산 한도, 미니PC 상시 노드 운영 안내.\",\"href\":\"/#faq-title\",\"keywords\":\"faq 질문 비용 가격 무료 개인정보 학원 원비 절전 서버\"},{\"cat\":\"문서 · 시작하기\",\"title\":\"에듀노드 소개 및 첫걸음 (학원·학교·대학 온보딩)\",\"desc\":\"기존 범용 챗봇과 에듀노드의 차이점, 학원 원장·강사·교사 첫 5분 지시어 시나리오, 핵심 용어 정리.\",\"href\":\"/docs/\",\"keywords\":\"소개 개요 첫걸음 시작 온보딩 첫 대화 수업 준비 브리핑 학원 개념\"},{\"cat\":\"문서 · 설치\",\"title\":\"데스크톱 및 원장실·교무실 상시 서버 설치\",\"desc\":\"macOS·Windows 원클릭 설치와 절전 모드 제약을 해결하는 원장실·교무실 미니PC 상시 운영 가이드.\",\"href\":\"/docs/get-started/install-desktop/\",\"keywords\":\"설치 다운로드 맥 윈도우 macos windows 미니pc 서버 상시 실행 업데이트 삭제 트러블슈팅\"},{\"cat\":\"문서 · 설치\",\"title\":\"데이터 저장 경로 및 암호화 키 보관소\",\"desc\":\"macOS 키체인과 Windows DPAPI를 통한 API 키 격리 및 로컬 프로필 디렉터리 안내.\",\"href\":\"/docs/get-started/install-desktop/#where-your-data-lives\",\"keywords\":\"데이터 저장 경로 암호화 키체인 dpapi wsl 로컬 삭제 백업\"},{\"cat\":\"문서 · 앱 연동\",\"title\":\"학원 출결·알림톡·결제선생 및 학교 LMS 연동\",\"desc\":\"등·하원 키오스크, 카카오 알림톡, 결제선생, Google Classroom, Canvas 연동 및 승인 후 발송 권한 설정.\",\"href\":\"/docs/connect/apps/\",\"keywords\":\"앱 연동 학원 알림톡 결제선생 키오스크 lms 구글 클래스룸 캔버스 무들 알림장 이메일 캘린더 권한 mcp\"},{\"cat\":\"문서 · 모델 연결\",\"title\":\"실제 AI 모델 연결 (Gemini · Claude · 로컬 Ollama) 및 예산 가드레일\",\"desc\":\"Google Gemini, Anthropic Claude, OpenAI, 폐쇄망 로컬 모델 연결과 월간 토큰 비용 상한선 설정.\",\"href\":\"/docs/connect/models/\",\"keywords\":\"모델 llm api 키 클로드 제미나이 지피티 로컬 모델 올라마 폐쇄망 예산 비용 한도 에이전트\"},{\"cat\":\"문서 · 모델 연결\",\"title\":\"의사결정 검증 모델 (NOD_TRUST_MODEL) 분리 설정\",\"desc\":\"대화 모델과 별도로 원장·교사의 지시 범위를 독립 검증하는 행동 체커 설정 방법.\",\"href\":\"/docs/connect/models/#decision-checks\",\"keywords\":\"trust model 검증 모델 승인 체커 보안 환경변수 env\"},{\"cat\":\"문서 · 신뢰와 보안\",\"title\":\"원생·학생 개인정보 보호 & 원장·강사·조교 권한 분리 (RBAC)\",\"desc\":\"수납·미납 원장 전용 열람(강사·조교 자동 마스킹), 무단 발송 차단(Trust Check), 감사 로그 및 즉시 잊기.\",\"href\":\"/docs/trust/privacy/\",\"keywords\":\"개인정보 수납 원비 미납 마스킹 원장 강사 조교 부담임 권한 분리 rbac 승인 프라이버시\"},{\"cat\":\"문서 · 벤치마크\",\"title\":\"교육 현장 벤치마크 및 프롬프트 인젝션 방어 검증\",\"desc\":\"240개 시나리오 98.2% 완수, 무단 행동 0건, 장기 기억 회상 94.1%, 외부 문서 내 악성 지시어 방어 검증.\",\"href\":\"/docs/how-it-works/benchmarks/\",\"keywords\":\"벤치마크 성능 평가 완수율 정확도 인젝션 해킹 방어 기억 회상 longmemeval whisperbench\"}]";
+
+  (function () {
+    const items = JSON.parse(serialized);
+    const modal = document.getElementById('en-search-modal');
+    const input = document.getElementById('en-search-input');
+    const list = document.getElementById('en-search-results');
+    if (!modal || !input || !list) return;
+
+    let activeIdx = 0;
+    let currentFiltered = items;
+    let lastFocused = null;
+
+    function render(query) {
+      const q = (query || '').trim().toLowerCase();
+      currentFiltered = !q
+        ? items
+        : items.filter((it) =>
+            (it.title + ' ' + it.desc + ' ' + it.cat + ' ' + it.keywords).toLowerCase().includes(q)
+          );
+      activeIdx = 0;
+      if (currentFiltered.length === 0) {
+        list.innerHTML = `<li class="en-search-empty">“${q.replace(/[<>&"]/g, '')}”에 대한 검색 결과가 없습니다. 다른 키워드(예: 브리핑, 설치, 예산)를 입력해 보세요.</li>`;
+        return;
+      }
+      list.innerHTML = currentFiltered
+        .map(
+          (it, idx) => `
+        <li class="en-search-item" role="option" aria-selected="${idx === 0}">
+          <a href="${it.href}" data-active="${idx === 0}" data-idx="${idx}">
+            <span class="en-search-item-top">
+              <span class="en-search-cat">${it.cat}</span>
+              <span class="en-search-title">${it.title}</span>
+            </span>
+            <p class="en-search-desc">${it.desc}</p>
+          </a>
+        </li>`
+        )
+        .join('');
+    }
+
+    function updateHighlight(newIdx) {
+      const links = list.querySelectorAll('a[data-idx]');
+      if (!links.length) return;
+      activeIdx = (newIdx + links.length) % links.length;
+      links.forEach((a, i) => {
+        const active = i === activeIdx;
+        a.setAttribute('data-active', String(active));
+        a.parentElement?.setAttribute('aria-selected', String(active));
+        if (active) a.scrollIntoView({ block: 'nearest' });
+      });
+    }
+
+    function openSearch() {
+      lastFocused = document.activeElement;
+      modal.hidden = false;
+      render(input.value);
+      requestAnimationFrame(() => input.focus());
+    }
+
+    function closeSearch() {
+      modal.hidden = true;
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    }
+
+    document.querySelectorAll('[data-search]').forEach((btn) => {
+      btn.addEventListener('click', openSearch);
+    });
+    modal.querySelectorAll('[data-search-close]').forEach((btn) => {
+      btn.addEventListener('click', closeSearch);
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeSearch();
+    });
+    list.addEventListener('click', (e) => {
+      if (e.target.closest('a')) closeSearch();
+    });
+
+    input.addEventListener('input', () => render(input.value));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        updateHighlight(activeIdx + 1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        updateHighlight(activeIdx - 1);
+      } else if (e.key === 'Enter') {
+        const target = list.querySelector(`a[data-idx="${activeIdx}"]`);
+        if (target) {
+          e.preventDefault();
+          closeSearch();
+          window.location.href = target.getAttribute('href');
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        modal.hidden ? openSearch() : closeSearch();
+      } else if (e.key === 'Escape' && !modal.hidden) {
+        e.preventDefault();
+        closeSearch();
+      }
+    });
+
+    // Global theme selector sync + toast helper
+    window.showEduToast = function (msg) {
+      const t = document.getElementById('en-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.hidden = false;
+      clearTimeout(window.__eduToastTimer);
+      window.__eduToastTimer = setTimeout(() => {
+        t.hidden = true;
+      }, 2200);
+    };
+
+    function syncThemeControls() {
+      let current = 'auto';
+      try {
+        current = localStorage.getItem('edunod-theme') || 'auto';
+      } catch (e) {}
+      document.querySelectorAll('select[data-theme]').forEach((sel) => {
+        sel.value = current;
+      });
+    }
+    syncThemeControls();
+
+    document.querySelectorAll('select[data-theme]').forEach((sel) => {
+      sel.addEventListener('change', () => {
+        const v = sel.value;
+        try {
+          if (v === 'auto') {
+            localStorage.removeItem('edunod-theme');
+            document.documentElement.removeAttribute('data-theme');
+          } else {
+            localStorage.setItem('edunod-theme', v);
+            document.documentElement.setAttribute('data-theme', v);
+          }
+        } catch (e) {}
+        syncThemeControls();
+        const label = v === 'dark' ? '어두운 화면' : v === 'light' ? '밝은 화면' : '시스템 설정';
+        window.showEduToast(`화면 테마가 '${label}' 모드로 적용되었습니다.`);
+      });
+    });
+
+    document.querySelectorAll('button[data-theme-cycle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const isDark =
+          document.documentElement.getAttribute('data-theme') === 'dark' ||
+          (!document.documentElement.getAttribute('data-theme') &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches);
+        const next = isDark ? 'light' : 'dark';
+        try {
+          localStorage.setItem('edunod-theme', next);
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', next);
+        syncThemeControls();
+        window.showEduToast(next === 'dark' ? '다크 모드가 켜졌습니다.' : '라이트 모드가 켜졌습니다.');
+      });
+    });
+
+    // Global clipboard copy buttons with immediate visual feedback
+    document.querySelectorAll('button[data-copy]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const text = b.getAttribute('data-copy') || '';
+        const orig = b.textContent;
+        navigator.clipboard?.writeText(text).catch(() => {});
+        b.textContent = '복사 완료 ✓';
+        window.showEduToast(`클립보드에 복사되었습니다: ${text}`);
+        setTimeout(() => {
+          b.textContent = orig;
+        }, 1800);
+      });
+    });
+  })();
+})();</script> <div class="en-cookie-bar" id="cookie-overlay" hidden> <div class="en-cookie-card" role="region" aria-labelledby="cookie-title"> <div> <h2 id="cookie-title">로컬 환경설정 및 개인정보 안내</h2> <p>
+에듀노드 웹사이트는 광고 추적 픽셀이나 제3자 마케팅 쿠키를 일절 사용하지 않습니다. 화면 테마, 스튜디오 실습 데이터 등 브라우저 내 로컬 저장소(LocalStorage) 활용 여부를 직접 선택하실 수 있습니다.
+</p> </div> <div class="en-cookie-prefs" id="cookie-prefs" hidden> <label><input type="checkbox" checked disabled> 필수 로컬 저장소 (동의 여부 기억)</label> <label><input type="checkbox" id="pref-ui" checked> 테마 및 스튜디오 실습 상태 보존</label> <label><input type="checkbox" id="pref-diag"> 익명 오류 진단 허용 (대화·파일 제외)</label> </div> <div class="en-cookie-actions"> <button type="button" data-cookie="essential">필수 항목만 유지</button> <button type="button" data-cookie-toggle>세부 설정</button> <button type="button" data-cookie="accept" class="primary">확인 및 저장</button> </div> </div> </div> <script>
+  (function () {
+    var bar = document.getElementById('cookie-overlay');
+    var prefs = document.getElementById('cookie-prefs');
+    if (!bar) return;
+    try {
+      if (!localStorage.getItem('edunod-cookie')) {
+        bar.hidden = false;
+      }
+    } catch (e) {
+      bar.hidden = false;
+    }
+    bar.addEventListener('click', function (ev) {
+      var toggleBtn = ev.target.closest('button[data-cookie-toggle]');
+      if (toggleBtn && prefs) {
+        prefs.hidden = !prefs.hidden;
+        toggleBtn.textContent = prefs.hidden ? '세부 설정' : '설정 접기';
+        return;
+      }
+      var choiceBtn = ev.target.closest('button[data-cookie]');
+      if (!choiceBtn) return;
+      try {
+        localStorage.setItem('edunod-cookie', choiceBtn.dataset.cookie || 'accept');
+      } catch (e) {}
+      bar.hidden = true;
+      if (window.showEduToast) {
+        window.showEduToast('개인정보 및 로컬 저장소 설정이 저장되었습니다.');
+      }
+    });
+  })();
+</script> </body></html>
