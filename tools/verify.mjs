@@ -18,6 +18,7 @@ const htmlFiles = allFiles.filter((f) => f.endsWith('.html'));
 
 const expectedRoutes = [
   'index.html',
+  path.join('catalog', 'index.html'),
   path.join('studio', 'index.html'),
   path.join('docs', 'index.html'),
   path.join('docs', 'get-started', 'install-desktop', 'index.html'),
